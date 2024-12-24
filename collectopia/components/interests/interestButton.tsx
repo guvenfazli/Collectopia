@@ -40,6 +40,11 @@ export default function InterestButton({ interest, setInterestList, setChosenInt
 
 
   return (
-    <button onClick={() => chooseInterest(interest)} type="button" className={`border duration-150 rounded-lg text-nowrap py-1 px-4 bg-orange-600 text-white font-semibold hover:bg-orange-900 ${interest.isChosen && "bg-orange-300"}`}>{interest.display}</button>
+    <button onClick={() => chooseInterest(interest)} type="button" className={
+      `px-4 py-2 text-white ease-in-out font-medium rounded-lg shadow-md transition-all duration-700 focus:outline-none focus:ring-2 focus:ring-opacity-50 
+      ${interest.isChosen
+        ? "bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:from-green-600 hover:via-green-700 hover:to-green-800 hover:shadow-xl focus:ring-green-600"
+        : "bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:from-orange-600 hover:via-orange-700 hover:to-red-500 hover:shadow-lg focus:ring-orange-600"
+      }`}>{interest.display}</button>
   )
 }

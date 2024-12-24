@@ -9,7 +9,6 @@ type InterestsType = {
   display: string,
   isChosen: boolean
 }
-
 type InterestList = InterestsType[]
 
 export default function UserRegister() {
@@ -25,6 +24,11 @@ export default function UserRegister() {
   ])
   const [chosenInterests, setChosenInterests] = useState<string[]>([])
 
+
+
+
+
+
   return (
     <div className="flex border border-gray-400 w-2/4 py-5 rounded-lg h-auto flex-col items-center justify-center text-center gap-5">
       <div className="flex flex-col w-full gap-4">
@@ -33,10 +37,10 @@ export default function UserRegister() {
       </div>
 
       <form className="flex flex-col w-1/2 p-3 gap-5">
-        <AuthInput name="name" placeholder="Name" />
-        <AuthInput name="surname" placeholder="Surname" />
-        <AuthInput name="email" placeholder="Email" />
-        <AuthInput name="password" placeholder="Password" />
+        <AuthInput name="name" placeholder="Name" type="text" />
+        <AuthInput name="surname" placeholder="Surname" type="text" />
+        <AuthInput name="email" placeholder="Email" type="text" />
+        <AuthInput name="password" placeholder="Password" type="password" />
         <Interests interestList={interestList} setInterestList={setInterestList} setChosenInterests={setChosenInterests} />
         <div className="flex w-full justify-center py-1">
           <button className="py-2 w-10/12 bg-slate-950 text-white duration-150 hover:bg-slate-500 active:bg-black">Sign Up</button>

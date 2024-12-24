@@ -12,8 +12,8 @@ export default function UserLogin() {
       </div>
 
       <form className="flex flex-col w-1/2 p-3 gap-5">
-        <AuthInput name="email" placeholder="Email" />
-        <AuthInput name="password" placeholder="Password" />
+        <AuthInput name="email" placeholder="Email" type="text" />
+        <AuthInput name="password" placeholder="Password" type="password" />
         <div className="flex w-full justify-center py-1">
           <button className="py-2 w-10/12 bg-slate-950 text-white duration-150 hover:bg-slate-500 active:bg-black">Sign In</button>
         </div>
