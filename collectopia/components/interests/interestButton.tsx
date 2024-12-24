@@ -32,11 +32,7 @@ export default function InterestButton({ interest, interestList, setInterestList
   }
 
 
-
-
-
-
   return (
-    <button onClick={() => chooseInterest(interest)} type="button" value={interest.value}>{interest.display}</button>
+    <button onClick={() => chooseInterest(interest)} type="button" className={`border duration-150 rounded-lg text-nowrap py-1 px-4 bg-orange-600 text-white font-semibold hover:bg-orange-900 ${interest.isChosen && "bg-orange-300"}`}>{interest.display}</button>
   )
 }

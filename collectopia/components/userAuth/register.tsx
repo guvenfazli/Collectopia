@@ -25,7 +25,6 @@ export default function UserRegister() {
   ])
   const [chosenInterests, setChosenInterests] = useState<InterestList>([])
 
-  console.log(chosenInterests)
   return (
     <div className="flex border border-gray-400 w-2/4 py-5 rounded-lg h-auto flex-col items-center justify-center text-center gap-5">
       <div className="flex flex-col w-full gap-4">
