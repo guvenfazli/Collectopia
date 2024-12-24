@@ -3,7 +3,14 @@ type InterestsType = {
   display: string,
   isChosen: boolean
 }
-export default function InterestButton({ interest, interestList, setInterestList, setChosenInterests }) {
+
+type ComponentTypes = {
+  interest: InterestsType,
+  setInterestList: React.Dispatch<React.SetStateAction<InterestsType[]>>,
+  setChosenInterests: React.Dispatch<React.SetStateAction<string[]>>,
+}
+
+export default function InterestButton({ interest, setInterestList, setChosenInterests }: ComponentTypes) {
 
   function chooseInterest(interest: InterestsType) {
     setChosenInterests((prev: string[]) => {

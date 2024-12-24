@@ -23,7 +23,7 @@ export default function UserRegister() {
     { value: 'money', display: 'Old Moneys', isChosen: false },
     { value: 'lego', display: 'Legos', isChosen: false }
   ])
-  const [chosenInterests, setChosenInterests] = useState<InterestList>([])
+  const [chosenInterests, setChosenInterests] = useState<string[]>([])
 
   return (
     <div className="flex border border-gray-400 w-2/4 py-5 rounded-lg h-auto flex-col items-center justify-center text-center gap-5">
@@ -37,9 +37,9 @@ export default function UserRegister() {
         <AuthInput name="surname" placeholder="Surname" />
         <AuthInput name="email" placeholder="Email" />
         <AuthInput name="password" placeholder="Password" />
-        <Interests interestList={interestList} setInterestList={setInterestList} setChosenInterests={setChosenInterests} chosenInterests={chosenInterests} />
+        <Interests interestList={interestList} setInterestList={setInterestList} setChosenInterests={setChosenInterests} />
         <div className="flex w-full justify-center py-1">
-          <button className="py-2 w-10/12 bg-slate-950 text-white duration-150 hover:bg-slate-500 active:bg-black">Sign In</button>
+          <button className="py-2 w-10/12 bg-slate-950 text-white duration-150 hover:bg-slate-500 active:bg-black">Sign Up</button>
         </div>
       </form>
 
