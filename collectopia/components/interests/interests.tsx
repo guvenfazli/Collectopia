@@ -8,12 +8,16 @@ type InterestList = InterestsType[]
 
 type ComponentTypes = {
   interestList: InterestList,
-  setInterestList: React.Dispatch<React.SetStateAction<InterestsType[]>>
+  chosenInterest: InterestList,
+  setInterestList: React.Dispatch<React.SetStateAction<InterestsType[]>>,
+  setChosenInterests: React.Dispatch<React.SetStateAction<InterestsType[]>>,
 }
 
+import InterestButton from "./interestButton"
 
+export default function Interests({ interestList, setInterestList, setChosenInterests }: ComponentTypes) {
 
-export default function Interests({ interestList, setInterestList }: ComponentTypes) {
+  console.log(interestList)
 
   return (
     <div className="flex flex-col w-full justify-start items-start gap-1">
@@ -22,7 +26,9 @@ export default function Interests({ interestList, setInterestList }: ComponentTy
       </div>
 
       <div className="flex flex-row justify-around w-full items-start">
-
+        {interestList.map((interest) =>
+          <InterestButton key={interest.value} interest={interest} interestList={interestList} setInterestList={setInterestList} setChosenInterests={setChosenInterests} />)
+        }
       </div>
 
     </div>
