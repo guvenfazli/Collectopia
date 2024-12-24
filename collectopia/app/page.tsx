@@ -1,7 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-
 export default function Home() {
+
+
+
   return (
     <div>
       <p className="text-5xl font-general">Welcome.</p>

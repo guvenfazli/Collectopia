@@ -1,10 +1,8 @@
-import Link from "next/link"
 import AuthInput from "../authInput"
-export default function UserLogin() {
+import Link from "next/link"
 
-
+export default function UserRegister() {
   return (
-    
     <div className="flex border border-gray-400 w-2/4 h-2/4 flex-col items-center justify-center text-center gap-5">
       <div className="flex flex-col w-full gap-4">
         <p className="text-3xl font-semibold">It's great to have you back!</p>
@@ -20,7 +18,7 @@ export default function UserLogin() {
       </form>
 
       <div className="flex flex-row justify-between px-3 w-1/2">
-        <p>New user? <Link href={'/userAuth?mode=register'} className="font-semibold text-orange-600">Register</Link></p>
+        <p>Have an account? <Link href={'/userAuth?mode=login'} className="font-semibold text-orange-600">Register</Link></p>
         <p className="text-orange-600 hover:underline hover:cursor-pointer">Forgot Password?</p>
       </div>
     </div>
