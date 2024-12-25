@@ -23,30 +23,35 @@ export default function UserRegister() {
     { value: 'lego', display: 'Legos', isChosen: false }
   ])
   const [chosenInterests, setChosenInterests] = useState<string[]>([])
-  const [isError, setIsError] = useState<boolean>(false)
-  const [isSuccess, setIsSuccess] = useState<boolean>(false)
+  const [isError, setIsError] = useState<boolean | string>(false)
+  const [isSuccess, setIsSuccess] = useState<boolean | string>(false)
 
   async function createAccount(e: FormEvent<HTMLFormElement>) {
-
     e.preventDefault()
-
     const formData = new FormData(e.target as HTMLFormElement)
     formData.append('interests', JSON.stringify(chosenInterests))
     const data = Object.fromEntries(formData.entries()) // Adds the interests array to the form data.
 
+    try {
+      const response = await fetch('http://localhost:8080/auth/register', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        }
+      })
 
-
-
-    const response = await fetch('http://localhost:8080/auth/register', {
-      method: 'POST',
-      body: JSON.stringify(data),
-      headers: {
-        "Content-Type": "application/json"
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData.message)
+        throw error
       }
-    })
-    const resData = await response.json()
 
-
+      const resData = await response.json()
+      setIsSuccess(resData.message)
+    } catch (err: any) {
+      setIsError(err.message)
+    }
 
   }
 
@@ -61,10 +66,12 @@ export default function UserRegister() {
       </div>
 
       <form onSubmit={(e) => createAccount(e)} className="flex flex-col w-1/2 p-3 gap-5">
-        <AuthInput name={"name"} placeholder="Name" type="text" />
-        <AuthInput name={"surname"} placeholder="Surname" type="text" />
-        <AuthInput name={"email"} placeholder="Email" type="text" />
-        <AuthInput name={"password"} placeholder="Password" type="password" />
+        <AuthInput name={"name"} placeholder="Name" type="text" setIsError={setIsError} />
+        <AuthInput name={"surname"} placeholder="Surname" type="text" setIsError={setIsError} />
+        <AuthInput name={"email"} placeholder="Email" type="text" setIsError={setIsError} />
+        <AuthInput name={"password"} placeholder="Password" type="password" setIsError={setIsError} />
+        {isError && <p className="text-lg text-red-700">{isError}</p>}
+        {isSuccess && <p className="text-lg text-green-700">{isSuccess}</p>}
         <Interests interestList={interestList} setInterestList={setInterestList} setChosenInterests={setChosenInterests} />
         <div className="flex w-full justify-center py-1">
           <button className="py-2 w-10/12 bg-slate-950 text-white duration-150 hover:bg-slate-500 active:bg-black">Sign Up</button>

@@ -38,13 +38,21 @@ app.use(cors({
   credentials: true,
   origin: 'http://localhost:3000'
 }))
+
+
 app.use(session({ secret: `${process.env.SESSION_PW}`, resave: false, saveUninitialized: false, store: store }))
+
+
 
 
 app.use('/auth', authRouter)
 
 
-
+app.use((error, req, res, next) => {
+  const message = error.message
+  const statusCode = error.statusCode || 500
+  res.status(statusCode).json({ message })
+})
 
 mongoose.connect(`${process.env.DB_CONNECTION}`).then(result => {
   server.listen(8080)
