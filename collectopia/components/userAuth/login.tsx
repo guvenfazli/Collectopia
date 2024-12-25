@@ -1,4 +1,5 @@
 import { FormEvent, useState } from "react"
+import { useRouter } from "next/navigation"
 import Link from "next/link"
 import AuthInput from "../authInput"
 
@@ -7,9 +8,9 @@ export default function UserLogin() {
 
   const [isError, setIsError] = useState<boolean | string>(false)
   const [isSucces, setIsSuccess] = useState<boolean | string>(false)
+  const router = useRouter()
 
   async function login(e: FormEvent<HTMLFormElement>) {
-
     e.preventDefault()
     const form = e.target as HTMLFormElement
     const formData = new FormData(form)
@@ -33,14 +34,11 @@ export default function UserLogin() {
       }
 
       const resData = await response.json()
-
-
-
+      setIsSuccess(resData.message)
+      router.push('/')
     } catch (err: any) {
       setIsError(err.message)
     }
-
-
 
   }
 
