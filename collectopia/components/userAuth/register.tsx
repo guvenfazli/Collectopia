@@ -28,10 +28,11 @@ export default function UserRegister() {
 
     e.preventDefault()
 
-    const formData = new FormData(e.target)
+    const formData = new FormData(e.target as HTMLFormElement)
+    formData.append('interests', JSON.stringify(chosenInterests))
     const data = Object.fromEntries(formData.entries())
 
-    formData.append('interests', JSON.stringify(chosenInterests))
+
 
 
     const response = await fetch('http://localhost:8080/auth/register', {
