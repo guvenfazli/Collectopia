@@ -3,6 +3,9 @@ const router = express.Router();
 const authController = require('../controllers/authController')
 const { body } = require('express-validator')
 
+router.get('/authCheck', authController.authCheck)
+
+
 router.post('/register', [
   body('name')
     .notEmpty()

@@ -68,3 +68,17 @@ exports.login = async (req, res, next) => {
   }
 
 }
+
+exports.authCheck = async (req, res, next) => {
+  try {
+    const usersSession = await req.session.userInfo
+    if (!usersSession) {
+      const error = new Error('Please log in first!')
+      error.statusCode = 404
+      throw error
+    }
+    return res.status(200).json({ userInfo: req.session.userInfo })
+  } catch (err) {
+    next(err)
+  }
+}
