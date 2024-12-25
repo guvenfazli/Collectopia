@@ -53,9 +53,6 @@ export default function Header() {
   }, [isLogged])
 
 
-
-
-
   if (isLogged) {
     return (
       <header className="flex flex-row justify-between items-center p-4 w-full bg-orange-100 text-orange-800 shadow-sm">
