@@ -23,6 +23,8 @@ export default function UserRegister() {
     { value: 'lego', display: 'Legos', isChosen: false }
   ])
   const [chosenInterests, setChosenInterests] = useState<string[]>([])
+  const [isError, setIsError] = useState<boolean>(false)
+  const [isSuccess, setIsSuccess] = useState<boolean>(false)
 
   async function createAccount(e: FormEvent<HTMLFormElement>) {
 
@@ -30,7 +32,7 @@ export default function UserRegister() {
 
     const formData = new FormData(e.target as HTMLFormElement)
     formData.append('interests', JSON.stringify(chosenInterests))
-    const data = Object.fromEntries(formData.entries())
+    const data = Object.fromEntries(formData.entries()) // Adds the interests array to the form data.
 
 
 
@@ -42,6 +44,8 @@ export default function UserRegister() {
         "Content-Type": "application/json"
       }
     })
+    const resData = await response.json()
+
 
 
   }
@@ -60,7 +64,6 @@ export default function UserRegister() {
         <AuthInput name={"name"} placeholder="Name" type="text" />
         <AuthInput name={"surname"} placeholder="Surname" type="text" />
         <AuthInput name={"email"} placeholder="Email" type="text" />
-        <input name="lkşdfjşgklşdsjşflgş" id="lkşdfjşgklşdsjşflgş" />
         <AuthInput name={"password"} placeholder="Password" type="password" />
         <Interests interestList={interestList} setInterestList={setInterestList} setChosenInterests={setChosenInterests} />
         <div className="flex w-full justify-center py-1">

@@ -8,6 +8,9 @@ const cors = require('cors')
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session)
 
+// MODELS
+const User = require('./models/userModel')
+
 // ENV FILES
 const dotenv = require('dotenv')
 dotenv.config({ path: '../config.env' })
