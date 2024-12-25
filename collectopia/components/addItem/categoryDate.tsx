@@ -1,4 +1,3 @@
-"use client"
 import { BaseSyntheticEvent, useState } from "react"
 
 export default function CategoryDate() {
@@ -23,8 +22,12 @@ export default function CategoryDate() {
     videogame: [
       { value: "collectorEdition", display: "Collector Edition" }, { value: "tshirt", display: "T-Shirt" }, { value: "hoodie", display: "Hoodie" }, { value: "cd", display: "CD" }, { value: "figure", display: "Figure" }, { value: "toy", display: "Toy" }
     ],
-    card: [{ value: "yugioh", display: "Yu-Gi-Oh" }, { value: "pokemon", display: "Pokemon" }],
-    vintagetoy: [{ value: "doll", display: "Dolls" }, { value: "plasticSoldier", display: "Plastic Soldiers" }, { value: "car", display: "Car" }],
+    card: [
+      { value: "yugioh", display: "Yu-Gi-Oh" }, { value: "pokemon", display: "Pokemon" }
+    ],
+    vintagetoy: [
+      { value: "doll", display: "Dolls" }, { value: "plasticSoldier", display: "Plastic Soldiers" }, { value: "car", display: "Car" }
+    ],
     oldmoney: [
       { value: "asia", display: "Asia" }, { value: "europe", display: "Europe" }, { value: "northAmerica", display: "North America" }, { value: "africa", display: "Africa" }, { value: "oceania", display: "Oceania" }, { value: "southAmerica", display: "South America" }
     ],
@@ -34,8 +37,6 @@ export default function CategoryDate() {
 
   })
 
-
-
   const [chosenCategory, setChosenCategory] = useState<string>("anime")
 
   function chooseCategory(e: BaseSyntheticEvent) {
@@ -44,15 +45,15 @@ export default function CategoryDate() {
 
   return (
     <div className="flex flex-col gap-4 items-end justify-start w-1/2">
-      <input type="date" required placeholder="Choose Last Date" name="title" className="p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
+      <input type="date" required placeholder="Choose Last Date" name="lastDate" className="p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
 
-      <select onChange={(e) => chooseCategory(e)} required className="p-2 border border-blue-800 rounded-md w-3/4 outline-none">
+      <select name="category" onChange={(e) => chooseCategory(e)} required className="p-2 border border-blue-800 rounded-md w-3/4 outline-none">
         <option>Please Select a Category</option>
         {category.map((cat) => <option value={cat.category} key={cat.category}>{cat.display}</option>)}
       </select>
 
-      <select required className="p-2 border border-blue-800 rounded-md w-3/4 outline-none">
-        <option>Please Select a Category</option>
+      <select name="subcategory" required className="p-2 border border-blue-800 rounded-md w-3/4 outline-none">
+        <option>Please Select a Subcategory</option>
         {subCategory[chosenCategory].map((subCat) => <option value={subCat.value} key={subCat.value}>{subCat.display}</option>)}
       </select>
     </div>
