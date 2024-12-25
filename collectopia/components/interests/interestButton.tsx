@@ -45,6 +45,6 @@ export default function InterestButton({ interest, setInterestList, setChosenInt
       ${interest.isChosen
         ? "bg-gradient-to-r from-green-500 via-green-600 to-green-700 hover:from-green-600 hover:via-green-700 hover:to-green-800 hover:shadow-xl focus:ring-green-600"
         : "bg-gradient-to-r from-orange-500 via-orange-600 to-orange-700 hover:from-orange-600 hover:via-orange-700 hover:to-red-500 hover:shadow-lg focus:ring-orange-600"
-      }`}>{interest.display}</button>
+      } max-sm:px-2 max-sm:py-1`}>{interest.display}</button>
   )
 }

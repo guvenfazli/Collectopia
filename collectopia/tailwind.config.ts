@@ -13,7 +13,8 @@ export default {
         foreground: "var(--foreground)",
       },
       fontFamily: {
-        general: ["Lato", "sans-serif"]
+        general: ["Lato", "sans-serif"],
+        logo: ["Lobster", "sans-serif"]
       }
     },
   },

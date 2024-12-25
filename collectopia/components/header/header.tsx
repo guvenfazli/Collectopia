@@ -23,16 +23,17 @@ export default function Header() {
 
   if (isLogged) {
     return (
-      <div className="flex flex-row justify-around items-start p-4 border w-full bg-orange-800 text-white">
+      <header className="flex  flex-row justify-between items-center p-4 w-full bg-orange-100 text-orange-800 shadow-sm">
+        
         <div>
-          <p className=" text-3xl">Collectopia</p>
+          <p className="font-logo text-5xl">Collectopia</p>
         </div>
 
         <div>
           <p className="text-3xl">Welcome back {userInfo.userInfo.name}!</p>
         </div>
 
-      </div>
+      </header>
     )
   }
 }

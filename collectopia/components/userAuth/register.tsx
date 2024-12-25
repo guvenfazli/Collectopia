@@ -59,13 +59,13 @@ export default function UserRegister() {
 
 
   return (
-    <div className="flex border border-gray-400 w-2/4 py-5 rounded-lg h-auto flex-col items-center justify-center text-center gap-5">
+    <div className="flex border border-gray-400 w-2/4 py-5 rounded-lg h-auto flex-col items-center justify-center text-center gap-5 max-lg:w-2/3 max-md:w-full">
       <div className="flex flex-col w-full gap-4">
-        <p className="text-3xl font-semibold">It's nice to meet you!</p>
-        <p className="text-xl text-gray-700">Sign up and get started!</p>
+        <p className="text-3xl font-semibold max-sm:text-xl">It's nice to meet you!</p>
+        <p className="text-xl text-gray-700 max-sm:text-base">Sign up and get started!</p>
       </div>
 
-      <form onSubmit={(e) => createAccount(e)} className="flex flex-col w-1/2 p-3 gap-5">
+      <form onSubmit={(e) => createAccount(e)} className="flex flex-col w-1/2 p-3 gap-5 max-lg:w-8/12 max-md:w-full">
         <AuthInput name={"name"} placeholder="Name" type="text" setIsError={setIsError} />
         <AuthInput name={"surname"} placeholder="Surname" type="text" setIsError={setIsError} />
         <AuthInput name={"email"} placeholder="Email" type="text" setIsError={setIsError} />
@@ -79,7 +79,7 @@ export default function UserRegister() {
       </form>
 
 
-      <div className="flex flex-row justify-between px-3 w-1/2">
+      <div className="flex flex-row justify-center px-3 w-1/2">
         <p>Have an account? <Link href={'/userAuth?mode=login'} className="font-semibold text-orange-600">Login</Link></p>
       </div>
     </div>
