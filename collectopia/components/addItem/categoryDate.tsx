@@ -1,18 +1,22 @@
 import { BaseSyntheticEvent, useState } from "react"
 
+type subCat = {
+  [catName: string]: { value: string, display: string }[],
+}
+
 export default function CategoryDate() {
 
   const [category, setCategory] = useState([
-    { category: "anime", display: "Anime", subCategories: ["Manga", "T-Shirt", "Hoodie", "Vintage", "Figure", "Toy"] },
-    { category: "music", display: "Music", subCategories: ["T-Shirt", "Hoodie", "Vinyl", "CD", "Casette", "Ticket", "Instrument"] },
-    { category: "videogame", display: "Video Game", subCategories: ["Collector Edition", "T-Shirt", "Hoodie", "CD", "Figure", "Toy"] },
-    { category: "card", display: "Cards", subCategories: ["Yu-Gi-Oh", "Pokemon"] },
-    { category: "vintagetoy", display: "Vintage Toys", subCategories: ["Dolls", "Plastic Soldiers", "Figure", "Car"] },
-    { category: "oldmoney", display: "Old Moneys", subCategories: ["Asia", "Europe", "North America", "Africa", "Oceania", "South America"] },
-    { category: "lego", display: "Legos", subCategories: ["Vintage Lego", "New Lego", "Collector Lego", "Faulty Product", "Limited Edition"] },
+    { category: "anime", display: "Anime" },
+    { category: "music", display: "Music" },
+    { category: "videogame", display: "Video Game" },
+    { category: "card", display: "Cards" },
+    { category: "vintagetoy", display: "Vintage Toys" },
+    { category: "oldmoney", display: "Old Moneys" },
+    { category: "lego", display: "Legos" },
   ])
 
-  const [subCategory, setSubCategory] = useState({
+  const [subCategory, setSubCategory] = useState<subCat>({
     anime: [
       { value: "manga", display: "Manga" }, { value: "tshirt", display: "T-Shirt" }, { value: "hoodie", display: "Hoodie" }, { value: "vintage", display: "Vintage" }, { value: "figure", display: "Figure" }, { value: "toy", display: "Toy" }
     ],
@@ -49,12 +53,12 @@ export default function CategoryDate() {
 
       <select name="category" onChange={(e) => chooseCategory(e)} required className="p-2 border border-blue-800 rounded-md w-3/4 outline-none">
         <option>Please Select a Category</option>
-        {category.map((cat) => <option value={cat.category} key={cat.category}>{cat.display}</option>)}
+        {category.map((cat: { category: string, display: string }) => <option value={cat.category} key={cat.category}>{cat.display}</option>)}
       </select>
 
       <select name="subcategory" required className="p-2 border border-blue-800 rounded-md w-3/4 outline-none">
         <option>Please Select a Subcategory</option>
-        {subCategory[chosenCategory].map((subCat) => <option value={subCat.value} key={subCat.value}>{subCat.display}</option>)}
+        {subCategory[chosenCategory].map((subCat: { value: string, display: string }) => <option value={subCat.value} key={subCat.value}>{subCat.display}</option>)}
       </select>
     </div>
   )
