@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { FormEvent, useState } from "react"
 import Link from "next/link"
 import AuthInput from "../authInput"
 
@@ -8,8 +8,40 @@ export default function UserLogin() {
   const [isError, setIsError] = useState<boolean | string>(false)
   const [isSucces, setIsSuccess] = useState<boolean | string>(false)
 
-  async function login(){
-    
+  async function login(e: FormEvent<HTMLFormElement>) {
+
+    e.preventDefault()
+    const form = e.target as HTMLFormElement
+    const formData = new FormData(form)
+    const data = Object.fromEntries(formData.entries())
+
+    try {
+
+      const response = await fetch('http://localhost:8080/auth/login', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json"
+        },
+        credentials: "include"
+      })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData.message)
+        throw error
+      }
+
+      const resData = await response.json()
+
+
+
+    } catch (err: any) {
+      setIsError(err.message)
+    }
+
+
+
   }
 
   return (
@@ -20,9 +52,11 @@ export default function UserLogin() {
         <p className="text-xl text-gray-700">Sign in and see the auctions!</p>
       </div>
 
-      <form className="flex flex-col w-1/2 p-3 gap-5">
+      <form onSubmit={(e) => login(e)} className="flex flex-col w-1/2 p-3 gap-5">
         <AuthInput name="email" placeholder="Email" type="text" setIsError={setIsError} />
         <AuthInput name="password" placeholder="Password" type="password" setIsError={setIsError} />
+        {isError && <p className="text-lg text-red-700">{isError}</p>}
+        {isSucces && <p className="text-lg text-green-700">{isSucces}</p>}
         <div className="flex w-full justify-center py-1">
           <button className="py-2 w-10/12 bg-slate-950 text-white duration-150 hover:bg-slate-500 active:bg-black">Sign In</button>
         </div>

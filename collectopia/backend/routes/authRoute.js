@@ -31,4 +31,19 @@ router.post('/register', [
     .withMessage('Password is required')
 ], authController.register)
 
+router.post('/login', [
+  body('email')
+    .notEmpty()
+    .withMessage('Please enter an Email.')
+    .isLength({ min: 3 })
+    .withMessage('Email can not be this short.')
+    .isEmail()
+    .withMessage('Please enter a valid Email.'),
+  body('password')
+    .notEmpty()
+    .withMessage('Password is required')
+    .isLength({ min: 5 })
+    .withMessage('Password must be at least 5 characters long'),
+], authController.login)
+
 module.exports = router

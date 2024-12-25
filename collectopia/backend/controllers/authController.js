@@ -42,3 +42,29 @@ exports.register = async (req, res, next) => {
   }
 
 }
+
+exports.login = async (req, res, next) => {
+  const { email, password } = req.body
+
+  try {
+    const foundUser = await User.findOne({ email: email })
+
+    if (!foundUser) {
+      throwError('User can not found!', 404)
+    }
+
+    const passwordMatches = await bcrypt.compare(password, foundUser.password)
+
+    if (!passwordMatches) {
+      throwError('Username or Password is invalid!', 404)
+    }
+
+    req.session.userInfo = { id: foundUser._id, name: foundUser.name, interests: foundUser.interests }
+
+    return res.status(200).json({ message: 'Successfully logged in!', userInfo: req.session.userInfo })
+
+  } catch (err) {
+    next(err)
+  }
+
+}

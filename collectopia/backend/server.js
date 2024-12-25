@@ -7,6 +7,7 @@ const bodyParser = require('body-parser')
 const cors = require('cors')
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session)
+const cookieparser = require('cookie-parser')
 
 // MODELS
 const User = require('./models/userModel')
@@ -28,19 +29,22 @@ const store = new MongoDBStore({
 
 
 // MIDDLEWARES
+app.use(cookieparser())
+app.use(cors({
+  credentials: true,
+  origin: 'http://localhost:3000',
+  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+}))
+app.use(session({ secret: `${process.env.SESSION_PW}`, resave: false, saveUninitialized: false, store: store }))
 app.use(bodyParser.json()) // application/json
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', '*')
   res.setHeader('Access-Control-Allow-Headers', 'Content-Type')
   next();
 })
-app.use(cors({
-  credentials: true,
-  origin: 'http://localhost:3000'
-}))
 
 
-app.use(session({ secret: `${process.env.SESSION_PW}`, resave: false, saveUninitialized: false, store: store }))
+
 
 
 
