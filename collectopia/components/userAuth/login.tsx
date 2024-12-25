@@ -48,7 +48,7 @@ export default function UserLogin() {
 
   return (
 
-    <div className="flex border border-gray-400 w-2/4 rounded-lg h-2/4 flex-col items-center justify-center text-center gap-5 max-lg:w-3/4">
+    <div className="flex border border-gray-400 bg-orange-100 text-orange-800 w-2/4 rounded-lg h-2/4 flex-col items-center justify-center text-center gap-5 max-lg:w-3/4">
       <div className="flex flex-col w-full gap-4">
         <p className="text-3xl font-semibold max-sm:text-xl">It's great to have you back!</p>
         <p className="text-xl text-gray-700 max-sm:text-base">Sign in and see the auctions!</p>
@@ -60,7 +60,7 @@ export default function UserLogin() {
         {isError && <p className="text-lg text-red-700">{isError}</p>}
         {isSucces && <p className="text-lg text-green-700">{isSucces}</p>}
         <div className="flex w-full justify-center py-1">
-          <button className="py-2 w-10/12 bg-slate-950 text-white duration-150 hover:bg-slate-500 active:bg-black">Sign In</button>
+          <button className="py-2 w-10/12 bg-orange-500 text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 active:bg-orange-700 duration-150">Sign In</button>
         </div>
       </form>
 
