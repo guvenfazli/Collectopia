@@ -13,7 +13,7 @@ type InterestList = InterestsType[]
 
 export default function UserRegister() {
 
-  const [interestList, setInterestList] = useState<InterestList>([
+  const [interestList, setInterestList] = useState<InterestList>([ // List for the user can choose.
     { value: 'anime', display: 'Anime', isChosen: false },
     { value: 'music', display: 'Music', isChosen: false },
     { value: 'videogame', display: 'Video Games', isChosen: false },
