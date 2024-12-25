@@ -13,7 +13,7 @@ type ComponentTypes = {
 export default function InterestButton({ interest, setInterestList, setChosenInterests }: ComponentTypes) {
 
   function chooseInterest(interest: InterestsType) {
-    setChosenInterests((prev: string[]) => {
+    setChosenInterests((prev: string[]) => { // Adds the interest that chosen, if its already chosen, removes it.
       const updatedList = [...prev]
 
       const isAlreadyChosen = updatedList.some((sameInterest) => sameInterest === interest.value)
@@ -28,7 +28,7 @@ export default function InterestButton({ interest, setInterestList, setChosenInt
       return updatedList;
     })
 
-    setInterestList((prev: InterestsType[]) => {
+    setInterestList((prev: InterestsType[]) => { // Marks it as chosen, or unchosen.
       const updatedList = [...prev]
 
       const chosenInterest = updatedList.findIndex((intrst) => intrst === interest)

@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { FormEvent, useState } from "react"
 
 import Interests from "../interests/interests"
 import AuthInput from "../authInput"
@@ -24,7 +24,26 @@ export default function UserRegister() {
   ])
   const [chosenInterests, setChosenInterests] = useState<string[]>([])
 
+  async function createAccount(e: FormEvent<HTMLFormElement>) {
 
+    e.preventDefault()
+
+    const formData = new FormData(e.target)
+    const data = Object.fromEntries(formData.entries())
+
+    formData.append('interests', JSON.stringify(chosenInterests))
+
+
+    const response = await fetch('http://localhost:8080/auth/register', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        "Content-Type": "application/json"
+      }
+    })
+
+
+  }
 
 
 
@@ -36,16 +55,18 @@ export default function UserRegister() {
         <p className="text-xl text-gray-700">Sign up and get started!</p>
       </div>
 
-      <form className="flex flex-col w-1/2 p-3 gap-5">
-        <AuthInput name="name" placeholder="Name" type="text" />
-        <AuthInput name="surname" placeholder="Surname" type="text" />
-        <AuthInput name="email" placeholder="Email" type="text" />
-        <AuthInput name="password" placeholder="Password" type="password" />
+      <form onSubmit={(e) => createAccount(e)} className="flex flex-col w-1/2 p-3 gap-5">
+        <AuthInput name={"name"} placeholder="Name" type="text" />
+        <AuthInput name={"surname"} placeholder="Surname" type="text" />
+        <AuthInput name={"email"} placeholder="Email" type="text" />
+        <input name="lkşdfjşgklşdsjşflgş" id="lkşdfjşgklşdsjşflgş" />
+        <AuthInput name={"password"} placeholder="Password" type="password" />
         <Interests interestList={interestList} setInterestList={setInterestList} setChosenInterests={setChosenInterests} />
         <div className="flex w-full justify-center py-1">
           <button className="py-2 w-10/12 bg-slate-950 text-white duration-150 hover:bg-slate-500 active:bg-black">Sign Up</button>
         </div>
       </form>
+
 
       <div className="flex flex-row justify-between px-3 w-1/2">
         <p>Have an account? <Link href={'/userAuth?mode=login'} className="font-semibold text-orange-600">Login</Link></p>

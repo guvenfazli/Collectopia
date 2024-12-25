@@ -8,9 +8,13 @@ const cors = require('cors')
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session)
 
-
+// ENV FILES
 const dotenv = require('dotenv')
 dotenv.config({ path: '../config.env' })
+
+// ROUTES
+const authRouter = require('./routes/authRoute')
+
 
 // SESSION STORING
 
@@ -32,6 +36,10 @@ app.use(cors({
   origin: 'http://localhost:3000'
 }))
 app.use(session({ secret: `${process.env.SESSION_PW}`, resave: false, saveUninitialized: false, store: store }))
+
+
+app.use('/auth', authRouter)
+
 
 
 
