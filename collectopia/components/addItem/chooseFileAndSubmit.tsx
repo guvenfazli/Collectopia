@@ -1,5 +1,4 @@
 import { useState } from "react"
-import Image from "next/image"
 import { BaseSyntheticEvent } from "react"
 
 export default function ChooseFileAndSubmit({ setImagePicker, setImageShowcase }) {
@@ -8,7 +7,7 @@ export default function ChooseFileAndSubmit({ setImagePicker, setImageShowcase }
 
 
 
-  function getImage(e: BaseSyntheticEvent) {
+  function getImage(e: BaseSyntheticEvent) { // Gets image for showcase
     for (let i = 0; i < e.target.files.length; i++) {
       const file = e.target.files[i]
       console.log(file)
@@ -19,12 +18,6 @@ export default function ChooseFileAndSubmit({ setImagePicker, setImageShowcase }
         return updated
       })
     }
-
-
-    /*     console.log(file)
-        const fileLink = URL.createObjectURL(file)
-        console.log(fileLink) */
-    /*   setImageShowcase(fileLink) */
   }
 
 
