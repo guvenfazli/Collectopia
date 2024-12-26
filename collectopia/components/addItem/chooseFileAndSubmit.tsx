@@ -10,6 +10,9 @@ export default function ChooseFileAndSubmit({ setImageShowcase }: ComponentPropT
 
 
   function getImage(e: BaseSyntheticEvent) { // Gets image for showcase
+
+    setImageShowcase([])
+
     for (let i = 0; i < e.target.files.length; i++) {
       const file = e.target.files[i]
       const fileLink = URL.createObjectURL(file)

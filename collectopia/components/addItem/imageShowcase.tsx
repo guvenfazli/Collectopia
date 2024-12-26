@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 type componentPropType = {
@@ -8,6 +8,10 @@ type componentPropType = {
 export default function ImageShowcase({ imageShowcase }: componentPropType) {
 
   const [imageNavigator, setImageNavigator] = useState<number>(0)
+
+  useEffect(() => { // Resets navigator if new images uploaded
+    setImageNavigator(0)
+  }, [imageShowcase, setImageNavigator])
 
   return (
     <div>
