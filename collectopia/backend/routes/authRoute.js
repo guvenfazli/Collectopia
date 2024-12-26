@@ -49,4 +49,6 @@ router.post('/login', [
     .withMessage('Password must be at least 5 characters long'),
 ], authController.login)
 
+router.post('/logout', authController.logout)
+
 module.exports = router

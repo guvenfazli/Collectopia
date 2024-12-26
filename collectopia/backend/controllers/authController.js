@@ -60,8 +60,6 @@ exports.login = async (req, res, next) => {
     }
 
     req.session.userInfo = { id: foundUser._id, name: foundUser.name, interests: foundUser.interests }
-    console.log(foundUser)
-    console.log(req.session.userInfo)
 
     return res.status(200).json({ message: 'Successfully logged in!', userInfo: req.session.userInfo })
 
@@ -69,6 +67,13 @@ exports.login = async (req, res, next) => {
     next(err)
   }
 
+}
+
+exports.logout = async (req, res, next) => {
+  await req.session.destroy(() => {
+    res.clearCookie('connect.sid')
+    res.json({ message: 'Logged out!' })
+  })
 }
 
 exports.authCheck = async (req, res, next) => {
