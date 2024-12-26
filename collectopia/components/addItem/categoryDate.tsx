@@ -1,10 +1,14 @@
-import { BaseSyntheticEvent, useState } from "react"
-
+import { BaseSyntheticEvent, ChangeEvent, useState } from "react"
+import dayjs from "dayjs"
 type subCat = {
   [catName: string]: { value: string, display: string }[],
 }
 
-export default function CategoryDate() {
+type ComponentProps = {
+  setDatePicker: React.Dispatch<React.SetStateAction<string>>
+}
+
+export default function CategoryDate({ setDatePicker }: ComponentProps) {
 
   const [category, setCategory] = useState([
     { category: "anime", display: "Anime" },
@@ -47,9 +51,15 @@ export default function CategoryDate() {
     setChosenCategory(e.target.value)
   }
 
+  function convertDate(e: ChangeEvent<HTMLInputElement>) {
+    const chosenDate = new Date(e.target.value)
+    const convertedDate = dayjs(chosenDate).startOf('day').unix()
+    setDatePicker(`${convertedDate}`)
+  }
+
   return (
     <div className="flex flex-col gap-4 items-end justify-start w-1/2">
-      <input type="date" required placeholder="Choose Last Date" name="lastDate" className="p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
+      <input type="date" onChange={(e) => convertDate(e)} required placeholder="Choose Last Date" name="lastDate" className="p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
 
       <select name="category" onChange={(e) => chooseCategory(e)} required className="p-2 border border-blue-800 rounded-md w-3/4 outline-none">
         <option>Please Select a Category</option>

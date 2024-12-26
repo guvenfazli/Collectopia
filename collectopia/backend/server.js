@@ -9,9 +9,12 @@ const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session)
 const cookieparser = require('cookie-parser')
 const multer = require('multer')
+const path = require('path')
+
 
 // MODELS
 const User = require('./models/userModel')
+const Item = require('./models/itemModel')
 
 // ENV FILES
 const dotenv = require('dotenv')
@@ -19,6 +22,7 @@ dotenv.config({ path: '../config.env' })
 
 // ROUTES
 const authRouter = require('./routes/authRoute')
+const mainRouter = require('./routes/mainRoute')
 
 
 // SESSION STORING
@@ -48,10 +52,11 @@ const fileFilter = (req, file, cb) => {
 }
 app.use(cookieparser())
 app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).array('imageList', 3))
+app.use('/images', express.static(path.join(__dirname, 'images')))
 app.use(cors({
   credentials: true,
   origin: 'http://localhost:3000',
-  methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"],
+  /* methods: ["POST", "PUT", "GET", "OPTIONS", "HEAD"], */
 }))
 app.use(session({ secret: `${process.env.SESSION_PW}`, resave: false, saveUninitialized: false, store: store }))
 app.use(bodyParser.json()) // application/json
@@ -68,7 +73,7 @@ app.use((req, res, next) => {
 
 
 app.use('/auth', authRouter)
-
+app.use('/', mainRouter)
 
 app.use((error, req, res, next) => {
   const message = error.message
