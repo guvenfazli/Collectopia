@@ -1,8 +1,12 @@
-"use client"
+import { useState } from "react"
+
 import TitlePrice from "./titlePrice"
 import CategoryDate from "./categoryDate"
 import ChooseFileAndSubmit from "./chooseFileAndSubmit"
-export default function ItemCreationForm() {
+export default function ItemCreationForm({ setImageShowcase }) {
+
+  const [imagePicker, setImagePicker] = useState()
+
 
   async function createItem(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -11,9 +15,8 @@ export default function ItemCreationForm() {
 
     const fd = new FormData(formData)
     const data = Object.fromEntries(fd.entries())
-    console.log(data)
-
   }
+
 
 
 
@@ -24,7 +27,7 @@ export default function ItemCreationForm() {
         <TitlePrice />
         <CategoryDate />
       </div>
-      <ChooseFileAndSubmit />
+      <ChooseFileAndSubmit setImagePicker={setImagePicker} setImageShowcase={setImageShowcase} />
     </form>
   )
 }
