@@ -36,9 +36,11 @@ export default function ItemCreationForm({ setImageShowcase }: ComponentPropType
       }
 
       const resData = await response.json()
+      setIsError(false)
       setIsSuccess(resData.message)
 
     } catch (err: any) {
+      setIsSuccess(false)
       setIsError(err.message)
     }
   }
