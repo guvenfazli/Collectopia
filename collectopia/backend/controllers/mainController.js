@@ -13,6 +13,9 @@ exports.createItem = async (req, res, next) => {
   const convertedLastDate = +lastDate
   const errors = validationResult(req)
 
+  const ownerId = req.session._id
+
+  const fileList = req.files
 
   try {
     if (!errors.isEmpty()) {
@@ -26,8 +29,23 @@ exports.createItem = async (req, res, next) => {
     }
 
 
+    const newItem = new Item({
+      title,
+      minValue: convertedMinValue,
+      buyout: convertedBuyout,
+      lastDate: convertedLastDate,
+      category,
+      subCategory: subcategory,
+      owner: ownerId
+    })
 
-    
+    for (const image of fileList) {
+      newItem.imageList.push(image.path)
+    }
+
+    await newItem.save()
+
+    return res.status(201).json({ message: 'Item added to inventory successfully!' })
 
   } catch (err) {
     next(err)

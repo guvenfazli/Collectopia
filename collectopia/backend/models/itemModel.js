@@ -26,7 +26,8 @@ const itemSchema = new Schema({
     type: String,
     required: true
   },
-  owner: { type: Schema.Types.ObjectId, ref: 'User' }
+  owner: { type: Schema.Types.ObjectId, ref: 'User' },
+  imageList: [{ type: String }]
 }, { timestamps: true })
 
 module.exports = mongoose.model('Item', itemSchema)

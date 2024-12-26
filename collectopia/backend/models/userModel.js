@@ -19,7 +19,7 @@ const userSchema = new Schema({
     required: true
   },
   interests: [{ type: String }],
-  items: [{type: Schema.Types.ObjectId, ref: 'Item'}]
+  items: [{type: Schema.Types.ObjectId, ref: 'Item', default: []}]
 
 }, { timestamps: true })
 
