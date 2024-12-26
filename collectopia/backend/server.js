@@ -8,6 +8,7 @@ const cors = require('cors')
 const session = require('express-session')
 const MongoDBStore = require('connect-mongodb-session')(session)
 const cookieparser = require('cookie-parser')
+const multer = require('multer')
 
 // MODELS
 const User = require('./models/userModel')
@@ -29,7 +30,24 @@ const store = new MongoDBStore({
 
 
 // MIDDLEWARES
+const fileStorage = multer.diskStorage({
+  destination: (req, res, cb) => {
+    cb(null, 'images')
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname)
+  }
+})
+
+const fileFilter = (req, file, cb) => {
+  if (file.mimetype === 'image/png' || file.mimetype === 'image/jpg' || file.mimetype === 'image/jpeg') {
+    cb(null, true)
+  } else {
+    cb(null, false)
+  }
+}
 app.use(cookieparser())
+app.use(multer({ storage: fileStorage, fileFilter: fileFilter }).array('imageList', 3))
 app.use(cors({
   credentials: true,
   origin: 'http://localhost:3000',

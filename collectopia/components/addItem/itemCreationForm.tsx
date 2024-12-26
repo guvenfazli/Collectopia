@@ -10,15 +10,15 @@ type ComponentPropType = {
 
 export default function ItemCreationForm({ setImageShowcase }: ComponentPropType) {
 
-  const [imagePicker, setImagePicker] = useState()
-
+  const [imagePicker, setImagePicker] = useState<FileList[]>([])
 
   async function createItem(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-
     const formData = e.target as HTMLFormElement
-
     const fd = new FormData(formData)
+    for (let i = 0; i < imagePicker.length; i++) {
+      fd.append('imageList', imagePicker[i])
+    }
     const data = Object.fromEntries(fd.entries())
   }
 

@@ -3,16 +3,15 @@ import { BaseSyntheticEvent } from "react"
 
 type ComponentPropType = {
   setImageShowcase: React.Dispatch<React.SetStateAction<string[]>>
+  setImagePicker: React.Dispatch<React.SetStateAction<FileList[]>>
 }
 
-export default function ChooseFileAndSubmit({ setImageShowcase }: ComponentPropType) {
+export default function ChooseFileAndSubmit({ setImagePicker, setImageShowcase }: ComponentPropType) {
 
 
 
   function getImage(e: BaseSyntheticEvent) { // Gets image for showcase
-
     setImageShowcase([])
-
     for (let i = 0; i < e.target.files.length; i++) {
       const file = e.target.files[i]
       const fileLink = URL.createObjectURL(file)
@@ -22,6 +21,10 @@ export default function ChooseFileAndSubmit({ setImageShowcase }: ComponentPropT
         return updated
       })
     }
+    
+    setImagePicker(e.target.files)
+
+
   }
 
 
