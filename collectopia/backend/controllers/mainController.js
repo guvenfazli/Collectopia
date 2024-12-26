@@ -1,3 +1,5 @@
+const { ObjectId } = require('mongodb')
+
 const { validationResult } = require('express-validator')
 const { throwError } = require('../utils/throwError')
 
@@ -13,7 +15,7 @@ exports.createItem = async (req, res, next) => {
   const convertedLastDate = +lastDate
   const errors = validationResult(req)
 
-  const ownerId = req.session._id
+  const ownerId = req.session.userInfo.id
 
   const fileList = req.files
 
@@ -27,7 +29,6 @@ exports.createItem = async (req, res, next) => {
     if (isNaN(convertedBuyout) || isNaN(convertedMinValue)) {
       throwError('Please enter a numeric value!', 410)
     }
-
 
     const newItem = new Item({
       title,
@@ -44,6 +45,10 @@ exports.createItem = async (req, res, next) => {
     }
 
     await newItem.save()
+
+    const owner = await User.findById(ownerId)
+    owner.items.push(newItem)
+    await owner.save()
 
     return res.status(201).json({ message: 'Item added to inventory successfully!' })
 
