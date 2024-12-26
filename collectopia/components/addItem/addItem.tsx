@@ -4,7 +4,7 @@ import ImageShowcase from "./imageShowcase"
 import ItemInformation from "./itemInformation"
 export default function AddItem() {
 
-  const [imageShowcase, setImageShowcase] = useState([])
+  const [imageShowcase, setImageShowcase] = useState<string[]>([])
 
 
 
