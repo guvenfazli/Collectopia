@@ -1,16 +1,17 @@
 import { useState } from "react"
 import { BaseSyntheticEvent } from "react"
 
-export default function ChooseFileAndSubmit({ setImagePicker, setImageShowcase }) {
+type ComponentPropType = {
+  setImageShowcase: React.Dispatch<React.SetStateAction<string[]>>
+}
 
-  const [imagePrev, setImagePrev] = useState()
+export default function ChooseFileAndSubmit({ setImageShowcase }: ComponentPropType) {
 
 
 
   function getImage(e: BaseSyntheticEvent) { // Gets image for showcase
     for (let i = 0; i < e.target.files.length; i++) {
       const file = e.target.files[i]
-      console.log(file)
       const fileLink = URL.createObjectURL(file)
       setImageShowcase((prev: string[]) => {
         const updated = [...prev]

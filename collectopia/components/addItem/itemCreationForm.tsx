@@ -3,7 +3,12 @@ import { useState } from "react"
 import TitlePrice from "./titlePrice"
 import CategoryDate from "./categoryDate"
 import ChooseFileAndSubmit from "./chooseFileAndSubmit"
-export default function ItemCreationForm({ setImageShowcase }) {
+
+type ComponentPropType = {
+  setImageShowcase: React.Dispatch<React.SetStateAction<string[]>>
+}
+
+export default function ItemCreationForm({ setImageShowcase }: ComponentPropType) {
 
   const [imagePicker, setImagePicker] = useState()
 
