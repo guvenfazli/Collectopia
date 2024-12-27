@@ -20,7 +20,6 @@ type authType = {
 }
 
 export default function Header() {
-
   const dispatch = useDispatch()
 
   const userInfo = useSelector((state: { auth: authType }) => state.auth.userInfo)
