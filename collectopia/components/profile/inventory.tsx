@@ -1,17 +1,39 @@
+"use client"
+import { useState } from "react"
 import InventoryItemCard from "./inventoryItemCard"
 
+type FetchedItemType = {
+  _id: string,
+  title: string,
+  minValue: number,
+  buyout: number,
+  category: string,
+  subCategory: string,
+  imageList: string[],
+  createdAt: string
+}
 
 
-export default function UsersInventory() {
+type ComponentsProp = {
+  userInventory: FetchedItemType[]
+}
+
+export default function UsersInventory({ userInventory }: ComponentsProp) {
+
+  const [isInventory, setIsInventory] = useState<boolean>(false)
+
+
   return (
-    <div className="flex flex-col w-full items-start justify-start gap-5">
+    <div onMouseLeave={() => setIsInventory(false)} onMouseEnter={() => setIsInventory(true)} className="flex flex-col border border-black w-full items-start justify-start gap-5">
       <div className="flex flex-row items-center justify-start">
         <p className="text-orange-600 text-3xl font-logo tracking-wide">Inventory</p>
       </div>
 
-      <div className="flex flex-row items-center justify-start">
-        <InventoryItemCard />
+      <div className={`flex flex-row h-auto border border-black items-center justify-start overflow-x-hidden ${!isInventory ? 'w-44' :'gap-5 w-full'} duration-700`}>
+        {userInventory.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory} setIsInventory={setIsInventory} />)}
       </div>
     </div>
   )
 }
+
+/* min-h-96 */

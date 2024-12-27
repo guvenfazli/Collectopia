@@ -18,15 +18,14 @@ export default async function UserProfilePage({ params }: any) {
     }
 
     const resData = await response.json()
-    console.log(resData)
 
     return (
-      <div className="flex flex-col bg-orange-100 h-screen justify-start items-center">
-        <div className="flex bg-white border-b-orange-800 w-2/3 p-5">
+      <div className="flex flex-col bg-orange-100 h-screen justify-start items-center shadow-lg">
+        <div className="flex bg-white border-b-orange-300 border-b w-2/3 p-5">
           <MainInformation userInformation={resData.foundUser} />
         </div>
-        <div className="flex bg-white border-b-orange-800 w-2/3 p-5">
-          <UsersInventory userInformation={resData.foundUser} />
+        <div className="flex bg-white border-b-orange-800 w-2/3 border p-5">
+          <UsersInventory userInventory={resData.foundUser.items} />
         </div>
       </div>
     )

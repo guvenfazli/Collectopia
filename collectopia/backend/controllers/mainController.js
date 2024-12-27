@@ -62,11 +62,13 @@ exports.fetchUser = async (req, res, next) => {
   const userId = req.params.userId
 
   try {
-    const foundUser = await User.findById(userId).select({ name: 1, surname: 1, interests: 1, createdAt: 1, _id: 1, items: 1 })
+    const foundUser = await User.findById(userId).select({ name: 1, surname: 1, interests: 1, createdAt: 1, _id: 1, items: 1 }).populate({ path: 'items', select: { title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1 } })
 
     if (foundUser.length === 0) {
       throwError('User could not found!', 404)
     }
+
+
 
     return res.status(200).json({ foundUser: foundUser })
 
