@@ -7,7 +7,7 @@ const { throwError } = require('../utils/throwError')
 const User = require('../models/userModel')
 const Item = require('../models/itemModel')
 
-
+// ITEM CREATION
 exports.createItem = async (req, res, next) => {
   const { title, minValue, buyout, lastDate, category, subcategory } = req.body
   const convertedMinValue = +minValue
@@ -55,5 +55,27 @@ exports.createItem = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
+}
+
+// USERS PROFILE
+exports.fetchUser = async (req, res, next) => {
+  const userId = req.params.userId
+
+  try {
+    const foundUser = await User.findById(userId).select({ name: 1, surname: 1, interests: 1, createdAt: 1, _id: 1, items: 1 })
+
+    if (foundUser.length === 0) {
+      throwError('User could not found!', 404)
+    }
+
+    return res.status(200).json({ foundUser: foundUser })
+
+
+
+
+  } catch (err) {
+    next(err)
+  }
+
 
 }
