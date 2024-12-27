@@ -30,9 +30,9 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
       return;
     }
 
+    let navTimer;
 
-
-    const navTimer = setInterval(() => {
+    navTimer = setInterval(() => {
       if (inventoryNavigator >= (userInventory.length / 2) - 1) {
         setSliderNavigator(false)
       } else if (inventoryNavigator <= (userInventory.length / 2) - 1) {
@@ -65,6 +65,7 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
 
 
       <div className="flex flex-row w-full border border-black relative overflow-hidden">
+        <div onMouseEnter={() => setSliderNavigator(prev => !prev)} onMouseLeave={() => setSliderNavigator(prev => !prev)} className="top-0 bottom-0 border border-black left-0 w-24 absolute z-40" />
         <div onMouseEnter={() => setIsInventory(true)} style={{ translate: `${inventoryNavigator * -50}%` }} className={`flex flex-row h-auto items-center justify-start ${!isInventory ? 'w-44' : 'gap-5 w-full'} duration-1000`}>
           {userInventory.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory} />)}
         </div>
