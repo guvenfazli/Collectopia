@@ -1,5 +1,5 @@
 "use client"
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import InventoryItemCard from "./inventoryItemCard"
 
 type FetchedItemType = {
@@ -22,7 +22,34 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
 
   const [isInventory, setIsInventory] = useState<boolean>(false)
   const [inventoryNavigator, setInventoryNavigator] = useState(0)
+  const [sliderNavigator, setSliderNavigator] = useState<boolean>(false)
 
+  useEffect(() => {
+
+    if (!sliderNavigator) {
+      return;
+    }
+
+
+
+    const navTimer = setInterval(() => {
+      if (inventoryNavigator >= (userInventory.length / 2) - 1) {
+        setSliderNavigator(false)
+      } else if (inventoryNavigator <= (userInventory.length / 2) - 1) {
+        setInventoryNavigator(prev => prev += 1)
+        setSliderNavigator(false)
+      }
+    }, 500)
+
+
+
+    return () => {
+      clearInterval(navTimer);
+    };
+
+
+
+  }, [sliderNavigator])
 
   return (
     <div onMouseLeave={() => setIsInventory(false)} className="flex flex-col w-full items-start justify-start gap-5">
@@ -31,16 +58,19 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
         {userInventory.length > 0 &&
           <div className="flex flex-row w-full justify-between items-center">
             <button disabled={inventoryNavigator === 0 || !isInventory} onClick={() => setInventoryNavigator(prev => prev -= 1)} className="py-1 px-2 duration-150 bg-orange-600 text-white shadow-md rounded-lg hover:bg-orange-700 hover:shadow-lg disabled:bg-orange-300 active:scale-95">Previous</button>
-            <button disabled={inventoryNavigator === (userInventory.length / 2) - 1 || !isInventory} onClick={() => setInventoryNavigator(prev => prev += 1)} className="py-1 px-2 duration-150 bg-orange-600 text-white shadow-md rounded-lg hover:bg-orange-700 hover:shadow-lg disabled:bg-orange-300 active:scale-95">Next</button>
+            <button disabled={inventoryNavigator >= (userInventory.length / 2) - 1 || !isInventory} onClick={() => setInventoryNavigator(prev => prev += 1)} className="py-1 px-2 duration-150 bg-orange-600 text-white shadow-md rounded-lg hover:bg-orange-700 hover:shadow-lg disabled:bg-orange-300 active:scale-95">Next</button>
           </div>
         }
       </div>
 
 
-      <div className="flex flex-row w-full overflow-hidden">
+      <div className="flex flex-row w-full border border-black relative overflow-hidden">
         <div onMouseEnter={() => setIsInventory(true)} style={{ translate: `${inventoryNavigator * -50}%` }} className={`flex flex-row h-auto items-center justify-start ${!isInventory ? 'w-44' : 'gap-5 w-full'} duration-1000`}>
-          {userInventory.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory}  />)}
+          {userInventory.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory} />)}
         </div>
+        <div onMouseEnter={() => setSliderNavigator(prev => !prev)} onMouseLeave={() => setSliderNavigator(prev => !prev)} className="top-0 bottom-0 right-0 w-24 absolute z-40" />
+
+
       </div>
     </div>
   )
