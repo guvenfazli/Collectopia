@@ -37,16 +37,16 @@ router.post('/register', [
 router.post('/login', [
   body('email')
     .notEmpty()
-    .withMessage('Please enter an Email.')
+    .withMessage({ field: 'email', message: 'Please enter an email!' })
     .isLength({ min: 3 })
-    .withMessage('Email can not be this short.')
+    .withMessage({ field: 'email', message: 'Email can not be this short!' })
     .isEmail()
-    .withMessage('Please enter a valid Email.'),
+    .withMessage({ field: 'email', message: 'Please enter a valid email!' }),
   body('password')
     .notEmpty()
-    .withMessage('Password is required')
+    .withMessage({ field: 'password', message: 'Password is required!' })
     .isLength({ min: 5 })
-    .withMessage('Password must be at least 5 characters long'),
+    .withMessage({ field: 'password', message: 'Password must be at least 5 characters long' }),
 ], authController.login)
 
 router.post('/logout', authController.logout)

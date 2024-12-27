@@ -78,7 +78,8 @@ app.use('/', mainRouter)
 app.use((error, req, res, next) => {
   const message = error.message
   const statusCode = error.statusCode || 500
-  res.status(statusCode).json({ message })
+  const field = error.field && error.field
+  res.status(statusCode).json({ message, field })
 })
 
 mongoose.connect(`${process.env.DB_CONNECTION}`).then(result => {

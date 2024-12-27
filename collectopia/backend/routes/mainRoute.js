@@ -7,7 +7,7 @@ router.get('/findUser/:userId', mainController.fetchUser)
 
 
 
-
+// 'Please enter a minimum value to bid!'
 
 
 
@@ -19,7 +19,7 @@ router.post('/createItem', [
     .withMessage("Title should be at least 2 characters!"),
   body('minValue')
     .notEmpty()
-    .withMessage('Please enter a minimum value to bid!'),
+    .withMessage({ field: 'minValue', message: 'Please enter a minimum value to bid!' }),
   body('buyout')
     .notEmpty()
     .withMessage('Please enter a minimum buyout value!'),

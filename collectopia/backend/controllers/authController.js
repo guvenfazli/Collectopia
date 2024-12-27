@@ -45,9 +45,16 @@ exports.register = async (req, res, next) => {
 
 exports.login = async (req, res, next) => {
   const { email, password } = req.body
+  const errors = validationResult(req)
 
   try {
     const foundUser = await User.findOne({ email: email })
+
+    if (!errors.isEmpty()) {
+      const errorObject = errors.array()[0].msg
+      throw errorObject
+    }
+
 
     if (!foundUser) {
       throwError('User can not found!', 404)

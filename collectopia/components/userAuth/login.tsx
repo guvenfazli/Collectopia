@@ -8,7 +8,7 @@ import AuthInput from "../authInput"
 
 export default function UserLogin() {
 
-  const [isError, setIsError] = useState<boolean | string>(false)
+  const [isError, setIsError] = useState<false | { field: string, message: string }>(false)
   const [isSucces, setIsSuccess] = useState<boolean | string>(false)
   const dispatch = useDispatch()
   const router = useRouter()
@@ -32,22 +32,23 @@ export default function UserLogin() {
 
       if (!response.ok) {
         const resData = await response.json()
-        const error = new Error(resData.message)
-        throw error
+
+        throw resData
       }
 
       const resData = await response.json()
       setIsSuccess(resData.message)
+
       dispatch(authActions.logInUser({ isLogged: true, userInfo: resData.userInfo }))
       router.push('/')
     } catch (err: any) {
-      setIsError(err.message)
+      setIsError(err)
     }
 
   }
 
-  return (
 
+  return (
     <div className="flex border border-gray-400 bg-orange-100 text-orange-800 w-2/4 rounded-lg h-2/4 flex-col items-center justify-center text-center gap-5 max-lg:w-3/4">
       <div className="flex flex-col w-full gap-4">
         <p className="text-3xl font-semibold max-sm:text-xl">It's great to have you back!</p>
@@ -55,9 +56,9 @@ export default function UserLogin() {
       </div>
 
       <form onSubmit={(e) => login(e)} className="flex flex-col w-1/2 p-3 gap-5 max-sm:w-full">
-        <AuthInput name="email" placeholder="Email" type="text" setIsError={setIsError} />
-        <AuthInput name="password" placeholder="Password" type="password" setIsError={setIsError} />
-        {isError && <p className="text-lg text-red-700">{isError}</p>}
+        <AuthInput name="email" placeholder="Email" type="text" setIsError={setIsError} isError={isError && isError.field} />
+        <AuthInput name="password" placeholder="Password" type="password" setIsError={setIsError} isError={isError && isError.field} />
+        {isError && <p className="text-lg text-red-700">{isError.message}</p>}
         {isSucces && <p className="text-lg text-green-700">{isSucces}</p>}
         <div className="flex w-full justify-center py-1">
           <button className="py-2 w-10/12 bg-orange-500 text-white font-semibold rounded-lg shadow-md hover:bg-orange-600 active:bg-orange-700 duration-150">Sign In</button>
