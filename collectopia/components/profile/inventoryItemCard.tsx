@@ -1,4 +1,5 @@
 import { useState } from "react"
+import CardInformation from "./cardInformation"
 import Image from "next/image"
 import dayjs from "dayjs"
 type FetchedItem = {
@@ -48,35 +49,12 @@ export default function InventoryItemCard({ fetchedItem, isInventory, setIsInven
       </div>
 
       <div className="flex flex-col w-full p-1 gap-3 justify-start items-start">
-        <div className="flex flex-col w-full justify-start">
-          <p className="text-orange-800 font-logo tracking-widest text-2xl text-center">Title</p>
-          <p className="text-gray-800 tracking-wide text-lg">{fetchedItem.title}</p>
-        </div>
-
-        <div className="flex flex-col w-full justify-start">
-          <p className="text-orange-800 font-logo tracking-widest text-2xl text-center">Minimum Auction Value</p>
-          <p className="text-gray-800 tracking-wide text-lg">{fetchedItem.minValue}$</p>
-        </div>
-
-        <div className="flex flex-col w-full justify-start">
-          <p className="text-orange-800 font-logo tracking-widest text-2xl text-center">Buyout Value</p>
-          <p className="text-gray-800 tracking-wide text-lg">{fetchedItem.buyout}$</p>
-        </div>
-
-        <div className="flex flex-col w-full justify-start">
-          <p className="text-orange-800 font-logo tracking-widest text-2xl text-center">Category</p>
-          <p className="text-gray-800 tracking-wide text-lg">{fetchedItem.category}</p>
-        </div>
-
-        <div className="flex flex-col w-full justify-start">
-          <p className="text-orange-800 font-logo tracking-widest text-2xl text-center">Subcategory</p>
-          <p className="text-gray-800 tracking-wide text-lg">{fetchedItem.subCategory}</p>
-        </div>
-
-        <div className="flex flex-col w-full justify-start">
-          <p className="text-orange-800 font-logo tracking-widest text-2xl text-center">Created At</p>
-          <p className="text-gray-800 tracking-wide text-lg">{dateDataConverted.format("DD/MM/YYYY")}</p>
-        </div>
+        <CardInformation fetchedItemInfo={fetchedItem.title} title="Title" />
+        <CardInformation fetchedItemInfo={fetchedItem.minValue + ' $'} title="Minimum Auction Value" />
+        <CardInformation fetchedItemInfo={fetchedItem.buyout + ' $'} title="Buyout Value" />
+        <CardInformation fetchedItemInfo={fetchedItem.category} title="Category" />
+        <CardInformation fetchedItemInfo={fetchedItem.subCategory} title="Subcategory" />
+        <CardInformation fetchedItemInfo={dateDataConverted.format("DD/MM/YYYY")} title="Created At" />
       </div>
     </div>
   )
