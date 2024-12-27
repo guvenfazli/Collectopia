@@ -1,7 +1,22 @@
 "use client"
 import { RiUserFollowLine } from "react-icons/ri";
 import dayjs from "dayjs";
-export default function MainInformation({ userInformation }) {
+
+type FetchedUserType = {
+  _id: string,
+  name: string,
+  surname: string,
+  interests: string[],
+  items: string[],
+  createdAt: string
+}
+
+type ComponentsProp = {
+  userInformation: FetchedUserType
+}
+
+
+export default function MainInformation({ userInformation }: ComponentsProp) {
 
   const dateData = new Date(userInformation.createdAt)
   const dateDataConverted = dayjs(dateData) // Formats the date
