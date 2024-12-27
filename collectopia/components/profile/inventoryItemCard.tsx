@@ -28,8 +28,8 @@ export default function InventoryItemCard({ fetchedItem, isInventory, setIsInven
 
 
   return (
-    <div className={`flex bg-orange-200 duration-700 flex-shrink-0 border border-orange-300 h-full  flex-col items-start justify-start drop-shadow-xl ${!isInventory ? '-mr-60 w-1/8' : 'mr-0 w-1/3'}`}>
-      <div className="flex w-full items-start  mb-4 min-h-72 overflow-hidden relative ">
+    <div className={`flex bg-orange-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-orange-300 h-full  flex-col items-start justify-start drop-shadow-xl ${!isInventory ? '-mr-20 w-full' : 'mr-0 w-1/3'}`}>
+      <div className="flex w-full items-start  mb-4 min-h-72 overflow-hidden relative">
         {fetchedItem.imageList.map((img: string) =>
           <div key={img} style={{ translate: `${imageNavigator * -100}%` }} className="flex w-full h-full overflow-hidden flex-shrink-0 duration-700">
             {<Image

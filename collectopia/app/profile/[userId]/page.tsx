@@ -30,17 +30,8 @@ export default async function UserProfilePage({ params }: any) {
       </div>
     )
 
-
-
   } catch (err: any) {
     console.log(err.message)
   }
-
-
-
-
-
-
-
 
 }

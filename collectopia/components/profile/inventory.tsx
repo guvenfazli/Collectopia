@@ -24,12 +24,12 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
 
 
   return (
-    <div onMouseLeave={() => setIsInventory(false)} onMouseEnter={() => setIsInventory(true)} className="flex flex-col border border-black w-full items-start justify-start gap-5">
+    <div onMouseLeave={() => setIsInventory(false)}  className="flex flex-col border border-black w-full items-start justify-start gap-5">
       <div className="flex flex-row items-center justify-start">
         <p className="text-orange-600 text-3xl font-logo tracking-wide">Inventory</p>
       </div>
 
-      <div className={`flex flex-row h-auto border border-black items-center justify-start overflow-x-hidden ${!isInventory ? 'w-44' :'gap-5 w-full'} duration-700`}>
+      <div onMouseEnter={() => setIsInventory(true)} className={`flex border border-red-800 flex-row h-auto items-center justify-start overflow-x-hidden ${!isInventory ? 'w-44' :'gap-5 w-full'} duration-700`}>
         {userInventory.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory} setIsInventory={setIsInventory} />)}
       </div>
     </div>
