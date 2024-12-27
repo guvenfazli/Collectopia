@@ -59,14 +59,14 @@ export default function CategoryDate({ setDatePicker }: ComponentProps) {
 
   return (
     <div className="flex flex-col gap-4 items-end justify-start w-1/2">
-      <input type="date" onChange={(e) => convertDate(e)} required placeholder="Choose Last Date" name="lastDate" className="p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
+      <input type="date" onChange={(e) => convertDate(e)} required placeholder="Choose Last Date" name="lastDate" className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
 
-      <select name="category" onChange={(e) => chooseCategory(e)} required className="p-2 border border-blue-800 rounded-md w-3/4 outline-none">
+      <select name="category" onChange={(e) => chooseCategory(e)} required className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none">
         <option>Please Select a Category</option>
         {category.map((cat: { category: string, display: string }) => <option value={cat.category} key={cat.category}>{cat.display}</option>)}
       </select>
 
-      <select name="subcategory" required className="p-2 border border-blue-800 rounded-md w-3/4 outline-none">
+      <select name="subcategory" required className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none">
         <option>Please Select a Subcategory</option>
         {subCategory[chosenCategory].map((subCat: { value: string, display: string }) => <option value={subCat.value} key={subCat.value}>{subCat.display}</option>)}
       </select>

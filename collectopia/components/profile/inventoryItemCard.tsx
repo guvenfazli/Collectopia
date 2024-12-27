@@ -16,11 +16,10 @@ type FetchedItem = {
 type ComponentsProp = {
   fetchedItem: FetchedItem;
   isInventory: boolean;
-  setIsInventory: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
-export default function InventoryItemCard({ fetchedItem, isInventory, setIsInventory }: ComponentsProp) {
+export default function InventoryItemCard({ fetchedItem, isInventory }: ComponentsProp) {
 
   const [imageNavigator, setImageNavigator] = useState(0)
 
