@@ -10,7 +10,7 @@ export default function ChooseFileAndSubmit({ setImagePicker, setImageShowcase }
 
 
 
-  function getImage(e: BaseSyntheticEvent) { // Gets image for showcase
+  function getImage(e: BaseSyntheticEvent) { // Gets image for Imageshowcase
     setImageShowcase([])
     for (let i = 0; i < e.target.files.length; i++) {
       const file = e.target.files[i]
