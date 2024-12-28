@@ -4,6 +4,8 @@ const mainController = require('../controllers/mainController')
 const { body } = require('express-validator')
 
 router.get('/findUser/:userId', mainController.fetchUser)
+router.get('/fetchMyItems', mainController.fetchMyItems)
+
 
 
 

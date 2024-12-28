@@ -66,11 +66,11 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
 
 
       <div className="flex flex-row w-full  relative overflow-hidden">
-{/*         <div onMouseEnter={() => setSliderNavigator(prev => !prev)} onMouseLeave={() => setSliderNavigator(prev => !prev)} className="top-0 bottom-0 border border-black left-0 w-24 absolute z-40" /> */}
+        {/*         <div onMouseEnter={() => setSliderNavigator(prev => !prev)} onMouseLeave={() => setSliderNavigator(prev => !prev)} className="top-0 bottom-0 border border-black left-0 w-24 absolute z-40" /> */}
         <div onMouseEnter={() => setIsInventory(true)} style={{ translate: `${inventoryNavigator * -50}%` }} className={`flex flex-row h-auto items-center justify-start ${!isInventory ? 'w-44' : 'gap-5 w-full'} duration-1000`}>
           {userInventory.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory} />)}
         </div>
-{/*         <div onMouseEnter={() => setSliderNavigator(prev => !prev)} onMouseLeave={() => setSliderNavigator(prev => !prev)} className="top-0 bottom-0 right-0 w-24 absolute z-40" /> */}
+        {/*         <div onMouseEnter={() => setSliderNavigator(prev => !prev)} onMouseLeave={() => setSliderNavigator(prev => !prev)} className="top-0 bottom-0 right-0 w-24 absolute z-40" /> */}
 
 
       </div>

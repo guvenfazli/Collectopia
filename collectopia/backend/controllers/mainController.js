@@ -30,7 +30,7 @@ exports.createItem = async (req, res, next) => {
       throwError('Please enter a numeric value!', 410)
     }
 
-    if(convertedMinValue >= convertedBuyout) {
+    if (convertedMinValue >= convertedBuyout) {
       throwError('Minimum Value can not be higher than buyout value!', 410)
     }
 
@@ -77,6 +77,21 @@ exports.fetchUser = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
+}
 
+exports.fetchMyItems = async (req, res, next) => {
+  const userId = req.session.userInfo.id
 
+  try {
+    const foundItems = await Item.find({ owner: userId }).select({ title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1, tagList: 1 })
+
+    if (foundItems.length === 0) {
+      throwError('You have no items', 404)
+    }
+
+    return res.status(200).json({ foundItems })
+
+  } catch (err) {
+    next(err)
+  }
 }
