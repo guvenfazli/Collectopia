@@ -30,14 +30,15 @@ export default function InventoryItemCard({ fetchedItem, isInventory }: Componen
   const dateDataConverted = dayjs(createdDate) // Formats the date
 
   return (
-    <div className={`flex bg-orange-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-orange-300 h-full  flex-col items-start justify-start drop-shadow-xl ${!isInventory ? '-mr-20 w-full' : 'mr-0 w-1/3'}`}>
+    <div className={`flex bg-orange-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-orange-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl ${!isInventory ? '-mr-20 w-full' : 'mr-0 w-1/3'}`}>
       <div className="flex w-full items-start mb-4 min-h-72 pt-4 overflow-hidden relative">
         {fetchedItem.imageList.map((img: string) =>
           <div key={img} style={{ translate: `${imageNavigator * -100}%` }} className="flex w-full h-full overflow-hidden flex-shrink-0 duration-700">
             {<Image
               fill
+            
               alt="uploadedImage"
-              style={{ zIndex: 0, transitionDuration: "700ms" }}
+              style={{ zIndex: 0, transitionDuration: "700ms"}}
               src={`http://localhost:8080/${img.replaceAll(/\\/g, "/")}`}>
             </Image>}
           </div>
