@@ -1,5 +1,11 @@
 "use client"
 
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover"
+import ItemCard from "./itemCard"
 import { useState, useEffect } from "react"
 
 type FetchedItem = {
@@ -35,7 +41,6 @@ export default function ItemsForAuctionCreation() {
         }
 
         const resData = await response.json()
-        console.log(resData)
         setMyItems(resData.foundItems)
 
       } catch (err: any) {
@@ -53,8 +58,21 @@ export default function ItemsForAuctionCreation() {
   return (
     <div className="flex flex-col justify-start items-start gap-1">
       {isError && <p>{isError}</p>}
-      <div className="flex flex-row justify-between items-center w-full">
-        {myItems.map((item) => <p key={item._id}>{item.title}</p>)}
+      <div className="flex flex-col justify-start items-start w-full gap-2">
+        {myItems.map((item) =>
+          <div className="flex flex-row justify-between items-center w-full" key={item._id}>
+            <Popover>
+              <PopoverTrigger>{item.title}</PopoverTrigger>
+              <PopoverContent><ItemCard /></PopoverContent>
+            </Popover>
+
+            <Popover>
+              <PopoverTrigger>Images</PopoverTrigger>
+              <PopoverContent><ItemCard /></PopoverContent>
+            </Popover>
+          </div>
+        )
+        }
       </div>
 
     </div>
