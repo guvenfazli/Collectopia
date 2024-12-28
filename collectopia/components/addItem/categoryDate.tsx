@@ -1,3 +1,4 @@
+import FormLabel from "./formLabel"
 import { BaseSyntheticEvent, ChangeEvent, useState } from "react"
 import dayjs from "dayjs"
 type subCat = {
@@ -59,13 +60,17 @@ export default function CategoryDate({ setDatePicker }: ComponentProps) {
 
   return (
     <div className="flex flex-col gap-4 items-end justify-start w-1/2">
+
+      <FormLabel customFor="tags" label="Additional Tags" />
       <input type="date" onChange={(e) => convertDate(e)} required placeholder="Choose Last Date" name="lastDate" className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
 
+      <FormLabel customFor="category" label="Category" />
       <select name="category" onChange={(e) => chooseCategory(e)} required className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none">
         <option>Please Select a Category</option>
         {category.map((cat: { category: string, display: string }) => <option value={cat.category} key={cat.category}>{cat.display}</option>)}
       </select>
 
+      <FormLabel customFor="Subcategory" label="Subcategory" />
       <select name="subcategory" required className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none">
         <option>Please Select a Subcategory</option>
         {subCategory[chosenCategory].map((subCat: { value: string, display: string }) => <option value={subCat.value} key={subCat.value}>{subCat.display}</option>)}
