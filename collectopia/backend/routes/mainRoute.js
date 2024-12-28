@@ -7,9 +7,7 @@ router.get('/findUser/:userId', mainController.fetchUser)
 
 
 
-// 'Please enter a minimum value to bid!'
-
-
+// POSTS
 
 router.post('/createItem', [
   body("title")

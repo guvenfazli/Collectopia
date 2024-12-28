@@ -68,10 +68,6 @@ app.use((req, res, next) => {
 
 
 
-
-
-
-
 app.use('/auth', authRouter)
 app.use('/', mainRouter)
 
@@ -85,3 +81,4 @@ app.use((error, req, res, next) => {
 mongoose.connect(`${process.env.DB_CONNECTION}`).then(result => {
   server.listen(8080)
 }).catch(err => console.log(err))
+

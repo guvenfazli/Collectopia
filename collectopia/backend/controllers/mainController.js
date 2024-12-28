@@ -44,6 +44,7 @@ exports.createItem = async (req, res, next) => {
       newItem.imageList.push(image.path)
     }
 
+
     await newItem.save()
 
     const owner = await User.findById(ownerId)
@@ -67,13 +68,7 @@ exports.fetchUser = async (req, res, next) => {
     if (foundUser.length === 0) {
       throwError('User could not found!', 404)
     }
-
-
-
     return res.status(200).json({ foundUser: foundUser })
-
-
-
 
   } catch (err) {
     next(err)

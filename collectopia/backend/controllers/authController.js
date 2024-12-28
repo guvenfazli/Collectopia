@@ -1,5 +1,4 @@
 // MODELS
-
 const User = require('../models/userModel')
 
 // UTILS
