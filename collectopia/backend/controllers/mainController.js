@@ -30,6 +30,10 @@ exports.createItem = async (req, res, next) => {
       throwError('Please enter a numeric value!', 410)
     }
 
+    if(convertedMinValue >= convertedBuyout) {
+      throwError('Minimum Value can not be higher than buyout value!', 410)
+    }
+
     const newItem = new Item({
       title,
       minValue: convertedMinValue,
