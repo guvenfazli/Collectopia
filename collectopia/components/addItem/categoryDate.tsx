@@ -60,9 +60,13 @@ export default function CategoryDate({ setDatePicker, setTagList }: ComponentPro
     setChosenCategory(e.target.value)
   }
 
-  function addTag(e) {
+  function addTag(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === ",") {
-      console.log('Worked')
+      setTagList((prev) => {
+        const updated = [...prev]
+        updated.push(e.target.value)
+        return updated
+      })
     }
   }
 
@@ -79,12 +83,12 @@ export default function CategoryDate({ setDatePicker, setTagList }: ComponentPro
         <FormLabel customFor="tags" label="Additional Tags" />
         <HoverCard>
           <HoverCardTrigger className="text-lg font-logo tracking-widest hover:underline hover:cursor-pointer">(?)</HoverCardTrigger>
-          <HoverCardContent>
-            Press ' , ' to add tags to your product.
+          <HoverCardContent className="bg-orange-100 text-orange-800">
+            Press ' , ' to add tags to your item.
           </HoverCardContent>
         </HoverCard>
       </div>
-      <input name="tags" ref={tagRef} onKeyDown={(e) => addTag(e)} required placeholder="Additional Tags" className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
+      <input name="tags" ref={tagRef} onKeyDown={(e) => addTag(e)} placeholder="Additional Tags" className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
 
       <FormLabel customFor="category" label="Category" />
       <select name="category" onChange={(e) => chooseCategory(e)} required className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none">

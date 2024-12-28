@@ -21,9 +21,10 @@ router.post('/createItem', [
   body('buyout')
     .notEmpty()
     .withMessage('Please enter a minimum buyout value!'),
-  body('lastDate')
+  body('tagList')
+    .isLength({ min: 1 })
     .notEmpty()
-    .withMessage('Please choose a date!'),
+    .withMessage('Please at least add 1 tag for your item!'),
   body('category')
     .notEmpty()
     .withMessage('Please choose a category!'),

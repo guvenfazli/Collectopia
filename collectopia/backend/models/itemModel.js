@@ -14,10 +14,6 @@ const itemSchema = new Schema({
     type: Number,
     required: true
   },
-  lastDate: {
-    type: Number,
-    required: true
-  },
   category: {
     type: String,
     required: true
@@ -27,6 +23,7 @@ const itemSchema = new Schema({
     required: true
   },
   owner: { type: Schema.Types.ObjectId, ref: 'User' },
+  tagList: [{ type: String }],
   imageList: [{ type: String }]
 }, { timestamps: true })
 

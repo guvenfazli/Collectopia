@@ -9,10 +9,10 @@ const Item = require('../models/itemModel')
 
 // ITEM CREATION
 exports.createItem = async (req, res, next) => {
-  const { title, minValue, buyout, lastDate, category, subcategory } = req.body
+  const { title, minValue, buyout, tagList, category, subcategory } = req.body
   const convertedMinValue = +minValue
   const convertedBuyout = +buyout
-  const convertedLastDate = +lastDate
+  const convertedTagList = JSON.parse(tagList)
   const errors = validationResult(req)
 
   const ownerId = req.session.userInfo.id
@@ -34,7 +34,7 @@ exports.createItem = async (req, res, next) => {
       title,
       minValue: convertedMinValue,
       buyout: convertedBuyout,
-      lastDate: convertedLastDate,
+      tagList: convertedTagList,
       category,
       subCategory: subcategory,
       owner: ownerId
