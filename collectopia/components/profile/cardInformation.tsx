@@ -1,13 +1,18 @@
 type ComponentsProp = {
-  fetchedItemInfo: string | number,
-  title: string
+  fetchedItemInfo?: string | number | string[],
+  title: string,
+  tagList?: string[]
 }
 
-export default function CardInformation({ fetchedItemInfo, title }: ComponentsProp) {
+export default function CardInformation({ fetchedItemInfo, title, tagList }: ComponentsProp) {
   return (
     <div className="flex flex-col w-full justify-start">
       <p className="text-orange-800 font-logo tracking-widest text-2xl text-center">{title}</p>
-      <p className="text-gray-800 tracking-wide text-lg">{fetchedItemInfo}</p>
+      {fetchedItemInfo && <p className="text-gray-800 tracking-wide text-lg">{fetchedItemInfo}</p>}
+      {tagList &&
+        <div className="flex flex-row justify-start items-center gap-1">
+        {tagList.map((tag: string) => <p className="text-gray-800 tracking-wide text-lg" key={tag}>{tag}</p>)}
+        </div>}
     </div>
   )
 }

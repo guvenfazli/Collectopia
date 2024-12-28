@@ -12,6 +12,7 @@ type FetchedItem = {
   category: string,
   subCategory: string,
   imageList: string[],
+  tagList: string[]
   createdAt: string
 }
 
@@ -28,6 +29,7 @@ export default function InventoryItemCard({ fetchedItem, isInventory }: Componen
   const createdDate = new Date(fetchedItem.createdAt)
   const dateDataConverted = dayjs(createdDate) // Formats the date
 
+  console.log(fetchedItem)
 
   return (
     <div className={`flex bg-orange-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-orange-300 h-full  flex-col items-start justify-start drop-shadow-xl ${!isInventory ? '-mr-20 w-full' : 'mr-0 w-1/3'}`}>
@@ -55,6 +57,8 @@ export default function InventoryItemCard({ fetchedItem, isInventory }: Componen
         <CardInformation fetchedItemInfo={fetchedItem.buyout + ' $'} title="Buyout Value" />
         <CardInformation fetchedItemInfo={fetchedItem.category} title="Category" />
         <CardInformation fetchedItemInfo={fetchedItem.subCategory} title="Subcategory" />
+        <CardInformation tagList={fetchedItem.tagList} title="Tags" />
+        
         <CardInformation fetchedItemInfo={dateDataConverted.format("DD/MM/YYYY")} title="Created At" />
       </div>
     </div>
