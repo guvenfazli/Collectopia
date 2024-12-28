@@ -10,6 +10,7 @@ type FetchedItemType = {
   category: string,
   subCategory: string,
   imageList: string[],
+  tagList: string[],
   createdAt: string
 }
 
