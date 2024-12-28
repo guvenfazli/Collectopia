@@ -1,15 +1,23 @@
+import {
+  HoverCard,
+  HoverCardContent,
+  HoverCardTrigger,
+} from "@/components/ui/hover-card"
 import FormLabel from "./formLabel"
-import { BaseSyntheticEvent, ChangeEvent, useState } from "react"
+import { BaseSyntheticEvent, ChangeEvent, useState, useRef } from "react"
 import dayjs from "dayjs"
 type subCat = {
   [catName: string]: { value: string, display: string }[],
 }
 
 type ComponentProps = {
-  setDatePicker: React.Dispatch<React.SetStateAction<string>>
+  setDatePicker: React.Dispatch<React.SetStateAction<string>>;
+  setTagList: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-export default function CategoryDate({ setDatePicker }: ComponentProps) {
+export default function CategoryDate({ setDatePicker, setTagList }: ComponentProps) {
+
+  const tagRef = useRef<HTMLInputElement>()
 
   const [category, setCategory] = useState([
     { category: "anime", display: "Anime" },
@@ -52,6 +60,12 @@ export default function CategoryDate({ setDatePicker }: ComponentProps) {
     setChosenCategory(e.target.value)
   }
 
+  function addTag(e) {
+    if (e.key === ",") {
+      console.log('Worked')
+    }
+  }
+
   function convertDate(e: ChangeEvent<HTMLInputElement>) {
     const chosenDate = new Date(e.target.value)
     const convertedDate = dayjs(chosenDate).startOf('day').unix()
@@ -61,8 +75,16 @@ export default function CategoryDate({ setDatePicker }: ComponentProps) {
   return (
     <div className="flex flex-col gap-4 items-end justify-start w-1/2">
 
-      <FormLabel customFor="tags" label="Additional Tags" />
-      <input type="date" onChange={(e) => convertDate(e)} required placeholder="Choose Last Date" name="lastDate" className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
+      <div className="flex flex-row -mb-4">
+        <FormLabel customFor="tags" label="Additional Tags" />
+        <HoverCard>
+          <HoverCardTrigger className="text-lg font-logo tracking-widest hover:underline hover:cursor-pointer">(?)</HoverCardTrigger>
+          <HoverCardContent>
+            Press ' , ' to add tags to your product.
+          </HoverCardContent>
+        </HoverCard>
+      </div>
+      <input name="tags" ref={tagRef} onKeyDown={(e) => addTag(e)} required placeholder="Additional Tags" className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
 
       <FormLabel customFor="category" label="Category" />
       <select name="category" onChange={(e) => chooseCategory(e)} required className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none">

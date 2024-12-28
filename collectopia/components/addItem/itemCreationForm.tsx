@@ -12,6 +12,7 @@ export default function ItemCreationForm({ setImageShowcase }: ComponentPropType
 
   const [imagePicker, setImagePicker] = useState<FileList[]>([])
   const [datePicker, setDatePicker] = useState<string>("")
+  const [tagList, setTagList] = useState<string[]>([])
   const [isError, setIsError] = useState<boolean | string>(false)
   const [isSuccess, setIsSuccess] = useState<boolean | string>(false)
 
@@ -53,7 +54,7 @@ export default function ItemCreationForm({ setImageShowcase }: ComponentPropType
     <form method="POST" onSubmit={(e) => createItem(e)} encType="multipart/form-data" className="flex flex-col w-full justify-start-start gap-4">
       <div className="flex flex-row w-full items-start">
         <TitlePrice isError={isError} />
-        <CategoryDate setDatePicker={setDatePicker} />
+        <CategoryDate setDatePicker={setDatePicker} setTagList={setTagList} />
       </div>
       {
         isError &&
