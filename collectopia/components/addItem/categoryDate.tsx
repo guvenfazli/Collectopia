@@ -11,11 +11,10 @@ type subCat = {
 }
 
 type ComponentProps = {
-  setDatePicker: React.Dispatch<React.SetStateAction<string>>;
   setTagList: React.Dispatch<React.SetStateAction<string[]>>
 }
 
-export default function CategoryDate({ setDatePicker, setTagList }: ComponentProps) {
+export default function CategoryDate({ setTagList }: ComponentProps) {
 
   const tagRef = useRef<HTMLInputElement>()
 
@@ -60,7 +59,7 @@ export default function CategoryDate({ setDatePicker, setTagList }: ComponentPro
     setChosenCategory(e.target.value)
   }
 
-  function addTag(e: KeyboardEvent<HTMLInputElement>) {
+  function addTag(e: HTMLInputElement<KeyboardEvent>) {
     if (e.key === ",") {
       setTagList((prev) => {
         const updated = [...prev]
@@ -70,11 +69,7 @@ export default function CategoryDate({ setDatePicker, setTagList }: ComponentPro
     }
   }
 
-  function convertDate(e: ChangeEvent<HTMLInputElement>) {
-    const chosenDate = new Date(e.target.value)
-    const convertedDate = dayjs(chosenDate).startOf('day').unix()
-    setDatePicker(`${convertedDate}`)
-  }
+
 
   return (
     <div className="flex flex-col gap-4 items-end justify-start w-1/2">

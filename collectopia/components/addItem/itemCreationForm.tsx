@@ -16,6 +16,14 @@ export default function ItemCreationForm({ setImageShowcase }: ComponentPropType
   const [isError, setIsError] = useState<boolean | string>(false)
   const [isSuccess, setIsSuccess] = useState<boolean | string>(false)
 
+  function removeTag(chosenTag: string) {
+    setTagList((prev) => {
+      const updated = [...prev]
+      const chosenTagIndex = updated.findIndex((tag) => tag === chosenTag)
+      updated.splice(chosenTagIndex, 1)
+      return updated;
+    })
+  }
 
   async function createItem(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
@@ -54,7 +62,7 @@ export default function ItemCreationForm({ setImageShowcase }: ComponentPropType
     <form method="POST" onSubmit={(e) => createItem(e)} encType="multipart/form-data" className="flex flex-col w-full justify-start-start gap-4">
       <div className="flex flex-row w-full items-start">
         <TitlePrice isError={isError} />
-        <CategoryDate setDatePicker={setDatePicker} setTagList={setTagList} />
+        <CategoryDate setTagList={setTagList} />
       </div>
       {
         isError &&
@@ -72,7 +80,7 @@ export default function ItemCreationForm({ setImageShowcase }: ComponentPropType
 
       <div className="flex w-full gap-1 justify-center items-center">
         {tagList.length === 0 ? <p>You did not add any tags yet.</p> :
-          tagList.map((tag) => <p key={tag} className="text-sm text-gray-600 font-medium hover:cursor-pointer hover:underline">#{tag}</p>)
+          tagList.map((tag) => <p key={tag} onClick={() => removeTag(tag)} className="text-sm text-gray-600 font-medium hover:cursor-pointer hover:underline">#{tag}</p>)
         }
       </div>
       <ChooseFileAndSubmit setImagePicker={setImagePicker} setImageShowcase={setImageShowcase} />
