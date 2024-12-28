@@ -60,7 +60,7 @@ export default function CategoryDate({ setTagList }: ComponentProps) {
   }
 
   function addTag(e: HTMLInputElement<KeyboardEvent>) {
-    if (e.key === ",") {
+    if (e.key === "," && tagRef.current.value.length > 0) {
       setTagList((prev) => {
         const updated = [...prev]
         updated.push(e.target.value)

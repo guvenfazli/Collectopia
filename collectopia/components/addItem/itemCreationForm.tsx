@@ -1,5 +1,4 @@
 import { useState } from "react"
-import dayjs from "dayjs"
 import TitlePrice from "./titlePrice"
 import CategoryDate from "./categoryDate"
 import ChooseFileAndSubmit from "./chooseFileAndSubmit"
@@ -11,7 +10,6 @@ type ComponentPropType = {
 export default function ItemCreationForm({ setImageShowcase }: ComponentPropType) {
 
   const [imagePicker, setImagePicker] = useState<FileList[]>([])
-  const [datePicker, setDatePicker] = useState<string>("")
   const [tagList, setTagList] = useState<string[]>([])
   const [isError, setIsError] = useState<boolean | string>(false)
   const [isSuccess, setIsSuccess] = useState<boolean | string>(false)
