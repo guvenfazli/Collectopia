@@ -132,23 +132,19 @@ exports.deleteMyItem = async (req, res, next) => {
 exports.fetchUserInventory = async (req, res, next) => {
   const tagFilterList = req.query.filters
   const convertedTagList = JSON.parse(tagFilterList)
-  console.log(convertedTagList)
 
   try {
     const itemList = await Item.find({
       tagList: {
         $in: convertedTagList
       }
-    })
-    console.log(itemList)
+    }).select({ title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1, tagList: 1 })
+
+    return res.status(201).json({ filteredItems: itemList })
 
   } catch (err) {
     next(err)
   }
-
-
-
-
 }
 
 

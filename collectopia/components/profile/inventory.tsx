@@ -22,6 +22,8 @@ type ComponentsProp = {
   userInventory: FetchedItemType[]
 }
 
+type FilteredItemsType = FetchedItemType[]
+
 export default function UsersInventory({ userInventory }: ComponentsProp) {
 
   const loggedUser = useSelector((state: { auth: { userInfo: { userInfo: any } } }) => state.auth.userInfo.userInfo)
@@ -32,33 +34,15 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
   const [inventoryNavigator, setInventoryNavigator] = useState(0)
   const [sliderNavigator, setSliderNavigator] = useState<boolean>(false)
   const [filterTagList, setFilterTagList] = useState<string[]>([])
+  const [filteredItems, setFilteredItems] = useState<FilteredItemsType>([])
 
   useEffect(() => {
 
-    if (!sliderNavigator) {
-      return;
+    if(filterTagList.length === 0) {
+      setFilteredItems([])
     }
 
-    let navTimer;
-
-    navTimer = setInterval(() => {
-      if (inventoryNavigator >= (userInventory.length / 2) - 1) {
-        setSliderNavigator(false)
-      } else if (inventoryNavigator <= (userInventory.length / 2) - 1) {
-        setInventoryNavigator(prev => prev += 1)
-        setSliderNavigator(false)
-      }
-    }, 500)
-
-
-
-    return () => {
-      clearInterval(navTimer);
-    };
-
-
-
-  }, [sliderNavigator])
+  }, [filterTagList])
 
   function addTagForFilter(e: KeyboardEvent<HTMLInputElement>) {
     if (e.key === ",") {
@@ -85,6 +69,18 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
       const response = await fetch(`http://localhost:8080/filterUserInventory?filters=${JSON.stringify(filterTagList)}`, {
         credentials: "include"
       })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData)
+        throw error
+      }
+
+      const resData = await response.json()
+
+      setFilteredItems(resData.filteredItems)
+
+
     } catch (err: any) {
       console.log(err.message)
     }
@@ -113,7 +109,7 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
 
       <div className="flex flex-row w-full  relative overflow-hidden">
         <div onMouseEnter={() => setIsInventory(true)} style={{ translate: `${inventoryNavigator * -50}%` }} className={`flex flex-row h-auto items-center justify-start ${!isInventory ? 'w-44' : 'gap-5 w-full'} duration-1000`}>
-          {userInventory.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory} />)}
+          {filteredItems.length === 0 ? userInventory.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory} />) : filteredItems.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory} />)}
         </div>
       </div>
     </div>
