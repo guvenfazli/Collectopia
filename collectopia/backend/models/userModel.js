@@ -19,7 +19,8 @@ const userSchema = new Schema({
     required: true
   },
   interests: [{ type: String }],
-  items: [{type: Schema.Types.ObjectId, ref: 'Item', default: []}]
+  items: [{ type: Schema.Types.ObjectId, ref: 'Item', default: [] }],
+  auctions: [{ type: Schema.Types.ObjectId, ref: 'Auction', }]
 
 }, { timestamps: true })
 

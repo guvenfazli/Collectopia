@@ -35,4 +35,20 @@ router.post('/createItem', [
     .withMessage('Please choose a subcategory!')
 ], mainController.createItem)
 
+router.post('/createAuction', [
+  body("minValue")
+    .notEmpty()
+    .withMessage("Please enter a minimum value!"),
+  body('buyout')
+    .notEmpty()
+    .withMessage("Please enter a buyout value!"),
+  body('tagList')
+    .isLength({ min: 1 })
+    .notEmpty()
+    .withMessage('Please at least add 1 tag for your item!'),
+  body('deadline')
+    .notEmpty()
+    .withMessage('Please choose a date!'),
+], mainController.createAuction)
+
 module.exports = router

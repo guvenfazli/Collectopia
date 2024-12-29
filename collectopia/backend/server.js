@@ -15,6 +15,8 @@ const path = require('path')
 // MODELS
 const User = require('./models/userModel')
 const Item = require('./models/itemModel')
+const Bid = require('./models/bidModel')
+const Auction = require('./models/auctionModel')
 
 // ENV FILES
 const dotenv = require('dotenv')

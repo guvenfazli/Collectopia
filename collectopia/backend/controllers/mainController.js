@@ -95,3 +95,16 @@ exports.fetchMyItems = async (req, res, next) => {
     next(err)
   }
 }
+
+
+// AUCTIONS
+
+exports.createAuction = async (req, res, next) => {
+  const { itemId, minValue, buyout, deadline } = req.body
+  const convertedMinValue = +minValue
+  const convertedBuyout = +buyout
+  const covertedDeadline = +deadline
+  const userId = req.session.userInfo.id
+
+  console.log(req.body)
+}
