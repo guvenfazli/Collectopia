@@ -68,7 +68,7 @@ export default function ItemsForAuctionCreation() {
         {isLoading ? <span id="headerLoader" className="self-center"></span> : myItems.map((item) =>
           <div className="flex flex-row justify-between items-center w-full text-nowrap gap-10" key={item._id}>
             <Popover>
-              <PopoverTrigger className="hover:underline">{item.title}</PopoverTrigger>
+              <PopoverTrigger className="hover:underline font-medium">{item.title}</PopoverTrigger>
               <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemCard item={item} /></PopoverContent>
             </Popover>
 
@@ -76,7 +76,7 @@ export default function ItemsForAuctionCreation() {
             <p>Minimum Chosen Buyout Value: {item.buyout} $</p>
 
             <Popover>
-              <PopoverTrigger className="hover:underline">Click to see images</PopoverTrigger>
+              <PopoverTrigger className="hover:underline font-medium">Click to see images</PopoverTrigger>
               <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemImageCarousel imageList={item.imageList} /></PopoverContent>
             </Popover>
           </div>

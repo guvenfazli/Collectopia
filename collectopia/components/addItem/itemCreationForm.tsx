@@ -52,10 +52,6 @@ export default function ItemCreationForm({ setImageShowcase }: ComponentPropType
     }
   }
 
-
-
-
-
   return (
     <form method="POST" onSubmit={(e) => createItem(e)} encType="multipart/form-data" className="flex flex-col w-full justify-start-start gap-4">
       <div className="flex flex-row w-full items-start">
@@ -76,7 +72,7 @@ export default function ItemCreationForm({ setImageShowcase }: ComponentPropType
         </div>
       }
 
-      <div className="flex w-full gap-1 justify-center items-center">
+      <div className="flex w-full gap-1 justify-center items-center flex-wrap">
         {tagList.length === 0 ? <p>You did not add any tags yet.</p> :
           tagList.map((tag) => <p key={tag} onClick={() => removeTag(tag)} className="text-sm text-gray-600 font-medium hover:cursor-pointer hover:underline">#{tag}</p>)
         }
