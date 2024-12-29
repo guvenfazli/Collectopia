@@ -23,12 +23,15 @@ export default function ImageShowcase({ imageShowcase }: componentPropType) {
 
   return (
     <div>
-      <div className="flex w-full border items-center mb-4 overflow-hidden relative h-96">
+      <div className="flex w-full items-center mb-4 overflow-hidden relative h-96">
         {imageShowcase.length === 0 && <div className="flex w-full justify-center items-center"><p>You did not choose any image yet!</p></div>}
         <Carousel className="w-full">
-          <CarouselContent className="h-96 border border-red-700">
+          <CarouselContent className="h-96">
             {imageShowcase.map((img) =>
               <CarouselItem className="relative" key={img}>
+                <div className="absolute blur-sm top-0 right-0 bottom-0 left-0" style={{ background: `url(${img.replaceAll(/\\/g, "/")})`, backgroundPosition: "center", backgroundSize: "contain"}}>
+
+                </div>
                 <Image
                   fill
                   alt="uploadedImage"
@@ -40,7 +43,7 @@ export default function ImageShowcase({ imageShowcase }: componentPropType) {
         </Carousel>
       </div>
 
-{/*       <div className="flex flex-row justify-between items-center">
+      {/*       <div className="flex flex-row justify-between items-center">
         <button onClick={() => setImageNavigator(prev => prev -= 1)} disabled={imageNavigator === 0 || imageShowcase.length === 0} className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 hover:shadow-lg active:scale-95 transition-transform duration-150 ease-in-out disabled:bg-blue-300">&lt;</button>
         <button onClick={() => setImageNavigator(prev => prev += 1)} disabled={imageNavigator === imageShowcase.length - 1 || imageShowcase.length === 0} className="bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 hover:shadow-lg active:scale-95 transition-transform duration-150 ease-in-out disabled:bg-blue-300">&gt;</button>
       </div> */}
