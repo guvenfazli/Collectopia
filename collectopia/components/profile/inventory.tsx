@@ -11,7 +11,8 @@ type FetchedItemType = {
   subCategory: string,
   imageList: string[],
   tagList: string[],
-  createdAt: string
+  createdAt: string,
+  owner: string
 }
 
 

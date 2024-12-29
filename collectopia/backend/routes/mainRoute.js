@@ -47,4 +47,8 @@ router.post('/createAuction', [
     .withMessage('Please choose a date!'),
 ], mainController.createAuction)
 
+// DELETES
+
+router.delete('/deleteMyItem/:itemId', mainController.deleteMyItem)
+
 module.exports = router

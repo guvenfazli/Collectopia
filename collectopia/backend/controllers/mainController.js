@@ -1,5 +1,6 @@
 const { ObjectId } = require('mongodb')
-
+const path = require('path')
+const fs = require('fs')
 const { validationResult } = require('express-validator')
 const { throwError } = require('../utils/throwError')
 
@@ -69,7 +70,7 @@ exports.fetchUser = async (req, res, next) => {
   const userId = req.params.userId
 
   try {
-    const foundUser = await User.findById(userId).select({ name: 1, surname: 1, interests: 1, createdAt: 1, _id: 1, items: 1 }).populate({ path: 'items', select: { title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1, tagList: 1 } })
+    const foundUser = await User.findById(userId).select({ name: 1, surname: 1, interests: 1, createdAt: 1, _id: 1, items: 1 }).populate({ path: 'items', select: { title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1, tagList: 1, owner: 1 } })
 
     if (foundUser.length === 0) {
       throwError('User could not found!', 404)
@@ -92,6 +93,30 @@ exports.fetchMyItems = async (req, res, next) => {
     }
 
     return res.status(200).json({ foundItems })
+
+  } catch (err) {
+    next(err)
+  }
+}
+
+exports.deleteMyItem = async (req, res, next) => {
+  const itemId = req.params.itemId
+
+  try {
+
+    const foundItem = await Item.findOneAndDelete({ _id: itemId })
+
+    for (const img of foundItem.imageList) {
+      try {
+        fs.unlink(path.join(__dirname, '..', img), (err) => {
+          throwError(err, 'Something happened, could not delete the images.')
+        })
+      } catch (err) {
+        next(err)
+      }
+    }
+
+    return res.status(201).json({ message: 'Item deleted successfully.' })
 
   } catch (err) {
     next(err)
@@ -132,11 +157,15 @@ exports.createAuction = async (req, res, next) => {
 
     await createdAuction.save()
 
-    console.log(createdAuction)
 
     const foundUser = await User.findById(userId)
     foundUser.auctions.push(createdAuction)
     await foundUser.save()
+
+    const foundOriginalItem = await Item.findById(itemId)
+    foundOriginalItem.minValue = convertedMinValue
+    foundOriginalItem.buyout = convertedBuyout
+    await foundOriginalItem.save()
 
     return res.status(201).json({ message: "Auction created successfully!" })
 

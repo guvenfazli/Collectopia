@@ -2,16 +2,16 @@ import {
   Carousel,
   CarouselContent,
   CarouselItem,
-  CarouselNext,
-  CarouselPrevious,
 } from "@/components/ui/carousel"
 
+import { MdDelete, MdModeEditOutline } from "react-icons/md";
+
 import { useState } from "react"
-import { HiArrowSmallRight } from "react-icons/hi2";
-import { HiArrowSmallLeft } from "react-icons/hi2";
+import { useSelector } from "react-redux";
 import CardInformation from "./cardInformation"
 import Image from "next/image"
 import dayjs from "dayjs"
+
 type FetchedItem = {
   _id: string,
   title: string,
@@ -21,7 +21,8 @@ type FetchedItem = {
   subCategory: string,
   imageList: string[],
   tagList: string[]
-  createdAt: string
+  createdAt: string,
+  owner: string
 }
 
 type ComponentsProp = {
@@ -32,14 +33,47 @@ type ComponentsProp = {
 
 export default function InventoryItemCard({ fetchedItem, isInventory }: ComponentsProp) {
 
+  const loggedUser = useSelector((state: { auth: { userInfo: { userInfo: any } } }) => state.auth.userInfo.userInfo)
   const [imageNavigator, setImageNavigator] = useState(0)
+
 
   const createdDate = new Date(fetchedItem.createdAt)
   const dateDataConverted = dayjs(createdDate) // Formats the date
 
+  async function deleteItem() {
+    try {
+      const response = await fetch(`http://localhost:8080/deleteMyItem/${fetchedItem._id}`, {
+        method: 'DELETE',
+        credentials: "include"
+      })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData)
+        throw error
+      }
+
+      const resData = await response.json()
+      console.log(resData.message)
+
+    } catch (err: any) {
+      console.log(err.message)
+    }
+  }
+
+
+
+
   return (
     <div className={`flex bg-orange-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-orange-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl ${!isInventory ? '-mr-20 w-full' : 'mr-0 w-1/3'}`}>
-      <div className="flex w-full items-start mb-4 min-h-72 pt-4 overflow-hidden relative">
+      {loggedUser.id === fetchedItem.owner &&
+        <div className="flex flex-row justify-end w-full items-center gap-2 p-1 border">
+          <button onClick={deleteItem} className="bg-orange-800 text-white rounded-xl p-1 hover:bg-orange-500 duration-200 shadow-lg shadow-slate-200"><MdDelete /></button>
+          <button className="bg-orange-800 text-white rounded-xl p-1 hover:bg-orange-500 duration-200 shadow-lg shadow-slate-200"><MdModeEditOutline /></button>
+        </div>
+      }
+
+      <div className="flex w-full items-start mb-4 min-h-72 overflow-hidden relative">
         <Carousel className="w-full">
           <CarouselContent className="h-96">
             {fetchedItem.imageList.map((img) =>
