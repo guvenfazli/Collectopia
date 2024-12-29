@@ -67,7 +67,7 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
 
       <div className="flex flex-col w-full items-center justify-start">
         <p className="text-orange-600 text-3xl font-logo tracking-wide">Inventory  <span className="text-base">({userInventory.length})</span></p>
-        {(userInventory.length === 0 && userId === loggedUser.id) ? <p>You have no items!</p> : <p>This user has no items!</p>}
+        {(userInventory.length === 0 && userId === loggedUser.id) ? <p>You have no items!</p> : <p>This user has no items!</p> }
 
 
         {userInventory.length > 0 &&

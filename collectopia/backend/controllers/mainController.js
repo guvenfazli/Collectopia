@@ -147,6 +147,12 @@ exports.createAuction = async (req, res, next) => {
       throwError('Minimum Value can not be higher than buyout value!', 410)
     }
 
+    const alreadyListed = await Auction.findOne({ item: itemId })
+
+    if (alreadyListed) {
+      throwError('This item is already listed', 410)
+    }
+
     const createdAuction = new Auction({
       item: itemId,
       seller: userId,
