@@ -28,10 +28,12 @@ type FetchedItems = FetchedItem[]
 export default function ItemsForAuctionCreation() {
 
   const [myItems, setMyItems] = useState<FetchedItems>([])
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean | string>(false)
 
   useEffect(() => {
     async function fetchMyItems() {
+      setIsLoading(true)
       try {
         const response = await fetch('http://localhost:8080/fetchMyItems', {
           credentials: "include"
@@ -45,8 +47,9 @@ export default function ItemsForAuctionCreation() {
 
         const resData = await response.json()
         setMyItems(resData.foundItems)
-
+        setIsLoading(false)
       } catch (err: any) {
+        setIsLoading(false)
         setIsError(err.message)
       }
     }
@@ -62,7 +65,7 @@ export default function ItemsForAuctionCreation() {
     <div className="flex flex-col justify-start items-start gap-1">
       {isError && <p>{isError}</p>}
       <div className="flex flex-col justify-start items-start w-full gap-2">
-        {myItems.map((item) =>
+        {isLoading ? <span id="headerLoader" className="self-center"></span> : myItems.map((item) =>
           <div className="flex flex-row justify-between items-center w-full" key={item._id}>
             <Popover>
               <PopoverTrigger className="hover:underline">{item.title}</PopoverTrigger>
