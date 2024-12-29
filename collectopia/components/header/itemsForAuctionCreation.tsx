@@ -5,7 +5,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover"
+
 import ItemCard from "./itemCard"
+import ItemImageCarousel from "./itemImageCarousel"
+
 import { useState, useEffect } from "react"
 
 type FetchedItem = {
@@ -63,12 +66,15 @@ export default function ItemsForAuctionCreation() {
           <div className="flex flex-row justify-between items-center w-full" key={item._id}>
             <Popover>
               <PopoverTrigger>{item.title}</PopoverTrigger>
-              <PopoverContent><ItemCard /></PopoverContent>
+              <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemCard /></PopoverContent>
             </Popover>
 
+            <p>{item.minValue}</p>
+            <p>{item.buyout}</p>
+
             <Popover>
-              <PopoverTrigger>Images</PopoverTrigger>
-              <PopoverContent><ItemCard /></PopoverContent>
+              <PopoverTrigger>Click to see images</PopoverTrigger>
+              <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemImageCarousel imageList={item.imageList} /></PopoverContent>
             </Popover>
           </div>
         )
