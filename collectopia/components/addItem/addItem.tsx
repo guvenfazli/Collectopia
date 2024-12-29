@@ -10,7 +10,7 @@ export default function AddItem() {
 
 
   return (
-    <div className="flex flex-col bg-blue-50 justify-start p-3 w-5/12 border text-blue-800 border-blue-900 rounded-lg">
+    <div className="flex flex-col bg-blue-50 justify-start p-3 w-5/12 border text-blue-800 border-blue-900 rounded-lg shadow-md shadow-slate-800">
       <ImageShowcase imageShowcase={imageShowcase} />
       <ItemInformation setImageShowcase={setImageShowcase} />
     </div>
