@@ -6,6 +6,8 @@ const { throwError } = require('../utils/throwError')
 // MODELS
 const User = require('../models/userModel')
 const Item = require('../models/itemModel')
+const Auction = require('../models/auctionModel')
+const Bid = require('../models/auctionModel')
 
 // ITEM CREATION
 exports.createItem = async (req, res, next) => {
@@ -105,6 +107,40 @@ exports.createAuction = async (req, res, next) => {
   const convertedBuyout = +buyout
   const covertedDeadline = +deadline
   const userId = req.session.userInfo.id
+  const errors = validationResult(req)
 
-  console.log(req.body)
+  try {
+    if (!errors.isEmpty()) {
+      throwError(errors.array()[0].msg, 410)
+    }
+
+    if (isNaN(convertedBuyout) || isNaN(convertedMinValue)) {
+      throwError('Please enter a numeric value!', 410)
+    }
+
+    if (convertedMinValue >= convertedBuyout) {
+      throwError('Minimum Value can not be higher than buyout value!', 410)
+    }
+
+    const createdAuction = new Auction({
+      item: itemId,
+      seller: userId,
+      minValue: convertedMinValue,
+      buyout: convertedBuyout,
+      deadline: covertedDeadline
+    })
+
+    await createdAuction.save()
+
+    console.log(createdAuction)
+
+    const foundUser = await User.findById(userId)
+    foundUser.auctions.push(createdAuction)
+    await foundUser.save()
+
+    return res.status(201).json({ message: "Auction created successfully!" })
+
+  } catch (err) {
+    next(err)
+  }
 }

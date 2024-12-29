@@ -42,10 +42,6 @@ router.post('/createAuction', [
   body('buyout')
     .notEmpty()
     .withMessage("Please enter a buyout value!"),
-  body('tagList')
-    .isLength({ min: 1 })
-    .notEmpty()
-    .withMessage('Please at least add 1 tag for your item!'),
   body('deadline')
     .notEmpty()
     .withMessage('Please choose a date!'),
