@@ -79,6 +79,18 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
     })
   }
 
+  async function filterUsersInventory() {
+
+    try {
+      const response = await fetch(`http://localhost:8080/filterUserInventory?filters=${JSON.stringify(filterTagList)}`, {
+        credentials: "include"
+      })
+    } catch (err: any) {
+      console.log(err.message)
+    }
+
+  }
+
   return (
     <div onMouseLeave={() => setIsInventory(false)} className="flex flex-col w-full items-start justify-start gap-5">
 
@@ -95,7 +107,7 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
           <p>Filter by Tag</p>
           <input ref={tagRef} placeholder="Tag" type="text" onKeyDown={(e) => addTagForFilter(e)} className="border-orange-800 border p-1 font-general bg-orange-100 placeholder:text-orange-300 text-orange-800 outline-none" />
           {filterTagList.length === 0 ? <p>You did not add any tags for filtering.</p> : filterTagList.map((tag: string) => <p className="hover:underline hover:cursor-pointer" onClick={() => removeTag(tag)} key={tag}>{tag}</p>)}
-          <button className="border p-1 rounded-lg bg-orange-300 text-orange-800 border-orange-800 duration-150 hover:bg-orange-100">Filter</button>
+          <button onClick={filterUsersInventory} className="border p-1 rounded-lg bg-orange-300 text-orange-800 border-orange-800 duration-150 hover:bg-orange-100">Filter</button>
         </div>
       </div>
 

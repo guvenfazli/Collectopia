@@ -129,6 +129,28 @@ exports.deleteMyItem = async (req, res, next) => {
   }
 }
 
+exports.fetchUserInventory = async (req, res, next) => {
+  const tagFilterList = req.query.filters
+  const convertedTagList = JSON.parse(tagFilterList)
+  console.log(convertedTagList)
+
+  try {
+    const itemList = await Item.find({
+      tagList: {
+        $in: convertedTagList
+      }
+    })
+    console.log(itemList)
+
+  } catch (err) {
+    next(err)
+  }
+
+
+
+
+}
+
 
 // AUCTIONS
 
