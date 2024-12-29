@@ -1,5 +1,6 @@
 import MainInformation from "@/components/profile/mainInformation"
 import UsersInventory from "@/components/profile/inventory"
+import UserLiveAuctions from "@/components/profile/liveAuctions/userLiveAuctions"
 import { cookies } from "next/headers"
 export default async function UserProfilePage({ params }: any) {
 
@@ -18,14 +19,20 @@ export default async function UserProfilePage({ params }: any) {
     }
 
     const resData = await response.json()
+    
 
     return (
-      <div className="flex flex-col bg-orange-100 h-auto justify-start items-center ">
+      <div className="flex flex-col h-auto justify-start items-center ">
         <div className="flex bg-white border-b-orange-300 border-b w-2/3 p-5 shadow-sm shadow-slate-800">
           <MainInformation userInformation={resData.foundUser} />
         </div>
+
         <div className="flex bg-white border-b-orange-800 w-2/3 p-5 shadow-sm shadow-slate-800">
           <UsersInventory userInventory={resData.foundUser.items} />
+        </div>
+
+        <div className="flex bg-white border-b-orange-800 w-2/3 p-5 shadow-sm shadow-slate-800">
+          <UserLiveAuctions userAuctions={resData.foundUser.auctions} />
         </div>
       </div>
     )
