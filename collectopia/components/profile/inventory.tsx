@@ -32,13 +32,12 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
 
   const [isInventory, setIsInventory] = useState<boolean>(false)
   const [inventoryNavigator, setInventoryNavigator] = useState(0)
-  const [sliderNavigator, setSliderNavigator] = useState<boolean>(false)
   const [filterTagList, setFilterTagList] = useState<string[]>([])
   const [filteredItems, setFilteredItems] = useState<FilteredItemsType>([])
 
   useEffect(() => {
 
-    if(filterTagList.length === 0) {
+    if (filterTagList.length === 0) {
       setFilteredItems([])
     }
 
@@ -63,7 +62,7 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
     })
   }
 
-  async function filterUsersInventory() {
+  async function filterUsersInventory() { // Filters the Inventory
 
     try {
       const response = await fetch(`http://localhost:8080/filterUserInventory?filters=${JSON.stringify(filterTagList)}`, {
@@ -101,15 +100,21 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
 
         <div className="flex flex-row w-full justify-start items-center gap-3">
           <p>Filter by Tag</p>
-          <input ref={tagRef} placeholder="Tag" type="text" onKeyDown={(e) => addTagForFilter(e)} className="border-orange-800 border p-1 font-general bg-orange-100 placeholder:text-orange-300 text-orange-800 outline-none" />
+          <input ref={tagRef} placeholder="Tag" type="text" onKeyDown={(e) => addTagForFilter(e)} className="border-orange-800 border rounded-md p-1 font-general bg-orange-100 placeholder:text-orange-300 text-orange-800 outline-none" />
           {filterTagList.length === 0 ? <p>You did not add any tags for filtering.</p> : filterTagList.map((tag: string) => <p className="hover:underline hover:cursor-pointer" onClick={() => removeTag(tag)} key={tag}>{tag}</p>)}
           <button onClick={filterUsersInventory} className="border p-1 rounded-lg bg-orange-300 text-orange-800 border-orange-800 duration-150 hover:bg-orange-100">Filter</button>
         </div>
       </div>
 
       <div className="flex flex-row w-full  relative overflow-hidden">
-        <div onMouseEnter={() => setIsInventory(true)} style={{ translate: `${inventoryNavigator * -50}%` }} className={`flex flex-row h-auto items-center justify-start ${!isInventory ? 'w-44' : 'gap-5 w-full'} duration-1000`}>
-          {filteredItems.length === 0 ? userInventory.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory} />) : filteredItems.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory} />)}
+        <div onMouseEnter={() => setIsInventory(true)} style={{ translate: `${inventoryNavigator * -50}%` }}
+          className={`flex flex-row h-auto items-center justify-start ${!isInventory ? 'w-44' : 'gap-5 w-full'} duration-1000`}>
+
+          {
+            filteredItems.length === 0 ?
+              userInventory.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory} />) :
+              filteredItems.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory} />)
+          }
         </div>
       </div>
     </div>

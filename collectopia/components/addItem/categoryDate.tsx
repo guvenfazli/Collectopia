@@ -16,7 +16,7 @@ type ComponentProps = {
 
 export default function CategoryDate({ setTagList }: ComponentProps) {
 
-  const tagRef = useRef<HTMLInputElement>()
+  const tagRef = useRef<HTMLInputElement | null>(null)
 
   const [category, setCategory] = useState([
     { category: "anime", display: "Anime" },
@@ -59,11 +59,11 @@ export default function CategoryDate({ setTagList }: ComponentProps) {
     setChosenCategory(e.target.value)
   }
 
-  function addTag(e: HTMLInputElement<KeyboardEvent>) {
-    if (e.key === "," && tagRef.current.value.length > 0) {
+  function addTag(e: React.KeyboardEvent<HTMLInputElement>) {
+    if (e.key === "," && tagRef.current && tagRef.current.value.length > 0) {
       setTagList((prev) => {
         const updated = [...prev]
-        updated.push(e.target.value)
+        updated.push(tagRef.current!.value.toLowerCase())
         return updated
       })
     }

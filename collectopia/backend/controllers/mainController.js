@@ -76,12 +76,7 @@ exports.fetchUser = async (req, res, next) => {
       throwError('User could not found!', 404)
     }
 
-    console.log(foundUser)
-
     return res.status(200).json({ foundUser: foundUser })
-
-
-
 
   } catch (err) {
     next(err)
@@ -129,7 +124,7 @@ exports.deleteMyItem = async (req, res, next) => {
   }
 }
 
-exports.fetchUserInventory = async (req, res, next) => {
+exports.filterUserInventory = async (req, res, next) => {
   const tagFilterList = req.query.filters
   const convertedTagList = JSON.parse(tagFilterList)
 
