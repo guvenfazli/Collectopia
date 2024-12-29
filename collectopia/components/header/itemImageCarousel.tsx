@@ -25,7 +25,9 @@ export default function ItemImageCarousel({ imageList }: ComponentsProp) {
               <Image
                 fill
                 alt="uploadedImage"
-                src={`http://localhost:8080/${img.replaceAll(/\\/g, "/")}`}>
+                src={`http://localhost:8080/${img.replaceAll(/\\/g, "/")}`}
+                style={{ objectFit: "contain" }}>
+
               </Image>
             </CarouselItem>
           )}
