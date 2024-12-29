@@ -4,8 +4,13 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel"
 
+
+import { HiOutlineScale } from "react-icons/hi";
+import { HiOutlineLightBulb } from "react-icons/hi";
+
 import CardInformation from "../cardInformation"
 import dayjs from "dayjs"
+import Link from "next/link";
 import Image from "next/image"
 
 type FetchedAuction = {
@@ -51,16 +56,22 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
         </Carousel>
       </div>
 
-
-
-
-
-      <div className={`flex flex-col w-full p-1 gap-3 justify-start items-start duration-500 ${!isListing ? 'h-0 p-0' : 'h-80'}`}>
+      <div className={`flex flex-col w-full p-1 gap-3 justify-start items-start duration-500 ${!isListing ? 'h-0 p-0' : 'h-auto'}`}>
         <CardInformation fetchedItemInfo={auction.item.title} title="Title" />
         <CardInformation fetchedItemInfo={auction.minValue + ' $'} title="Minimum Auction Value" />
         <CardInformation fetchedItemInfo={auction.buyout + ' $'} title="Buyout Value" />
         <CardInformation tagList={auction.item.tagList} title="Tags" />
         <CardInformation fetchedItemInfo={dayjs(dateDataConverted).format("DD/MM/YYYY")} title="Deadline" />
+
+        <div className="flex flex-row w-full justify-between items-center gap-1 text-gray-800 tracking-wide text-base">
+          <p>See the Auction:</p>
+          <Link href={`/auctions/${auction._id}`} className="bg-blue-800 text-white rounded-lg p-1 hover:bg-blue-500 duration-150"><HiOutlineScale /></Link>
+        </div>
+
+        <div className="flex flex-row w-full justify-between items-center gap-1 text-gray-800 tracking-wide text-base">
+          <p>Follow the Auction:</p>
+          <button className="bg-blue-800 text-white rounded-lg p-1 hover:bg-blue-500 duration-150"><HiOutlineLightBulb /></button>
+        </div>
       </div>
     </div>
   )
