@@ -66,14 +66,14 @@ export default function ItemsForAuctionCreation() {
       {isError && <p>{isError}</p>}
       <div className="flex flex-col justify-start items-start w-full gap-2">
         {isLoading ? <span id="headerLoader" className="self-center"></span> : myItems.map((item) =>
-          <div className="flex flex-row justify-between items-center w-full" key={item._id}>
+          <div className="flex flex-row justify-between items-center w-full text-nowrap gap-10" key={item._id}>
             <Popover>
               <PopoverTrigger className="hover:underline">{item.title}</PopoverTrigger>
               <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemCard item={item} /></PopoverContent>
             </Popover>
 
-            <p>{item.minValue}</p>
-            <p>{item.buyout}</p>
+            <p>Minimum Chosen Value: {item.minValue} $</p>
+            <p>Minimum Chosen Buyout Value: {item.buyout} $</p>
 
             <Popover>
               <PopoverTrigger className="hover:underline">Click to see images</PopoverTrigger>
