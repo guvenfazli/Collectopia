@@ -52,7 +52,9 @@ export default function ItemCard({ item }: ComponentsProp) {
       }
 
       const resData = await response.json()
-      console.log(resData)
+
+      // Will add toast notification here.
+
 
     } catch (err: any) {
       setIsError(err.message)
