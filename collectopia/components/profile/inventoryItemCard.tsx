@@ -65,7 +65,7 @@ export default function InventoryItemCard({ fetchedItem, isInventory }: Componen
 
 
   return (
-    <div className={`flex bg-orange-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-orange-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl ${!isInventory ? '-mr-20 w-full' : 'mr-0 w-1/3'}`}>
+    <div className={`flex bg-orange-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-orange-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isInventory ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
       {loggedUser.id === fetchedItem.owner &&
         <div className="flex flex-row justify-end w-full items-center gap-2 p-1 border">
           <button onClick={deleteItem} className="bg-orange-800 text-white rounded-xl p-1 hover:bg-orange-500 duration-200 shadow-lg shadow-slate-200"><MdDelete /></button>
@@ -73,17 +73,17 @@ export default function InventoryItemCard({ fetchedItem, isInventory }: Componen
         </div>
       }
 
-      <div className="flex w-full items-start mb-4 min-h-72 overflow-hidden relative">
+      <div className="flex w-full items-start mb-4 min-h-44 overflow-hidden relative">
         <Carousel className="w-full">
-          <CarouselContent className="h-96">
+          <CarouselContent className="h-44">
             {fetchedItem.imageList.map((img) =>
               <CarouselItem className="relative" key={img}>
-                <div className="absolute blur-sm top-0 right-0 bottom-0 left-0" style={{ background: `url(${img.replaceAll(/\\/g, "/")})`, backgroundPosition: "center", backgroundSize: "contain" }} />
+                <div className="absolute blur-sm top-0 right-0 bottom-0 left-0" style={{ background: `url(http://localhost:8080/${img.replaceAll(/\\/g, "/")})`, backgroundPosition: "center", backgroundSize: "contain" }} />
                 <Image
                   fill
                   alt="uploadedImage"
                   src={`http://localhost:8080/${img.replaceAll(/\\/g, "/")}`}
-                  style={{ objectFit: "cover" }} />
+                  style={{ objectFit: "contain" }} />
               </CarouselItem>
             )}
           </CarouselContent>
