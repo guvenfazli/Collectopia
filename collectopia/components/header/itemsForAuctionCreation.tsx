@@ -65,15 +65,15 @@ export default function ItemsForAuctionCreation() {
         {myItems.map((item) =>
           <div className="flex flex-row justify-between items-center w-full" key={item._id}>
             <Popover>
-              <PopoverTrigger>{item.title}</PopoverTrigger>
-              <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemCard /></PopoverContent>
+              <PopoverTrigger className="hover:underline">{item.title}</PopoverTrigger>
+              <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemCard item={item} /></PopoverContent>
             </Popover>
 
             <p>{item.minValue}</p>
             <p>{item.buyout}</p>
 
             <Popover>
-              <PopoverTrigger>Click to see images</PopoverTrigger>
+              <PopoverTrigger className="hover:underline">Click to see images</PopoverTrigger>
               <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemImageCarousel imageList={item.imageList} /></PopoverContent>
             </Popover>
           </div>
