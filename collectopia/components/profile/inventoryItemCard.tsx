@@ -54,7 +54,7 @@ export default function InventoryItemCard({ fetchedItem, isInventory }: Componen
       }
 
       const resData = await response.json()
-      // Will add toast notification here.
+      // Will add toast notification
 
     } catch (err: any) {
       console.log(err.message)
