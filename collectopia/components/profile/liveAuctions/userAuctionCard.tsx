@@ -36,6 +36,7 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
 
   const dateDataConverted = dayjs.unix(auction.deadline) // Formats the date
 
+
   return (
     <div className={`flex bg-blue-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-blue-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isListing ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
 

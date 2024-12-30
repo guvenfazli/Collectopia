@@ -148,11 +148,15 @@ exports.filterUserAuction = async (req, res, next) => {
   const tagFilterList = req.query.filters
   const convertedTagList = JSON.parse(tagFilterList)
 
-
-
   try {
-    console.log(userId)
-    const filteredAuctions = await Auction.find({ auctionTag: { $in: convertedTagList } }, { seller: userId }).populate({ path: "item" })
+
+    const filteredAuctions = await Auction.find({ auctionTag: { $in: convertedTagList } }, { seller: userId }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
+
+    if (filteredAuctions.length === 0) {
+      throwError('User has not listed any auctions with this tag!', 410)
+    }
+
+    console.log(filteredAuctions)
 
     return res.status(201).json({ filteredAuctions: filteredAuctions })
 

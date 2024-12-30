@@ -28,6 +28,7 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
   const [listingNavigator, setListingNavigator] = useState<number>(0)
   const [filterTagList, setFilterTagList] = useState<string[]>([])
   const [filteredUserAuctions, setFilteredUserAuctions] = useState<FetchedAuction[]>([])
+  const [isError, setIsError] = useState<boolean | string>(false)
 
   async function filterUsersAuctionList() { // Filters the Inventory
 
@@ -38,22 +39,28 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
 
       if (!response.ok) {
         const resData = await response.json()
-        const error = new Error(resData)
+        console.log(resData)
+        const error = new Error(resData.message)
         throw error
       }
 
       const resData = await response.json()
 
       setFilteredUserAuctions(resData.filteredAuctions)
-
+      console.log(resData.filteredAuctions)
 
     } catch (err: any) {
-      console.log(err.message)
+      setIsError(err.message)
+      setFilteredUserAuctions([])
+      setTimeout(() => {
+        setIsError(false)
+        setFilteredUserAuctions([])
+      }, 2000)
     }
 
   }
 
- 
+
   return (
     <div onMouseLeave={() => setIsListing(false)} className="flex flex-col w-full items-start justify-start gap-5">
 
@@ -65,13 +72,19 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
       <div className="flex flex-row w-full  relative overflow-hidden">
         <div onMouseEnter={() => setIsListing(true)} style={{ translate: `${listingNavigator * -50}%` }} className={`flex flex-row h-auto items-center justify-start ${!isListing ? 'w-44' : 'gap-5 w-full'} duration-1000`}>
           {
-            (filterTagList.length === 0 && filteredUserAuctions.length === 0) ?
+            (filteredUserAuctions.length === 0 && !isError) ?
               userAuctions.map((auction: FetchedAuction) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} />) :
               filteredUserAuctions.map((auction: FetchedAuction) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} />)
           }
         </div>
-
       </div>
+
+      {
+        isError &&
+        <div className="flex w-full justify-center items-center">
+          <p className="self-center">{isError}</p>
+        </div>
+      }
     </div>
   )
 }
