@@ -3,7 +3,7 @@
 import { useState } from "react"
 import UserAuctionCard from "./userAuctionCard"
 import UserAuctionFiltering from "./userAuctionFiltering"
-
+import { useParams } from "next/navigation"
 type FetchedAuction = {
   _id: string,
   minValue: number,
@@ -23,7 +23,7 @@ type ComponentsProp = {
 
 
 export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
-
+  const { userId } = useParams()
   const [isListing, setIsListing] = useState<boolean>(false)
   const [listingNavigator, setListingNavigator] = useState<number>(0)
   const [filterTagList, setFilterTagList] = useState<string[]>([])
@@ -32,7 +32,7 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
   async function filterUsersAuctionList() { // Filters the Inventory
 
     try {
-      const response = await fetch(`http://localhost:8080/filterUserAuction?filters=${JSON.stringify(filterTagList)}`, {
+      const response = await fetch(`http://localhost:8080/filterUserAuction/${userId}?filters=${JSON.stringify(filterTagList)}`, {
         credentials: "include"
       })
 
@@ -44,7 +44,7 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
 
       const resData = await response.json()
 
-      setFilteredUserAuctions(resData.filteredItems)
+      setFilteredUserAuctions(resData.filteredAuctions)
 
 
     } catch (err: any) {
@@ -53,7 +53,7 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
 
   }
 
-
+ 
   return (
     <div onMouseLeave={() => setIsListing(false)} className="flex flex-col w-full items-start justify-start gap-5">
 
@@ -65,7 +65,7 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
       <div className="flex flex-row w-full  relative overflow-hidden">
         <div onMouseEnter={() => setIsListing(true)} style={{ translate: `${listingNavigator * -50}%` }} className={`flex flex-row h-auto items-center justify-start ${!isListing ? 'w-44' : 'gap-5 w-full'} duration-1000`}>
           {
-            filteredUserAuctions.length === 0 ?
+            (filterTagList.length === 0 && filteredUserAuctions.length === 0) ?
               userAuctions.map((auction: FetchedAuction) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} />) :
               filteredUserAuctions.map((auction: FetchedAuction) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} />)
           }

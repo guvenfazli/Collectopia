@@ -37,6 +37,7 @@ export default function ItemCard({ item }: ComponentsProp) {
     fd.append('itemId', item._id)
     fd.delete('deadline')
     fd.append('deadline', JSON.stringify(chosenDate))
+    fd.append('auctionTag', JSON.stringify(item.tagList))
 
     try {
       const response = await fetch('http://localhost:8080/createAuction', {

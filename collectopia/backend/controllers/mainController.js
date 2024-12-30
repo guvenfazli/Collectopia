@@ -125,6 +125,7 @@ exports.deleteMyItem = async (req, res, next) => {
 }
 
 exports.filterUserInventory = async (req, res, next) => {
+  const userId = req.params.userId
   const tagFilterList = req.query.filters
   const convertedTagList = JSON.parse(tagFilterList)
 
@@ -133,9 +134,27 @@ exports.filterUserInventory = async (req, res, next) => {
       tagList: {
         $in: convertedTagList
       }
-    }).select({ title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1, tagList: 1 })
+    }, { owner: userId }).select({ title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1, tagList: 1 })
 
     return res.status(201).json({ filteredItems: itemList })
+
+  } catch (err) {
+    next(err)
+  }
+}
+
+exports.filterUserAuction = async (req, res, next) => {
+  const userId = req.params.userId
+  const tagFilterList = req.query.filters
+  const convertedTagList = JSON.parse(tagFilterList)
+
+
+
+  try {
+    console.log(userId)
+    const filteredAuctions = await Auction.find({ auctionTag: { $in: convertedTagList } }, { seller: userId }).populate({ path: "item" })
+
+    return res.status(201).json({ filteredAuctions: filteredAuctions })
 
   } catch (err) {
     next(err)
@@ -146,12 +165,14 @@ exports.filterUserInventory = async (req, res, next) => {
 // AUCTIONS
 
 exports.createAuction = async (req, res, next) => {
-  const { itemId, minValue, buyout, deadline } = req.body
+  const { itemId, minValue, buyout, deadline, auctionTag } = req.body
   const convertedMinValue = +minValue
   const convertedBuyout = +buyout
   const covertedDeadline = +deadline
+  const parsedTagList = JSON.parse(auctionTag)
   const userId = req.session.userInfo.id
   const errors = validationResult(req)
+
 
   try {
     if (!errors.isEmpty()) {
@@ -177,6 +198,7 @@ exports.createAuction = async (req, res, next) => {
       seller: userId,
       minValue: convertedMinValue,
       buyout: convertedBuyout,
+      auctionTag: parsedTagList,
       deadline: covertedDeadline
     })
 

@@ -49,7 +49,7 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
   async function filterUsersInventory() { // Filters the Inventory
 
     try {
-      const response = await fetch(`http://localhost:8080/filterUserInventory?filters=${JSON.stringify(filterTagList)}`, {
+      const response = await fetch(`http://localhost:8080/filterUserInventory/${userId}?filters=${JSON.stringify(filterTagList)}`, {
         credentials: "include"
       })
 

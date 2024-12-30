@@ -14,6 +14,7 @@ const auctionSchema = new Schema({
     type: Number,
     required: true
   },
+  auctionTag: [{type: String}],
   deadline: { type: Number }
 }, { timestamps: true })
 

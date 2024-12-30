@@ -5,7 +5,8 @@ const { body } = require('express-validator')
 
 router.get('/findUser/:userId', mainController.fetchUser)
 router.get('/fetchMyItems', mainController.fetchMyItems)
-router.get('/filterUserInventory', mainController.filterUserInventory)
+router.get('/filterUserInventory/:userId', mainController.filterUserInventory)
+router.get('/filterUserAuction/:userId', mainController.filterUserAuction)
 
 
 

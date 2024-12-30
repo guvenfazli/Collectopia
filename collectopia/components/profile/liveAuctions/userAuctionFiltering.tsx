@@ -22,7 +22,6 @@ export default function UserAuctionFiltering({ filterTagList, setFilterTagList, 
     }
   }
 
-
   function removeTag(tag: string) {
     setFilterTagList((prev) => {
       const updated = [...prev]
