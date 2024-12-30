@@ -22,6 +22,11 @@ const itemSchema = new Schema({
     type: String,
     required: true
   },
+  isListed: {
+    type: Boolean,
+    required: true,
+    default: false
+  },
   owner: { type: Schema.Types.ObjectId, ref: 'User' },
   tagList: [{ type: String }],
   imageList: [{ type: String }]

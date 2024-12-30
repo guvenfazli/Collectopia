@@ -29,9 +29,6 @@ type ComponentsProps = {
 }
 
 
-
-
-
 export default function UserAuctionCard({ auction, isListing }: ComponentsProps) {
 
   const dateDataConverted = dayjs.unix(auction.deadline) // Formats the date

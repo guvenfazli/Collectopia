@@ -44,7 +44,7 @@ exports.createItem = async (req, res, next) => {
       tagList: convertedTagList,
       category,
       subCategory: subcategory,
-      owner: ownerId
+      owner: ownerId,
     })
 
     for (const image of fileList) {
@@ -106,11 +106,20 @@ exports.deleteMyItem = async (req, res, next) => {
   try {
 
     const foundItem = await Item.findOneAndDelete({ _id: itemId })
+    const owner = await User.findById(foundItem.owner)
+    const itemIndex = owner.items.findIndex((item) => item === foundItem)
+    owner.items.splice(itemIndex, 1)
+    await owner.save()
+
+    if(foundItem.isListed){
+      const activeAuction = await Auction.findOneAndDelete({item: foundItem._id})
+    }
+
 
     for (const img of foundItem.imageList) {
       try {
         fs.unlink(path.join(__dirname, '..', img), (err) => {
-          throwError(err, 'Something happened, could not delete the images.')
+          console.log(err)
         })
       } catch (err) {
         next(err)
@@ -155,8 +164,6 @@ exports.filterUserAuction = async (req, res, next) => {
     if (filteredAuctions.length === 0) {
       throwError('User has not listed any auctions with this tag!', 410)
     }
-
-    console.log(filteredAuctions)
 
     return res.status(201).json({ filteredAuctions: filteredAuctions })
 
@@ -216,7 +223,10 @@ exports.createAuction = async (req, res, next) => {
     const foundOriginalItem = await Item.findById(itemId)
     foundOriginalItem.minValue = convertedMinValue
     foundOriginalItem.buyout = convertedBuyout
+    foundOriginalItem.isListed = true
     await foundOriginalItem.save()
+
+
 
     return res.status(201).json({ message: "Auction created successfully!" })
 

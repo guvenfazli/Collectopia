@@ -1,6 +1,6 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import UserAuctionCard from "./userAuctionCard"
 import UserAuctionFiltering from "./userAuctionFiltering"
 import { useParams } from "next/navigation"
@@ -30,6 +30,14 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
   const [filteredUserAuctions, setFilteredUserAuctions] = useState<FetchedAuction[]>([])
   const [isError, setIsError] = useState<boolean | string>(false)
 
+  useEffect(() => {
+
+    if (filterTagList.length === 0) {
+      setFilteredUserAuctions([])
+    }
+
+  }, [filterTagList])
+
   async function filterUsersAuctionList() { // Filters the Inventory
 
     try {
@@ -39,7 +47,6 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
 
       if (!response.ok) {
         const resData = await response.json()
-        console.log(resData)
         const error = new Error(resData.message)
         throw error
       }
@@ -47,7 +54,6 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
       const resData = await response.json()
 
       setFilteredUserAuctions(resData.filteredAuctions)
-      console.log(resData.filteredAuctions)
 
     } catch (err: any) {
       setIsError(err.message)
