@@ -50,7 +50,23 @@ router.post('/createAuction', [
 
 // PATCHES
 
-router.patch('/editItem/:itemId', mainController.editItem)
+router.patch('/editItem/:itemId', [
+  body("title")
+    .notEmpty()
+    .withMessage("Please enter a title!")
+    .isLength({ min: 1 })
+    .withMessage("Title should be at least 2 characters!"),
+  body('minValue')
+    .notEmpty()
+    .withMessage({ field: 'minValue', message: 'Please enter a minimum value to bid!' }),
+  body('buyout')
+    .notEmpty()
+    .withMessage('Please enter a minimum buyout value!'),
+  body('tagList')
+    .isLength({ min: 1 })
+    .notEmpty()
+    .withMessage('Please at least add 1 tag for your item!'),
+], mainController.editItem)
 
 // DELETES
 

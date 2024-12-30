@@ -16,7 +16,8 @@ type FetchedItemType = {
   imageList: string[],
   tagList: string[],
   createdAt: string,
-  owner: string
+  owner: string,
+  isListed: boolean
 }
 
 
