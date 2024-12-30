@@ -10,7 +10,7 @@ export default function CardInformation({ fetchedItemInfo, title, tagList }: Com
       <p className="text-orange-800 font-logo tracking-widest text-lg text-center">{title}</p>
       {fetchedItemInfo && <p className="text-gray-800 tracking-wide text-base">{fetchedItemInfo}</p>}
       {tagList &&
-        <div className="flex flex-row justify-start items-center gap-1">
+        <div className="flex flex-row justify-start items-center gap-1 flex-wrap">
         {tagList.map((tag: string) => <p className="text-gray-800 tracking-wide text-sm" key={tag}>#{tag},</p>)}
         </div>}
     </div>

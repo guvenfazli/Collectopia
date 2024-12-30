@@ -85,7 +85,6 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
       <div className="flex flex-row w-full  relative overflow-hidden">
         <div onMouseEnter={() => setIsInventory(true)} style={{ translate: `${inventoryNavigator * -50}%` }}
           className={`flex flex-row h-auto items-center justify-start ${!isInventory ? 'w-44' : 'gap-5 w-full'} duration-1000`}>
-
           {
             filteredItems.length === 0 ?
               userInventory.map((item: FetchedItemType) => <InventoryItemCard key={item._id} fetchedItem={item} isInventory={isInventory} />) :
