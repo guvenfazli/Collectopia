@@ -68,6 +68,7 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
     }
 
   }
+  
 
   return (
     <div onMouseLeave={() => setIsInventory(false)} className="flex flex-col w-full items-start justify-start rounded-md gap-5">
