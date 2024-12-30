@@ -20,8 +20,9 @@ const userSchema = new Schema({
   },
   interests: [{ type: String }],
   items: [{ type: Schema.Types.ObjectId, ref: 'Item', default: [] }],
-  auctions: [{ type: Schema.Types.ObjectId, ref: 'Auction', }]
-
+  auctions: [{ type: Schema.Types.ObjectId, ref: 'Auction', }],
+  followers: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
+  following: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }]
 }, { timestamps: true })
 
 module.exports = mongoose.model('User', userSchema)

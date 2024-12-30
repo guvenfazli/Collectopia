@@ -6,6 +6,7 @@ import UserAuctionFiltering from "./userAuctionFiltering"
 import UserAuctionNavigator from "./userAuctionNavigator"
 import { useParams } from "next/navigation"
 import { useSelector } from "react-redux"
+
 type FetchedAuction = {
   _id: string,
   minValue: number,
@@ -69,7 +70,7 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
 
       <div className="flex flex-col w-full items-center justify-start">
         <p className="text-blue-600 text-3xl font-logo tracking-wide">Active Listings <span className="text-base">({userAuctions.length})</span></p>
-        
+
         <UserAuctionNavigator auctionLength={userAuctions.length} userId={userId} loggedUserId={loggedUser.id} listingNavNumber={listingNavigator} setListingNavigator={setListingNavigator} isListing={isListing} />
 
         {userAuctions.length > 0 &&
@@ -78,10 +79,10 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
       </div>
 
       <div className="flex flex-row w-full  relative overflow-hidden">
-        <div onMouseEnter={() => setIsListing(true)} style={{ translate: `${listingNavigator * -50}%` }} className={`flex flex-row h-auto items-center justify-start ${!isListing ? 'w-44' : 'gap-5 w-full'} duration-1000`}>
+        <div onClick={() => setIsListing(true)} style={{ translate: `${listingNavigator * -50}%` }} className={`flex flex-row h-auto items-center justify-start ${!isListing ? 'w-44' : 'gap-5 w-full'} duration-1000 hover:cursor-pointer`}>
           {
             (filteredUserAuctions.length === 0 && !isError) ?
-              userAuctions.map((auction: FetchedAuction) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} />) :
+              userAuctions.map((auction: FetchedAuction) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} setIsListing={setIsListing} />) :
               filteredUserAuctions.map((auction: FetchedAuction) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} />)
           }
         </div>

@@ -35,7 +35,7 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
 
 
   return (
-    <div className={`flex bg-blue-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-blue-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isListing ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
+    <div  className={`flex bg-blue-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-blue-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isListing ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
 
       <div className={`flex w-full items-start mb-4 min-h-44 overflow-hidden relative ${!isListing ? 'mb-0' : 'mb-4'}`}>
         <Carousel className="w-full">
@@ -54,12 +54,12 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
         </Carousel>
       </div>
 
-      <div className={`flex flex-col w-full p-1 gap-3 justify-start items-start duration-500 ${!isListing ? 'h-0 p-0' : 'h-auto'}`}>
-        <CardInformation fetchedItemInfo={auction.item.title} title="Title" />
-        <CardInformation fetchedItemInfo={auction.minValue + ' $'} title="Minimum Auction Value" />
-        <CardInformation fetchedItemInfo={auction.buyout + ' $'} title="Buyout Value" />
-        <CardInformation tagList={auction.item.tagList} title="Tags" />
-        <CardInformation fetchedItemInfo={dayjs(dateDataConverted).format("DD/MM/YYYY")} title="Deadline" />
+      <div className={`flex flex-col w-full p-1 gap-3 justify-start items-start duration-500 ${!isListing ? 'h-0 p-0' : 'h-96'}`}>
+        <CardInformation fetchedItemInfo={auction.item.title} title="Title" auction={true} />
+        <CardInformation fetchedItemInfo={auction.minValue + ' $'} title="Minimum Auction Value" auction={true} />
+        <CardInformation fetchedItemInfo={auction.buyout + ' $'} title="Buyout Value" auction={true} />
+        <CardInformation tagList={auction.item.tagList} title="Tags" auction={true} />
+        <CardInformation fetchedItemInfo={dayjs(dateDataConverted).format("DD/MM/YYYY")} title="Deadline" auction={true} />
 
         <div className="flex flex-row w-full justify-between items-center gap-1 text-gray-800 tracking-wide text-base">
           <p>See the Auction:</p>

@@ -92,11 +92,9 @@ export default function InventoryItemCard({ fetchedItem, isInventory }: Componen
 
 
       <div className="flex flex-col w-full p-1 gap-3 justify-start items-start">
-        <CardInformation fetchedItemInfo={fetchedItem.title} title="Title" />
+        <CardInformation fetchedItemInfo={fetchedItem.title} title="Title"/>
         <CardInformation fetchedItemInfo={fetchedItem.minValue + ' $'} title="Minimum Auction Value" />
         <CardInformation fetchedItemInfo={fetchedItem.buyout + ' $'} title="Buyout Value" />
-        <CardInformation fetchedItemInfo={fetchedItem.category} title="Category" />
-        <CardInformation fetchedItemInfo={fetchedItem.subCategory} title="Subcategory" />
         <CardInformation tagList={fetchedItem.tagList} title="Tags" />
         <CardInformation fetchedItemInfo={dateDataConverted.format("DD/MM/YYYY")} title="Created At" />
       </div>

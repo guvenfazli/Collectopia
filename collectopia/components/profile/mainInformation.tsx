@@ -8,6 +8,7 @@ type FetchedUserType = {
   surname: string,
   interests: string[],
   items: string[],
+  auctions: string[]
   createdAt: string
 }
 
@@ -21,6 +22,7 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
   const dateData = new Date(userInformation.createdAt)
   const dateDataConverted = dayjs(dateData) // Formats the date
 
+
   return (
     <div className="flex flex-row w-full justify-between items-end">
       <div className="flex flex-row justify-start items-end gap-5">
@@ -30,7 +32,7 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
 
       <div className="flex flex-row justify-start items-end gap-5">
         <p className="text-sm font-medium text-slate-800">Items Added: <span className="font-bold">{userInformation.items.length}</span></p>
-        <p className="text-sm font-medium text-slate-800">Auctions Listed: <span className="font-bold">0</span></p>
+        <p className="text-sm font-medium text-slate-800">Auctions Listed: <span className="font-bold">{userInformation.auctions.length}</span></p>
         <p className="text-sm font-medium text-slate-800">Followers: <span className="font-bold">0</span></p>
       </div>
     </div>
