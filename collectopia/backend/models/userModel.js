@@ -21,6 +21,7 @@ const userSchema = new Schema({
   interests: [{ type: String }],
   items: [{ type: Schema.Types.ObjectId, ref: 'Item', default: [] }],
   auctions: [{ type: Schema.Types.ObjectId, ref: 'Auction', }],
+  trackingAuctions: [{ type: Schema.Types.ObjectId, ref: 'Auction', default: [] }],
   followers: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
   following: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }]
 }, { timestamps: true })

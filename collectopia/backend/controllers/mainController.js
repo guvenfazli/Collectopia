@@ -3,6 +3,7 @@ const path = require('path')
 const fs = require('fs')
 const { validationResult } = require('express-validator')
 const { throwError } = require('../utils/throwError')
+const dayjs = require('dayjs')
 
 // MODELS
 const User = require('../models/userModel')
@@ -273,4 +274,48 @@ exports.createAuction = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
+}
+
+// USER FOLLOWS AND TRACKINGS
+
+exports.trackAuction = async (req, res, next) => {
+  const userId = req.session.userInfo.id
+  const auctionId = req.params.auctionId
+
+  const todaysDate = new Date()
+  const converted = dayjs(todaysDate)
+  const todaysTimestamp = dayjs.unix(converted)
+
+  try {
+    const foundAuction = await Auction.findOne(auctionId)
+    const foundUser = await User.findOne(userId)
+
+    if (foundAuction.deadline < todaysTimestamp) {
+      throwError('Auction is already finished.', 410)
+    }
+
+    const auctionCheck = foundUser.trackingAuctions.some((auction) => foundAuction === auction)
+
+    if (auctionCheck) {
+      const chosenIndex = foundUser.trackingAuctions.findIndex((auction) => foundAuction === auction)
+      foundUser.trackingAuctions.splice(chosenIndex, 1)
+
+      const userIndex = foundAuction.followers.findIndex((user) => user === foundUser)
+      foundAuction.followers.splice(userIndex, 1)
+      await foundUser.save()
+      await foundAuction.save()
+      return res.status(200).json({ message: 'You are no longer following this auction.' })
+    }
+
+    foundUser.trackingAuctions.push(foundAuction)
+    foundAuction.followers.push(foundUser)
+    await foundUser.save()
+    await foundAuction.save()
+
+    return res.status(200).json({ message: 'You are now following this auction.' })
+
+  } catch (err) {
+    next(err)
+  }
+
 }
