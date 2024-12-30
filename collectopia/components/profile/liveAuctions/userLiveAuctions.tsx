@@ -3,7 +3,9 @@
 import { useState, useEffect } from "react"
 import UserAuctionCard from "./userAuctionCard"
 import UserAuctionFiltering from "./userAuctionFiltering"
+import UserAuctionNavigator from "./userAuctionNavigator"
 import { useParams } from "next/navigation"
+import { useSelector } from "react-redux"
 type FetchedAuction = {
   _id: string,
   minValue: number,
@@ -14,16 +16,13 @@ type FetchedAuction = {
   item: any
 }
 
-
 type ComponentsProp = {
   userAuctions: FetchedAuction[]
 }
 
-
-
-
 export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
   const { userId } = useParams()
+  const loggedUser = useSelector((state: { auth: { userInfo: { userInfo: any } } }) => state.auth.userInfo.userInfo)
   const [isListing, setIsListing] = useState<boolean>(false)
   const [listingNavigator, setListingNavigator] = useState<number>(0)
   const [filterTagList, setFilterTagList] = useState<string[]>([])
@@ -31,11 +30,9 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
   const [isError, setIsError] = useState<boolean | string>(false)
 
   useEffect(() => {
-
     if (filterTagList.length === 0) {
       setFilteredUserAuctions([])
     }
-
   }, [filterTagList])
 
   async function filterUsersAuctionList() { // Filters the Inventory
@@ -72,7 +69,12 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
 
       <div className="flex flex-col w-full items-center justify-start">
         <p className="text-blue-600 text-3xl font-logo tracking-wide">Active Listings <span className="text-base">({userAuctions.length})</span></p>
-        <UserAuctionFiltering filterTagList={filterTagList} setFilterTagList={setFilterTagList} filterUsersAuctionList={filterUsersAuctionList} />
+        
+        <UserAuctionNavigator auctionLength={userAuctions.length} userId={userId} loggedUserId={loggedUser.id} listingNavNumber={listingNavigator} setListingNavigator={setListingNavigator} isListing={isListing} />
+
+        {userAuctions.length > 0 &&
+          <UserAuctionFiltering filterTagList={filterTagList} setFilterTagList={setFilterTagList} filterUsersAuctionList={filterUsersAuctionList} />
+        }
       </div>
 
       <div className="flex flex-row w-full  relative overflow-hidden">

@@ -1,5 +1,5 @@
 "use client"
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useParams } from "next/navigation"
 import InventoryItemCard from "./inventoryItemCard"
@@ -76,9 +76,11 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
       <div className="flex flex-col w-full items-center justify-start">
         <p className="text-orange-600 text-3xl font-logo tracking-wide">Inventory  <span className="text-base">({userInventory.length})</span></p>
         <InventoryNavigator
-          inventoryLength={userInventory.length} userId={userId} loggedUserId={loggedUser.id} inventoryNavNumber={inventoryNavigator} setInventoryNavigator={setInventoryNavigator} isInventory={isInventory}/>
+          inventoryLength={userInventory.length} userId={userId} loggedUserId={loggedUser.id} inventoryNavNumber={inventoryNavigator} setInventoryNavigator={setInventoryNavigator} isInventory={isInventory} />
 
-        <InventoryFiltering filterTagList={filterTagList} setFilterTagList={setFilterTagList} filterUsersInventory={filterUsersInventory} />
+        {
+          userInventory.length > 0 && <InventoryFiltering filterTagList={filterTagList} setFilterTagList={setFilterTagList} filterUsersInventory={filterUsersInventory} />
+        }
 
       </div>
 
