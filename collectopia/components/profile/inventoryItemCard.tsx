@@ -4,11 +4,21 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel"
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
 import { MdDelete, MdModeEditOutline } from "react-icons/md";
 
 import { useState } from "react"
 import { useSelector } from "react-redux";
 import CardInformation from "./cardInformation"
+import ItemEditForm from "./itemEditForm";
 import Image from "next/image"
 import dayjs from "dayjs"
 
@@ -22,7 +32,8 @@ type FetchedItem = {
   imageList: string[],
   tagList: string[]
   createdAt: string,
-  owner: string
+  owner: string,
+  isListed: boolean
 }
 
 type ComponentsProp = {
@@ -35,7 +46,6 @@ export default function InventoryItemCard({ fetchedItem, isInventory }: Componen
 
   const loggedUser = useSelector((state: { auth: { userInfo: { userInfo: any } } }) => state.auth.userInfo.userInfo)
   const [imageNavigator, setImageNavigator] = useState(0)
-
 
   const createdDate = new Date(fetchedItem.createdAt)
   const dateDataConverted = dayjs(createdDate) // Formats the date
@@ -62,14 +72,26 @@ export default function InventoryItemCard({ fetchedItem, isInventory }: Componen
   }
 
 
-
-
   return (
-    <div className={`flex bg-orange-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-orange-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isInventory ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
+    <div className={`flex bg-orange-200 text-nowrap overflow-hidden duration-1000 ease-in-out flex-shrink-0 border border-orange-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isInventory ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
       {loggedUser.id === fetchedItem.owner &&
         <div className="flex flex-row justify-end w-full items-center gap-2 p-1 border">
-          <button onClick={deleteItem} className="bg-orange-800 text-white rounded-xl p-1 hover:bg-orange-500 duration-200 shadow-lg shadow-slate-200"><MdDelete /></button>
-          <button className="bg-orange-800 text-white rounded-xl p-1 hover:bg-orange-500 duration-200 shadow-lg shadow-slate-200"><MdModeEditOutline /></button>
+          <button onClick={deleteItem} className="bg-orange-800 text-white rounded-xl p-1 hover:bg-orange-500 duration-200 shadow-lg shadow-slate-200">
+            <MdDelete />
+          </button>
+
+          <Dialog>
+            <DialogTrigger className={`bg-orange-800 text-white rounded-xl p-1 hover:bg-orange-500 duration-200 shadow-lg shadow-slate-200 ${fetchedItem.isListed && "hidden"}`}>
+              <MdModeEditOutline />
+            </DialogTrigger>
+
+            <DialogContent className="bg-orange-50 text-lg text-orange-800 flex flex-col border border-orange-800">
+              <DialogHeader>
+                <DialogTitle className="font-logo tracking-widest text-xl">Edit Item</DialogTitle>
+              </DialogHeader>
+              <ItemEditForm fetchedItem={fetchedItem} />
+            </DialogContent>
+          </Dialog>
         </div>
       }
 
@@ -92,7 +114,7 @@ export default function InventoryItemCard({ fetchedItem, isInventory }: Componen
 
 
       <div className="flex flex-col w-full p-1 gap-3 justify-start items-start">
-        <CardInformation fetchedItemInfo={fetchedItem.title} title="Title"/>
+        <CardInformation fetchedItemInfo={fetchedItem.title} title="Title" />
         <CardInformation fetchedItemInfo={fetchedItem.minValue + ' $'} title="Minimum Auction Value" />
         <CardInformation fetchedItemInfo={fetchedItem.buyout + ' $'} title="Buyout Value" />
         <CardInformation tagList={fetchedItem.tagList} title="Tags" />

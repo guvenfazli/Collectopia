@@ -37,11 +37,9 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
   const [filteredItems, setFilteredItems] = useState<FilteredItemsType>([])
 
   useEffect(() => {
-
     if (filterTagList.length === 0) {
       setFilteredItems([])
     }
-
   }, [filterTagList])
 
 
