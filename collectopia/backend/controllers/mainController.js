@@ -298,7 +298,7 @@ exports.trackAuction = async (req, res, next) => {
       throwError('Auction is already finished.', 410)
     }
 
-    const auctionCheck = foundUser.trackingAuctions.some((auction) => foundAuction === auction)
+    const auctionCheck = foundUser.trackingAuctions.some((auction) => JSON.stringify(foundAuction._id) === JSON.stringify(auction))
 
     if (auctionCheck) {
       const chosenIndex = foundUser.trackingAuctions.findIndex((auction) => foundAuction === auction)
