@@ -283,12 +283,16 @@ exports.trackAuction = async (req, res, next) => {
   const auctionId = req.params.auctionId
 
   const todaysDate = new Date()
-  const converted = dayjs(todaysDate)
-  const todaysTimestamp = dayjs.unix(converted)
+  const converted = dayjs(todaysDate).startOf("day")
+  const todaysTimestamp = converted.unix()
+
 
   try {
-    const foundAuction = await Auction.findOne(auctionId)
-    const foundUser = await User.findOne(userId)
+    const foundAuction = await Auction.findById(auctionId)
+    const foundUser = await User.findById(userId)
+    console.log(foundUser)
+
+
 
     if (foundAuction.deadline < todaysTimestamp) {
       throwError('Auction is already finished.', 410)

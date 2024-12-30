@@ -48,6 +48,8 @@ router.post('/createAuction', [
     .withMessage('Please choose a date!'),
 ], mainController.createAuction)
 
+router.post('/trackAuction/:auctionId', mainController.trackAuction)
+
 // PATCHES
 
 router.patch('/editItem/:itemId', [

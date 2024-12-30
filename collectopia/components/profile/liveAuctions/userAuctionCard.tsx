@@ -33,9 +33,32 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
 
   const dateDataConverted = dayjs.unix(auction.deadline) // Formats the date
 
+  async function followAuction(auctionId: string) {
+    try {
+      const response = await fetch(`http://localhost:8080/trackAuction/${auctionId}`, {
+        method: "POST",
+        credentials: "include"
+      })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData)
+        throw error
+      }
+
+      const resData = await response.json()
+      // Will Add Toast
+
+
+    } catch (err: any) {
+      console.log(err.message)
+      // Will Add Toast
+    }
+  }
+
 
   return (
-    <div  className={`flex bg-blue-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-blue-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isListing ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
+    <div className={`flex bg-blue-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-blue-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isListing ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
 
       <div className={`flex w-full items-start mb-4 min-h-44 overflow-hidden relative ${!isListing ? 'mb-0' : 'mb-4'}`}>
         <Carousel className="w-full">
@@ -68,7 +91,7 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
 
         <div className="flex flex-row w-full justify-between items-center gap-1 text-gray-800 tracking-wide text-base">
           <p>Follow the Auction:</p>
-          <button className="bg-blue-800 text-white rounded-lg p-1 hover:bg-blue-500 duration-150"><HiOutlineLightBulb /></button>
+          <button onClick={() => followAuction(auction._id)} className="bg-blue-800 text-white rounded-lg p-1 hover:bg-blue-500 duration-150"><HiOutlineLightBulb /></button>
         </div>
       </div>
     </div>
