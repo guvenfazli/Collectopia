@@ -65,6 +65,46 @@ exports.createItem = async (req, res, next) => {
   }
 }
 
+exports.editItem = async (req, res, next) => {
+  const { title, minValue, buyout, tagList } = req.body
+  const convertedMinValue = +minValue
+  const convertedBuyout = +buyout
+  const parsedTagList = JSON.parse(tagList)
+
+  const userId = req.session.userInfo.id
+  const editedItemId = req.params.itemId
+
+
+  try {
+    const foundItem = await Item.findOne({ _id: editedItemId })
+
+    if (!foundItem) {
+      throwError('Item could not found!', 404)
+    }
+
+    if (JSON.stringify(foundItem.owner._id) !== JSON.stringify(userId)) {
+      throwError('Only the owner of the item can make changes', 410)
+    }
+
+    if (isNaN(convertedMinValue) || isNaN(convertedBuyout)) {
+      throwError('Please enter a numeric value!', 410)
+    }
+
+    foundItem.title = title
+    foundItem.minValue = convertedMinValue
+    foundItem.buyout = convertedBuyout
+    foundItem.tagList = parsedTagList
+
+    await foundItem.save()
+
+    return res.status(200).json({ message: 'Changes have been saved.' })
+
+  } catch (err) {
+    next(err)
+  }
+
+}
+
 // USERS PROFILE
 exports.fetchUser = async (req, res, next) => {
   const userId = req.params.userId
@@ -111,8 +151,8 @@ exports.deleteMyItem = async (req, res, next) => {
     owner.items.splice(itemIndex, 1)
     await owner.save()
 
-    if(foundItem.isListed){
-      const activeAuction = await Auction.findOneAndDelete({item: foundItem._id})
+    if (foundItem.isListed) {
+      const activeAuction = await Auction.findOneAndDelete({ item: foundItem._id })
     }
 
 

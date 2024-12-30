@@ -85,7 +85,7 @@ export default function InventoryItemCard({ fetchedItem, isInventory }: Componen
               <MdModeEditOutline />
             </DialogTrigger>
 
-            <DialogContent className="bg-orange-50 text-lg text-orange-800 flex flex-col border border-orange-800">
+            <DialogContent className="bg-orange-50 text-lg w-1/6 text-orange-800 flex flex-col border border-orange-800">
               <DialogHeader>
                 <DialogTitle className="font-logo tracking-widest text-xl">Edit Item</DialogTitle>
               </DialogHeader>
