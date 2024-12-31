@@ -79,10 +79,11 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
       </div>
 
       <div className="flex flex-row w-full  relative overflow-hidden">
+
         <div onClick={() => setIsListing(true)} style={{ translate: `${listingNavigator * -50}%` }} className={`flex flex-row h-auto items-center justify-start ${!isListing ? 'w-44' : 'gap-5 w-full'} duration-1000 hover:cursor-pointer`}>
           {
             (filteredUserAuctions.length === 0 && !isError) ?
-              userAuctions.map((auction: FetchedAuction) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} setIsListing={setIsListing} />) :
+              userAuctions.map((auction: FetchedAuction) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} />) :
               filteredUserAuctions.map((auction: FetchedAuction) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} />)
           }
         </div>

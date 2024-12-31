@@ -67,10 +67,6 @@ export default function ItemsForAuctionCreation() {
     fetchMyItems()
   }, [])
 
-
-
-
-
   return (
     <div className="flex flex-col justify-start items-start gap-1">
       <div className="flex flex-col justify-start items-start w-full gap-2">
@@ -111,11 +107,6 @@ export default function ItemsForAuctionCreation() {
           </Table>
         }
       </div>
-
-
-
-
-
     </div>
   )
 }

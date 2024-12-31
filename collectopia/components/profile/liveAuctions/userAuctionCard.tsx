@@ -5,8 +5,7 @@ import {
 } from "@/components/ui/carousel"
 
 
-import { HiOutlineScale } from "react-icons/hi";
-import { HiOutlineLightBulb } from "react-icons/hi";
+import { HiOutlineScale, HiOutlineLightBulb } from "react-icons/hi";
 import { useSelector } from "react-redux";
 
 import CardInformation from "../cardInformation"
@@ -34,8 +33,12 @@ type ComponentsProps = {
 export default function UserAuctionCard({ auction, isListing }: ComponentsProps) {
 
   const loggedInUser = useSelector((state: any) => state.auth.userInfo.userInfo)
+  const todaysDate = dayjs(new Date())
+  const deadlineDate = dayjs.unix(auction.deadline)
+  const diff = deadlineDate.diff(todaysDate, 'hour', true)
   const dateDataConverted = dayjs.unix(auction.deadline) // Formats the date
   const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(auction.followers.some((followerId) => followerId === loggedInUser.id))
+  const [metTheDeadline, setMetTheDeadline] = useState<boolean>(Math.round(diff) <= 0)
 
   async function followAuction(auctionId: string) {
     try {
@@ -62,7 +65,16 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
 
 
   return (
-    <div className={`flex bg-blue-200 text-nowrap overflow-hidden duration-700 ease-in-out flex-shrink-0 border border-blue-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isListing ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
+    <div className={`flex bg-blue-200 text-nowrap overflow-hidden duration-700 ease-in-out relative z-40 flex-shrink-0 border border-blue-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isListing ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
+
+      {metTheDeadline &&
+        <div className="top-0 flex flex-row justify-center items-center absolute bottom-0 z-20 left-0 right-0 bg-white/70">
+          <p className="-rotate-90 text-9xl font-logo text-blue-600">SOLD!</p>
+        </div>
+      }
+
+
+
 
       <div className={`flex w-full items-start mb-4 min-h-44 overflow-hidden relative ${!isListing ? 'mb-0' : 'mb-4'}`}>
         <Carousel className="w-full">
