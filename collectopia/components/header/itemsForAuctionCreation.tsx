@@ -6,6 +6,16 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover"
 
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table"
+
 import ItemCard from "./itemCard"
 import ItemImageCarousel from "./itemImageCarousel"
 
@@ -65,24 +75,47 @@ export default function ItemsForAuctionCreation() {
     <div className="flex flex-col justify-start items-start gap-1">
       {isError && <p>{isError}</p>}
       <div className="flex flex-col justify-start items-start w-full gap-2">
-        {isLoading ? <span id="headerLoader" className="self-center"></span> : myItems.map((item) =>
-          <div className="flex flex-row justify-between items-center w-full text-nowrap gap-10" key={item._id}>
-            <Popover>
-              <PopoverTrigger className="hover:underline font-medium">{item.title}</PopoverTrigger>
-              <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemCard item={item} /></PopoverContent>
-            </Popover>
-
-            <p>Minimum Chosen Value: {item.minValue} $</p>
-            <p>Minimum Chosen Buyout Value: {item.buyout} $</p>
-
-            <Popover>
-              <PopoverTrigger className="hover:underline font-medium">Click to see images</PopoverTrigger>
-              <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemImageCarousel imageList={item.imageList} /></PopoverContent>
-            </Popover>
-          </div>
-        )
+        {isLoading ? <span id="headerLoader" className="self-center"></span> :
+          <Table>
+            <TableCaption>Your Items</TableCaption>
+            <TableHeader>
+              <TableRow>
+                <TableHead className="w-[200px]">Title</TableHead>
+                <TableHead>Min. Value</TableHead>
+                <TableHead>Buyout Value</TableHead>
+                <TableHead className="text-right">Images</TableHead>
+              </TableRow>
+            </TableHeader>
+            <TableBody>
+              {myItems.map((item) =>
+                <TableRow key={item._id}>
+                  <TableCell className="font-medium">
+                    <Popover>
+                      <PopoverTrigger className="hover:underline font-medium">{item.title}</PopoverTrigger>
+                      <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemCard item={item} /></PopoverContent>
+                    </Popover>
+                  </TableCell>
+                  <TableCell>
+                    {item.minValue} $
+                  </TableCell>
+                  <TableCell>
+                    {item.buyout} $
+                  </TableCell>
+                  <TableCell className="text-right">
+                    <Popover>
+                      <PopoverTrigger className="hover:underline font-medium">Click to see images</PopoverTrigger>
+                      <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemImageCarousel imageList={item.imageList} /></PopoverContent>
+                    </Popover>
+                  </TableCell>
+                </TableRow>)}
+            </TableBody>
+          </Table>
         }
       </div>
+
+
+
+
 
     </div>
   )

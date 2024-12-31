@@ -7,11 +7,13 @@ import {
 
 import { HiOutlineScale } from "react-icons/hi";
 import { HiOutlineLightBulb } from "react-icons/hi";
+import { useSelector } from "react-redux";
 
 import CardInformation from "../cardInformation"
 import dayjs from "dayjs"
 import Link from "next/link";
 import Image from "next/image"
+import { useState } from "react";
 
 type FetchedAuction = {
   _id: string,
@@ -31,7 +33,9 @@ type ComponentsProps = {
 
 export default function UserAuctionCard({ auction, isListing }: ComponentsProps) {
 
+  const loggedInUser = useSelector((state: any) => state.auth.userInfo.userInfo)
   const dateDataConverted = dayjs.unix(auction.deadline) // Formats the date
+  const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(auction.followers.some((followerId) => followerId === loggedInUser.id))
 
   async function followAuction(auctionId: string) {
     try {
@@ -90,7 +94,7 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
         </div>
 
         <div className="flex flex-row w-full justify-between items-center gap-1 text-gray-800 tracking-wide text-base">
-          <p>Follow the Auction:</p>
+          <p>{alreadyFollowed ? "Unfollow the Auction:" : "Follow the Auction:"}</p>
           <button onClick={() => followAuction(auction._id)} className="bg-blue-800 text-white rounded-lg p-1 hover:bg-blue-500 duration-150"><HiOutlineLightBulb /></button>
         </div>
       </div>
