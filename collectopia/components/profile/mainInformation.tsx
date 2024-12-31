@@ -7,11 +7,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
-import { RiUserFollowLine } from "react-icons/ri";
-import dayjs from "dayjs";
 import { useSelector } from "react-redux";
 import { useState } from "react";
-
+import { RiUserFollowLine, RiUserUnfollowFill } from "react-icons/ri";
+import dayjs from "dayjs";
 
 type FetchedUserType = {
   _id: string,
@@ -51,8 +50,7 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
       }
 
       const resData = await response.json()
-      // Will add socket here, it will trigger the header with the authenticated account update, it will update the following list.
-      /* dispatch(authActions.logInUser({ isLogged: true, userInfo: updateFollowing })) */
+      // Will add socket, follow/unfollow re-fetch the userInformation.
 
 
       // Will add toast here.
@@ -61,9 +59,6 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
       console.log(err.message)
     }
   }
-
-  console.log(userInformation)
-
 
   return (
     <div className="flex flex-row w-full justify-between items-end">
@@ -74,15 +69,14 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
           <TooltipProvider delayDuration={300}>
             <Tooltip>
               <TooltipTrigger onClick={() => followUser(userInformation._id)} className="p-1 border border-orange-800 bg-orange-600 rounded-3xl text-white hover:bg-orange-400 duration-150">
-                <RiUserFollowLine />
+                {alreadyFollowed ? <RiUserFollowLine /> : <RiUserUnfollowFill />}
               </TooltipTrigger>
               <TooltipContent>
-                <p>Follow User</p>
+                {alreadyFollowed ? <p>Follow User</p> : <p>Unfollow User</p>}
               </TooltipContent>
             </Tooltip>
           </TooltipProvider>
         }
-        {alreadyFollowed && <p>You already follow this user.</p>}
       </div>
 
       <div className="flex flex-row justify-start items-end gap-5">
