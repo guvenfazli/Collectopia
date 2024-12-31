@@ -73,9 +73,6 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
         </div>
       }
 
-
-
-
       <div className={`flex w-full items-start mb-4 min-h-44 overflow-hidden relative ${!isListing ? 'mb-0' : 'mb-4'}`}>
         <Carousel className="w-full">
           <CarouselContent className="h-64">

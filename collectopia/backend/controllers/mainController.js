@@ -128,7 +128,7 @@ exports.fetchMyItems = async (req, res, next) => { // Fetching items in order to
   const userId = req.session.userInfo.id
 
   try {
-    const foundItems = await Item.find({ owner: userId }).select({ title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1, tagList: 1 })
+    const foundItems = await Item.find({ owner: userId, isListed: false }).select({ title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1, tagList: 1 })
 
     if (foundItems.length === 0) {
       throwError('You have no items', 404)
