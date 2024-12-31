@@ -68,8 +68,8 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
     <div className={`flex bg-blue-200 text-nowrap overflow-hidden duration-700 ease-in-out relative z-40 flex-shrink-0 border border-blue-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isListing ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
 
       {metTheDeadline &&
-        <div className="top-0 flex flex-row justify-center items-center absolute bottom-0 z-20 left-0 right-0 bg-white/70">
-          <p className="-rotate-90 text-9xl font-logo text-blue-600">SOLD!</p>
+        <div className="top-0 flex flex-row justify-center items-center absolute bottom-0 z-20 group left-0 right-0 bg-white/70 hover:bg-white/0 duration-100">
+          <p className={`-rotate-90 text-9xl font-logo text-blue-600 opacity-100 duration-100 group-hover:opacity-0`}>SOLD!</p>
         </div>
       }
 
