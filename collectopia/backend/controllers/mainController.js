@@ -330,13 +330,13 @@ exports.followUser = async (req, res, next) => {
     const followedUser = await User.findById(userId)
     const personWhoFollows = await User.findById(personWhoFollowsId)
 
-    const followCheck = followedUser.followers.some((user) => JSON.stringify(personWhoFollows._id) === JSON.stringify(user._id))
+    const followCheck = followedUser.followers.some((user) => JSON.stringify(personWhoFollows._id) === JSON.stringify(user))
 
     if (followCheck) {
-      const chosenIndex = followedUser.followers.findIndex((auction) => foundAuction === auction)
+      const chosenIndex = followedUser.followers.findIndex((user) => personWhoFollows === user)
       followedUser.followers.splice(chosenIndex, 1)
 
-      const userIndex = personWhoFollows.following.findIndex((user) => user === foundUser)
+      const userIndex = personWhoFollows.following.findIndex((user) => user === followedUser)
       personWhoFollows.following.splice(userIndex, 1)
       await personWhoFollows.save()
       await followedUser.save()
