@@ -340,15 +340,15 @@ exports.followUser = async (req, res, next) => {
       personWhoFollows.following.splice(userIndex, 1)
       await personWhoFollows.save()
       await followedUser.save()
-      return res.status(200).json({ message: 'You are no longer following this auction.' })
+      return res.status(200).json({ message: 'You are no longer following this auction.', updatedList: personWhoFollows.following })
     }
 
-    followedUser.followers.push(personWhoFollows)
-    personWhoFollows.following.push(followedUser)
+    followedUser.followers.push(personWhoFollows._id)
+    personWhoFollows.following.push(followedUser._id)
     await followedUser.save()
     await personWhoFollows.save()
 
-    return res.status(200).json({ message: 'You are now following this auction.' })
+    return res.status(200).json({ message: 'You are now following this auction.', updatedList: personWhoFollows.following })
 
   } catch (err) {
     next(err)

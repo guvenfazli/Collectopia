@@ -10,6 +10,8 @@ import {
 import { RiUserFollowLine } from "react-icons/ri";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
+
+
 type FetchedUserType = {
   _id: string,
   name: string,
@@ -28,7 +30,6 @@ type ComponentsProp = {
 export default function MainInformation({ userInformation }: ComponentsProp) {
 
   const loggedInUser = useSelector((state: any) => state.auth.userInfo.userInfo)
-  console.log(loggedInUser)
   const dateData = new Date(userInformation.createdAt)
   const dateDataConverted = dayjs(dateData) // Formats the date
 
@@ -47,6 +48,9 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
       }
 
       const resData = await response.json()
+      // Will add socket here, it will trigger the header with the authenticated account update, it will update the following list.
+      /* dispatch(authActions.logInUser({ isLogged: true, userInfo: updateFollowing })) */
+
 
       // Will add toast here.
 
@@ -73,6 +77,15 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
             </Tooltip>
           </TooltipProvider>
         }
+        {/*       {loggedInUser.following.some((alreadyFollowed: string) => { // Will add socket system, when user follows another user, authenticated account will be triggered and refreshed with socket so it will have updated follow list.
+
+          if (alreadyFollowed === userInformation._id) {
+            console.log('Test')
+            return (
+              <p>You already following this user</p>
+            )
+          }
+        })} */}
       </div>
 
       <div className="flex flex-row justify-start items-end gap-5">
