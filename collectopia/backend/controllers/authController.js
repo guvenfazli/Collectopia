@@ -65,7 +65,7 @@ exports.login = async (req, res, next) => {
       throwError('Username or Password is invalid!', 404)
     }
 
-    req.session.userInfo = { id: foundUser._id, name: foundUser.name, interests: foundUser.interests }
+    req.session.userInfo = { id: foundUser._id, name: foundUser.name, interests: foundUser.interests, following: foundUser.following }
 
     return res.status(200).json({ message: 'Successfully logged in!', userInfo: req.session.userInfo })
 
