@@ -10,6 +10,7 @@ import {
 import { RiUserFollowLine } from "react-icons/ri";
 import dayjs from "dayjs";
 import { useSelector } from "react-redux";
+import { useState } from "react";
 
 
 type FetchedUserType = {
@@ -19,7 +20,8 @@ type FetchedUserType = {
   interests: string[],
   items: string[],
   auctions: string[]
-  createdAt: string
+  createdAt: string,
+  followers: string[]
 }
 
 type ComponentsProp = {
@@ -32,6 +34,7 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
   const loggedInUser = useSelector((state: any) => state.auth.userInfo.userInfo)
   const dateData = new Date(userInformation.createdAt)
   const dateDataConverted = dayjs(dateData) // Formats the date
+  const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(userInformation.followers.some((followerId) => followerId === loggedInUser.id))
 
   async function followUser(userId: string) {
     try {
@@ -59,6 +62,8 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
     }
   }
 
+  console.log(userInformation)
+
 
   return (
     <div className="flex flex-row w-full justify-between items-end">
@@ -77,15 +82,7 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
             </Tooltip>
           </TooltipProvider>
         }
-        {/*       {loggedInUser.following.some((alreadyFollowed: string) => { // Will add socket system, when user follows another user, authenticated account will be triggered and refreshed with socket so it will have updated follow list.
-
-          if (alreadyFollowed === userInformation._id) {
-            console.log('Test')
-            return (
-              <p>You already following this user</p>
-            )
-          }
-        })} */}
+        {alreadyFollowed && <p>You already follow this user.</p>}
       </div>
 
       <div className="flex flex-row justify-start items-end gap-5">

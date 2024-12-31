@@ -111,7 +111,7 @@ exports.fetchUser = async (req, res, next) => {
   const userId = req.params.userId
 
   try {
-    const foundUser = await User.findById(userId).select({ name: 1, surname: 1, interests: 1, createdAt: 1, _id: 1, items: 1, auctions: 1 }).populate({ path: 'items', select: { title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1, tagList: 1, owner: 1, isListed: 1 } }).populate({ path: 'auctions', select: { _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }, populate: { path: 'item' } })
+    const foundUser = await User.findById(userId).select({ name: 1, surname: 1, interests: 1, createdAt: 1, _id: 1, items: 1, auctions: 1, followers: 1 }).populate({ path: 'items', select: { title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1, tagList: 1, owner: 1, isListed: 1 } }).populate({ path: 'auctions', select: { _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }, populate: { path: 'item' } })
 
     if (foundUser.length === 0) {
       throwError('User could not found!', 404)
@@ -340,7 +340,7 @@ exports.followUser = async (req, res, next) => {
       personWhoFollows.following.splice(userIndex, 1)
       await personWhoFollows.save()
       await followedUser.save()
-      return res.status(200).json({ message: 'You are no longer following this auction.', updatedList: personWhoFollows.following })
+      return res.status(200).json({ message: 'You are no longer following this auction.' })
     }
 
     followedUser.followers.push(personWhoFollows._id)
@@ -348,7 +348,7 @@ exports.followUser = async (req, res, next) => {
     await followedUser.save()
     await personWhoFollows.save()
 
-    return res.status(200).json({ message: 'You are now following this auction.', updatedList: personWhoFollows.following })
+    return res.status(200).json({ message: 'You are now following this auction.' })
 
   } catch (err) {
     next(err)
