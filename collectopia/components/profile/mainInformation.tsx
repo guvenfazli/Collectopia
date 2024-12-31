@@ -30,6 +30,30 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
   const dateData = new Date(userInformation.createdAt)
   const dateDataConverted = dayjs(dateData) // Formats the date
 
+  async function followUser(userId: string) {
+    try {
+      const response = await fetch(`http://localhost:8080/followUser/${userId}`, {
+        method: 'POST',
+        credentials: "include"
+      })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData)
+        throw error
+      }
+
+      const resData = await response.json()
+
+      // Will add toast here.
+
+
+
+    } catch (err: any) {
+      console.log(err.message)
+    }
+  }
+
 
   return (
     <div className="flex flex-row w-full justify-between items-end">
@@ -38,7 +62,7 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
         <p className="text-xl font-medium font-logo text-slate-800"><span className="text-sm font-sans text-slate-600 mr-1">Joined:</span> {dateDataConverted.format("DD/MM/YYYY")}</p>
         <TooltipProvider delayDuration={300}>
           <Tooltip>
-            <TooltipTrigger className="p-1 border bg-orange-600 rounded-3xl text-white hover:bg-orange-400 duration-150">
+            <TooltipTrigger onClick={() => followUser(userInformation._id)} className="p-1 border border-orange-800 bg-orange-600 rounded-3xl text-white hover:bg-orange-400 duration-150">
               <RiUserFollowLine />
             </TooltipTrigger>
             <TooltipContent>
@@ -46,7 +70,6 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
-
       </div>
 
       <div className="flex flex-row justify-start items-end gap-5">

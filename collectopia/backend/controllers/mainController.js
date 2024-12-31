@@ -290,9 +290,6 @@ exports.trackAuction = async (req, res, next) => {
   try {
     const foundAuction = await Auction.findById(auctionId)
     const foundUser = await User.findById(userId)
-    console.log(foundUser)
-
-
 
     if (foundAuction.deadline < todaysTimestamp) {
       throwError('Auction is already finished.', 410)
@@ -315,6 +312,41 @@ exports.trackAuction = async (req, res, next) => {
     foundAuction.followers.push(foundUser)
     await foundUser.save()
     await foundAuction.save()
+
+    return res.status(200).json({ message: 'You are now following this auction.' })
+
+  } catch (err) {
+    next(err)
+  }
+
+}
+
+exports.followUser = async (req, res, next) => {
+  const userId = req.params.userId
+  const personWhoFollowsId = req.session.userInfo.id
+
+
+  try {
+    const followedUser = await User.findById(userId)
+    const personWhoFollows = await User.findById(personWhoFollowsId)
+
+    const followCheck = followedUser.followers.some((user) => JSON.stringify(personWhoFollows._id) === JSON.stringify(user._id))
+
+    if (followCheck) {
+      const chosenIndex = followedUser.followers.findIndex((auction) => foundAuction === auction)
+      followedUser.followers.splice(chosenIndex, 1)
+
+      const userIndex = personWhoFollows.following.findIndex((user) => user === foundUser)
+      personWhoFollows.following.splice(userIndex, 1)
+      await personWhoFollows.save()
+      await followedUser.save()
+      return res.status(200).json({ message: 'You are no longer following this auction.' })
+    }
+
+    followedUser.followers.push(personWhoFollows)
+    personWhoFollows.following.push(followedUser)
+    await followedUser.save()
+    await personWhoFollows.save()
 
     return res.status(200).json({ message: 'You are now following this auction.' })
 
