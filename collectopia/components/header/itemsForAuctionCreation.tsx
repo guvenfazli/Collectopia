@@ -73,9 +73,8 @@ export default function ItemsForAuctionCreation() {
 
   return (
     <div className="flex flex-col justify-start items-start gap-1">
-      {isError && <p>{isError}</p>}
       <div className="flex flex-col justify-start items-start w-full gap-2">
-        {isLoading ? <span id="headerLoader" className="self-center"></span> :
+        {isLoading ? <span id="headerLoader" className="self-center"></span> : isError ? <p>{isError}</p> :
           <Table>
             <TableCaption>Your Items</TableCaption>
             <TableHeader>
