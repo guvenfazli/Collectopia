@@ -7,7 +7,7 @@ router.get('/findUser/:userId', mainController.fetchUser)
 router.get('/fetchMyItems', mainController.fetchMyItems)
 router.get('/filterUserInventory/:userId', mainController.filterUserInventory)
 router.get('/filterUserAuction/:userId', mainController.filterUserAuction)
-
+router.get('/fetchLastAuctions', mainController.fetchLastAuctions)
 
 
 // POSTS

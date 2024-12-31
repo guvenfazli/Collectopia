@@ -1,4 +1,39 @@
+"use client"
+import { useEffect, useState } from "react"
+
 export default function LastAuctions() {
+
+  const [fetchedLastAuctions, setFetchedAuctions] = useState([])
+
+  useEffect(() => {
+    async function fetchLastAuctions() {
+
+      try {
+        const response = await fetch('http://localhost:8080/fetchLastAuctions', {
+          credentials: "include"
+        })
+
+        if (!response.ok) {
+          const resData = await response.json()
+          const error = new Error(resData)
+          throw error
+        }
+
+        const resData = await response.json()
+        setFetchedAuctions(resData.fetchedLastAuctions)
+
+
+      } catch (err: any) {
+        console.log(err.message)
+      }
+    }
+
+    fetchLastAuctions()
+  }, [])
+
+
+
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-row w-full justify-start items-center">
@@ -14,7 +49,6 @@ export default function LastAuctions() {
         <p>ItemCard</p>
         <p>ItemCard</p>
         <p>ItemCard</p>
-
       </div>
     </div>
   )

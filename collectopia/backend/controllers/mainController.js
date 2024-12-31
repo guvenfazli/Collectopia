@@ -276,6 +276,25 @@ exports.createAuction = async (req, res, next) => {
   }
 }
 
+
+
+exports.fetchLastAuctions = async (req, res, next) => {
+  const todaysDate = new Date()
+  const converted = dayjs(todaysDate).startOf("day")
+  const todaysTimestamp = converted.unix()
+  const tomorrowsDate = converted.add(1, 'day')
+  const tomorrowsTimeStamp = tomorrowsDate.unix()
+
+  console.log(tomorrowsDate)
+
+  // Gonna compare this with tomorrows timeStamp
+
+  try {
+    const fetchedItems = await Item.find()
+
+  } catch { }
+}
+
 // USER FOLLOWS AND TRACKINGS
 
 exports.trackAuction = async (req, res, next) => {
