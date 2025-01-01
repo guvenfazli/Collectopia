@@ -1,9 +1,31 @@
 "use client"
+
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+} from "@/components/ui/carousel"
+
 import { useEffect, useState } from "react"
+import AuctionCard from "../auctionCard"
+
+type FetchedAuction = {
+  auctionTag: string;
+  bidList: any;
+  buyout: number;
+  createdAt: string;
+  followers: any;
+  item: string;
+  minValue: number;
+  seller: string;
+  _id: string
+}
+
+type FetchedAuctions = FetchedAuction[]
 
 export default function LastAuctions() {
 
-  const [fetchedLastAuctions, setFetchedAuctions] = useState([])
+  const [fetchedLastAuctions, setFetchedAuctions] = useState<FetchedAuctions>([])
 
   useEffect(() => {
     async function fetchLastAuctions() {
@@ -45,10 +67,16 @@ export default function LastAuctions() {
       </div>
 
       <div className="flex flex-row border items-start p-3 w-full">
-        <p>ItemCard</p>
-        <p>ItemCard</p>
-        <p>ItemCard</p>
-        <p>ItemCard</p>
+        <Carousel className="w-full">
+          <CarouselContent className="h-64">
+            {fetchedLastAuctions.map((auction) =>
+              <CarouselItem key={auction._id}>
+                <AuctionCard auction={auction} />
+              </CarouselItem>
+            )}
+          </CarouselContent>
+        </Carousel>
+
       </div>
     </div>
   )
