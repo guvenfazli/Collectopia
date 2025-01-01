@@ -284,7 +284,7 @@ exports.fetchLastAuctions = async (req, res, next) => {
   const tomorrowsDateFixes = tomorrowsDate.setDate(todaysDate.getDate() + 15)
 
   try {
-    const fetchedAuctions = await Auction.find()
+    const fetchedAuctions = await Auction.find().populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
     const filteredAuctions = fetchedAuctions.filter((itm) => itm.createdAt.getDay() === todaysDate.getDay() && itm.createdAt < new Date(tomorrowsDateFixes))
 
     if (filteredAuctions.length === 0) {

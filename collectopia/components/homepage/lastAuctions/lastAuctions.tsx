@@ -68,7 +68,7 @@ export default function LastAuctions() {
 
       <div className="flex flex-row border items-start p-3 w-full">
         <Carousel className="w-full">
-          <CarouselContent className="h-64">
+          <CarouselContent>
             {fetchedLastAuctions.map((auction) =>
               <CarouselItem key={auction._id}>
                 <AuctionCard auction={auction} />
