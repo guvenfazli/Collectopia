@@ -37,7 +37,7 @@ export default function AuctionCard({ auction, setIsSliding }: ComponentProps) {
 
   return (
     <div className="bg-lime-100 p-3 flex shadow-lg shadow-slate-800 flex-col border border-green-800 rounded-lg w-1/4">
-      <div className="flex flex-row w-full">
+      <div className="flex w-full justify-start items-center">
         <AuctionImages imageList={auction.item.imageList} setIsSliding={setIsSliding} />
       </div>
 
