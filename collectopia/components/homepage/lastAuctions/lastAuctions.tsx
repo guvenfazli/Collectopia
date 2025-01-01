@@ -17,6 +17,7 @@ type FetchedAuction = {
   followers: any;
   item: string;
   minValue: number;
+  deadline: number;
   seller: string;
   _id: string
 }
