@@ -27,6 +27,7 @@ type FetchedAuctions = FetchedAuction[]
 export default function LastAuctions() {
 
   const [fetchedLastAuctions, setFetchedAuctions] = useState<FetchedAuctions>([])
+  const [isSliding, setIsSliding] = useState<boolean>(true)
 
   useEffect(() => {
     async function fetchLastAuctions() {
@@ -68,11 +69,11 @@ export default function LastAuctions() {
       </div>
 
       <div className="flex flex-row border items-start p-3 w-full">
-        <Carousel className="w-full">
+        <Carousel opts={{active: isSliding}} className="w-full">
           <CarouselContent>
             {fetchedLastAuctions.map((auction) =>
               <CarouselItem key={auction._id}>
-                <AuctionCard auction={auction} />
+                <AuctionCard auction={auction} setIsSliding={setIsSliding} />
               </CarouselItem>
             )}
           </CarouselContent>

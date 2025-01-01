@@ -9,6 +9,7 @@ import AuctionInformation from "./auctionInformation"
 import dayjs from "dayjs"
 import { HiOutlineScale } from "react-icons/hi";
 import Link from "next/link"
+import { useState } from "react";
 
 
 type FetchedAuction = {
@@ -26,18 +27,18 @@ type FetchedAuction = {
 
 type ComponentProps = {
   auction: FetchedAuction
+  setIsSliding: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
-export default function AuctionCard({ auction }: ComponentProps) {
+export default function AuctionCard({ auction, setIsSliding }: ComponentProps) {
 
   const dateDataConverted = dayjs.unix(auction.deadline) // Formats the date
 
-  console.log(auction)
   return (
     <div className="bg-lime-100 p-3 flex shadow-lg shadow-slate-800 flex-col border border-green-800 rounded-lg w-1/4">
       <div className="flex flex-row w-full">
-        <AuctionImages imageList={auction.item.imageList} />
+        <AuctionImages imageList={auction.item.imageList} setIsSliding={setIsSliding} />
       </div>
 
       <div className={`flex flex-col w-full p-1 gap-3 justify-start items-start duration-500`}>
