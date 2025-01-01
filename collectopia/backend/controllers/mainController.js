@@ -280,19 +280,22 @@ exports.createAuction = async (req, res, next) => {
 
 exports.fetchLastAuctions = async (req, res, next) => {
   const todaysDate = new Date()
-  const converted = dayjs(todaysDate).startOf("day")
-  const todaysTimestamp = converted.unix()
-  const tomorrowsDate = converted.add(1, 'day')
-  const tomorrowsTimeStamp = tomorrowsDate.unix()
-
-  console.log(tomorrowsDate)
-
-  // Gonna compare this with tomorrows timeStamp
+  const tomorrowsDate = new Date()
+  const tomorrowsDateFixes = tomorrowsDate.setDate(todaysDate.getDate() + 15)
 
   try {
-    const fetchedItems = await Item.find()
+    const fetchedAuctions = await Auction.find()
+    const filteredAuctions = fetchedAuctions.filter((itm) => itm.createdAt.getDay() === todaysDate.getDay() && itm.createdAt < new Date(tomorrowsDateFixes))
 
-  } catch { }
+    if (filteredAuctions.length === 0) {
+      throwError('There is no auction created in last 24 hours!', 404)
+    }
+
+    return res.status(200).json({ fetchedLastAuctions: filteredAuctions })
+
+  } catch (err) {
+    next(err)
+  }
 }
 
 // USER FOLLOWS AND TRACKINGS
