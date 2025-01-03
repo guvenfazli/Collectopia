@@ -3,6 +3,7 @@ import { BaseSyntheticEvent, ChangeEvent, useState, useEffect } from "react"
 import dayjs from "dayjs"
 import FilterAuctionList from "./filterAuctionList"
 import MainAuctionCard from './mainAuctionCard'
+import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
 type subCat = {
   [catName: string]: { value: string, display: string }[],
@@ -24,58 +25,15 @@ type FetchedAuction = {
 export default function AuctionList() {
 
   const [fetchedAuctions, setFetchedAuctions] = useState<FetchedAuction[]>([])
-  const [chosenDate, setChosenDate] = useState<number>(0)
-  const [category, setCategory] = useState([
-    { category: "anime", display: "Anime" },
-    { category: "music", display: "Music" },
-    { category: "videogame", display: "Video Game" },
-    { category: "card", display: "Cards" },
-    { category: "vintagetoy", display: "Vintage Toys" },
-    { category: "oldmoney", display: "Old Moneys" },
-    { category: "lego", display: "Legos" },
-  ])
+  const [page, setPage] = useState<number>(0)
 
-  const [subCategory, setSubCategory] = useState<subCat>({
-    anime: [
-      { value: "manga", display: "Manga" }, { value: "tshirt", display: "T-Shirt" }, { value: "hoodie", display: "Hoodie" }, { value: "vintage", display: "Vintage" }, { value: "figure", display: "Figure" }, { value: "toy", display: "Toy" }
-    ],
-    music: [
-      { value: "tshirt", display: "T-Shirt" }, { value: "hoodie", display: "Hoodie" }, { value: "vinyl", display: "Vinyl" }, { value: "cd", display: "CD" }, { value: "casette", display: "Casette" }, { value: "ticket", display: "Ticket" }, { value: "instrument", display: "Instrument" }
-    ],
-    videogame: [
-      { value: "collectorEdition", display: "Collector Edition" }, { value: "tshirt", display: "T-Shirt" }, { value: "hoodie", display: "Hoodie" }, { value: "cd", display: "CD" }, { value: "figure", display: "Figure" }, { value: "toy", display: "Toy" }
-    ],
-    card: [
-      { value: "yugioh", display: "Yu-Gi-Oh" }, { value: "pokemon", display: "Pokemon" }
-    ],
-    vintagetoy: [
-      { value: "doll", display: "Dolls" }, { value: "plasticSoldier", display: "Plastic Soldiers" }, { value: "car", display: "Car" }
-    ],
-    oldmoney: [
-      { value: "asia", display: "Asia" }, { value: "europe", display: "Europe" }, { value: "northAmerica", display: "North America" }, { value: "africa", display: "Africa" }, { value: "oceania", display: "Oceania" }, { value: "southAmerica", display: "South America" }
-    ],
-    lego: [
-      { value: "vintageLego", display: "Vintage Lego" }, { value: "newLego", display: "New Lego" }, { value: "collectorLego", display: "Collector Lego" }, { value: "faultyProduct", display: "Faulty Product" }, { value: "limitedEdition", display: "Limited Edition" }
-    ]
-  })
 
-  const [chosenCategory, setChosenCategory] = useState<string>("anime")
 
-  function chooseCategory(e: BaseSyntheticEvent) {
-    setChosenCategory(e.target.value)
-  }
-
-  function chooseDate(e: ChangeEvent<HTMLInputElement>) {
-    const chosenDate = new Date(e.target.value)
-    const convertToDayJS = dayjs(chosenDate).startOf("day")
-    const timestamp = convertToDayJS.unix()
-    setChosenDate(timestamp)
-  }
 
   useEffect(() => {
     async function fetchAuctions() {
       try {
-        const response = await fetch('http://localhost:8080/fetchAuctions', {
+        const response = await fetch(`http://localhost:8080/fetchAuctions?page=${page}`, {
           credentials: "include"
         })
 
@@ -87,17 +45,23 @@ export default function AuctionList() {
 
         const resData = await response.json()
         setFetchedAuctions(resData.fetchedAuctions)
-        console.log(resData)
 
       } catch (err: any) {
-        console.log(err.message)
+        setFetchedAuctions([])
+
       }
     }
 
     fetchAuctions()
-  }, [])
+  }, [page])
 
-
+  function navigatePage(operator: string) {
+    if (operator === "forward") {
+      setPage(prev => prev += 1)
+    } else {
+      setPage(prev => prev -= 1)
+    }
+  }
 
   return (
     <div className="flex flex-col gap-5">
@@ -105,13 +69,22 @@ export default function AuctionList() {
         <p className="text-4xl text-orange-800 font-logo tracking-widest italic">Active Listings</p>
       </div>
 
-      <FilterAuctionList category={category} subCategory={subCategory} chooseCategory={chooseCategory} chooseDate={chooseDate} chosenCategory={chosenCategory} />
+      <FilterAuctionList />
+
+      <div className="flex flex-row justify-between items-center">
+        <button disabled={page === 0} onClick={() => navigatePage("backward")} className="p-1 bg-orange-400 text-orange-800 rounded-3xl hover:bg-orange-800 hover:text-orange-400 duration-100 disabled:bg-orange-200 disabled:text-orange-400">
+          <IoIosArrowBack />
+        </button>
+        <button onClick={() => navigatePage("forward")} className="p-1 bg-orange-400 text-orange-800 rounded-3xl hover:bg-orange-800 hover:text-orange-400 duration-100 disabled:bg-orange-200 disabled:text-orange-400">
+          <IoIosArrowForward />
+        </button>
+      </div>
+
 
       <div className="flex flex-row items-start p-3 w-full">
         {
           fetchedAuctions.length <= 0 ? <p>There is no active listing.</p> :
             fetchedAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)
-
         }
       </div>
     </div>
