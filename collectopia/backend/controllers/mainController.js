@@ -302,10 +302,10 @@ exports.fetchAuctions = async (req, res, next) => {
   const todaysDate = new Date()
   const todaysTimestamp = dayjs(todaysDate).unix()
   const page = req.query.page
-  const limit = 6
+  const limit = 3
 
   try {
-    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }).skip(page * limit).limit(6)
+    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }).skip(page * limit).limit(limit)
 
     if (fetchedAuctions.length === 0) {
       throwError('There is no auction created in last 24 hours!', 404)
@@ -319,15 +319,23 @@ exports.fetchAuctions = async (req, res, next) => {
 }
 
 exports.filterAuctions = async (req, res, next) => {
+  const todaysDate = new Date()
+  const todaysTimestamp = dayjs(todaysDate).unix()
   const category = req.query.category
   const subCategory = req.query.subCategory
   const deadline = +req.query.deadline
   console.log(category, subCategory, deadline)
   try {
-    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }).skip(0 * 6).limit(6)
 
+    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
 
+    const test = []
 
+    const filteredAuctions = fetchedAuctions.filter((auction) => {
+      return ((!category || auction.item.category === category) && (!subCategory || auction.item.subCategory === subCategory) && (!deadline || auction.deadline === deadline))
+    })
+
+    console.log(filteredAuctions)
 
 
 

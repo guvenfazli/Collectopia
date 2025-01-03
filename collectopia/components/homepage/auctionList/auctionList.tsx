@@ -71,7 +71,7 @@ export default function AuctionList() {
 
       <FilterAuctionList setFetchedAuctions={setFetchedAuctions} />
 
-      <div className="flex flex-row justify-between items-center">
+      <div className="flex flex-row justify-between items-center -mb-8">
         <button disabled={page === 0} onClick={() => navigatePage("backward")} className="p-1 bg-orange-400 text-orange-800 rounded-3xl hover:bg-orange-800 hover:text-orange-400 duration-100 disabled:bg-orange-200 disabled:text-orange-400">
           <IoIosArrowBack />
         </button>
@@ -81,7 +81,7 @@ export default function AuctionList() {
       </div>
 
 
-      <div className="flex flex-row items-start p-3 w-full">
+      <div className="flex flex-row items-start p-3 w-full flex-wrap gap-5 justify-center">
         {
           fetchedAuctions.length <= 0 ? <p>There is no active listing.</p> :
             fetchedAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)
