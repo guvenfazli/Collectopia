@@ -105,6 +105,7 @@ export default function FilterAuctionList({ setFetchedAuctions, setFilteredAucti
 
       const resData = await response.json()
       setFilteredAuctions(resData.filteredAuctions)
+      setFetchedAuctions([])
       setIsLoading(false)
     } catch (err: any) {
       setIsError(err.message)

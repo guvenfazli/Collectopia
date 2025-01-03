@@ -62,7 +62,7 @@ export default function AuctionList() {
       fetchAuctions()
     }
 
-  }, [page])
+  }, [page, filteredAuctions])
 
   function navigatePage(operator: string) {
     if (operator === "forward") {
