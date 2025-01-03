@@ -76,7 +76,11 @@ export default function FilterAuctionList({ setFetchedAuctions, setFilteredAucti
 
 
   function chooseCategory(e: BaseSyntheticEvent) {
-    setChosenCategory(e.target.value)
+    if (e.target.value === "Please Select a Category") { // Will fix this. 
+      setChosenCategory(undefined)
+    } else {
+      setChosenCategory(e.target.value)
+    }
   }
 
   function chooseSubCategory(e: BaseSyntheticEvent) {
@@ -109,22 +113,24 @@ export default function FilterAuctionList({ setFetchedAuctions, setFilteredAucti
       setIsLoading(false)
     } catch (err: any) {
       setIsError(err.message)
+      setFetchedAuctions([])
+      setIsLoading(false)
     }
   }
 
   return (
     <form onSubmit={(e) => filterAuctionList(e)} className="flex flex-row gap-2">
       <select name="category" onChange={(e) => chooseCategory(e)} required className="shadow-sm shadow-slate-500 p-2 border border-orange-800 rounded-md outline-none">
-        <option value={undefined}>Please Select a Category</option>
+        <option>Please Select a Category</option>
         {category.map((cat: { category: string, display: string }) => <option value={cat.category} key={cat.category}>{cat.display}</option>)}
       </select>
 
       <select onChange={(e) => chooseSubCategory(e)} name="subcategory" required className="shadow-sm shadow-slate-500 p-2 border border-orange-800 rounded-md outline-none">
-        <option >Please Select a Subcategory</option>
+        <option>Please Select a Subcategory</option>
         {chosenCategory !== undefined && subCategory[chosenCategory].map((subCat: { value: string, display: string }) => <option value={subCat.value} key={subCat.value}>{subCat.display}</option>)}
       </select>
 
-      <input placeholder="Additional Tag" className="border border-orange-800 px-2 bg-orange-300 placeholder:text-orange-200 rounded-md" />
+      <input placeholder="Additional Tag" className="border border-orange-800 px-2 bg-orange-300 placeholder:text-orange-200 rounded-md outline-none" />
 
       <input name="deadline" type="date" onChange={(e) => chooseDate(e)} className="bg-orange-300 text-orange-800 font-medium p-2 rounded-lg text-sm placeholder:text-orange-800 outline-none" />
 
