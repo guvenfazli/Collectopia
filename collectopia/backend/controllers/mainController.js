@@ -308,7 +308,7 @@ exports.fetchAuctions = async (req, res, next) => {
     const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }).skip(page * limit).limit(limit)
 
     if (fetchedAuctions.length === 0) {
-      throwError('There is no auction created in last 24 hours!', 404)
+      throwError('There is no active listing', 404)
     }
 
     return res.status(200).json({ fetchedAuctions: fetchedAuctions })

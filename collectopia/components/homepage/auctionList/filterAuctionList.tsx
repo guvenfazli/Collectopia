@@ -134,7 +134,7 @@ export default function FilterAuctionList({ setFetchedAuctions, setFilteredAucti
         Filter
       </button>
 
-      <button className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
+      <button type="button" onClick={() => setFilteredAuctions([])} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
         Clear Filter
       </button>
     </form>

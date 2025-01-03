@@ -26,6 +26,7 @@ export default function AuctionList() {
 
   const [fetchedAuctions, setFetchedAuctions] = useState<FetchedAuction[]>([])
   const [filteredAuctions, setFilteredAuctions] = useState<FetchedAuction[]>([])
+  const [isError, setIsError] = useState<boolean | string>(false)
   const [page, setPage] = useState<number>(0)
 
 
@@ -40,7 +41,7 @@ export default function AuctionList() {
 
         if (!response.ok) {
           const resData = await response.json()
-          const error = new Error(resData)
+          const error = new Error(resData.message)
           throw error
         }
 
@@ -49,6 +50,7 @@ export default function AuctionList() {
 
       } catch (err: any) {
         setFetchedAuctions([])
+        setIsError(err.message)
 
       }
     }
@@ -79,15 +81,15 @@ export default function AuctionList() {
         <button disabled={page === 0} onClick={() => navigatePage("backward")} className="p-1 bg-orange-400 text-orange-800 rounded-3xl hover:bg-orange-800 hover:text-orange-400 duration-100 disabled:bg-orange-200 disabled:text-orange-400">
           <IoIosArrowBack />
         </button>
-        <button onClick={() => navigatePage("forward")} className="p-1 bg-orange-400 text-orange-800 rounded-3xl hover:bg-orange-800 hover:text-orange-400 duration-100 disabled:bg-orange-200 disabled:text-orange-400">
+        <button disabled={isError !== false} onClick={() => navigatePage("forward")} className="p-1 bg-orange-400 text-orange-800 rounded-3xl hover:bg-orange-800 hover:text-orange-400 duration-100 disabled:bg-orange-200 disabled:text-orange-400">
           <IoIosArrowForward />
         </button>
       </div>
 
 
-      <div className="flex flex-row items-start p-3 w-full flex-wrap gap-5 justify-center">
+      <div className="flex flex-row items-start p-3 w-full flex-wrap gap-5 justify-center min-h-[653px]">
         {
-          fetchedAuctions.length <= 0 ? <p>There is no active listing.</p> :
+          fetchedAuctions.length <= 0 ? <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p> :
             fetchedAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)
         }
       </div>
