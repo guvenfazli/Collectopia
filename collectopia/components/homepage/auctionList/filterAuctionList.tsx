@@ -27,12 +27,14 @@ type FetchedAuction = {
 type ComponentProps = {
   setFetchedAuctions: React.Dispatch<React.SetStateAction<FetchedAuction[]>>;
   setFilteredAuctions: React.Dispatch<React.SetStateAction<FetchedAuction[]>>;
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsError: React.Dispatch<React.SetStateAction<boolean | string>>
 }
 
 
 
 
-export default function FilterAuctionList({ setFetchedAuctions, setFilteredAuctions }: ComponentProps) {
+export default function FilterAuctionList({ setFetchedAuctions, setFilteredAuctions, setIsLoading, setIsError }: ComponentProps) {
 
   const [chosenDate, setChosenDate] = useState<number>(0)
   const [category, setCategory] = useState([
@@ -90,27 +92,22 @@ export default function FilterAuctionList({ setFetchedAuctions, setFilteredAucti
 
   async function filterAuctionList(e: BaseSyntheticEvent) {
     e.preventDefault()
-
-    const formData = e.target as HTMLFormElement
-    const fd = new FormData(formData)
-    fd.delete('deadline')
-    fd.append('deadline', JSON.stringify(chosenDate))
-
-
+    setIsLoading(true)
 
     try {
       const response = await fetch(`http://localhost:8080/filterAuctions?category=${chosenCategory}&subCategory=${chosenSubCategory}&deadline=${chosenDate}`)
 
       if (!response.ok) {
         const resData = await response.json()
-        const error = new Error(resData)
+        const error = new Error(resData.message)
         throw error
       }
 
-
-
+      const resData = await response.json()
+      setFilteredAuctions(resData.filteredAuctions)
+      setIsLoading(false)
     } catch (err: any) {
-      console.log(err.message)
+      setIsError(err.message)
     }
   }
 

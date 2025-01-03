@@ -341,10 +341,10 @@ exports.filterAuctions = async (req, res, next) => {
     })
 
     if (fetchedAuctions.length === 0) {
-      throwError('There is no auction with these settings!', 404)
+      throwError('There is no auction with these settings! Please clear the filters to see all the auctions.', 404)
     }
 
-    return res.status(200).json({ fetchedAuctions: filteredAuctions })
+    return res.status(200).json({ filteredAuctions: filteredAuctions })
 
   } catch (err) {
     next(err)
