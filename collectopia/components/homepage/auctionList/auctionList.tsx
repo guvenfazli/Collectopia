@@ -1,23 +1,15 @@
-import {
-  HoverCard,
-  HoverCardContent,
-  HoverCardTrigger,
-} from "@/components/ui/hover-card"
-import FormLabel from "./formLabel"
-import { BaseSyntheticEvent, ChangeEvent, useState, useRef } from "react"
+"use client"
+import { BaseSyntheticEvent, ChangeEvent, useState } from "react"
+import dayjs from "dayjs"
+import FilterAuctionList from "./filterAuctionList"
 
 type subCat = {
   [catName: string]: { value: string, display: string }[],
 }
 
-type ComponentProps = {
-  setTagList: React.Dispatch<React.SetStateAction<string[]>>
-}
+export default function AuctionList() {
 
-export default function CategoryDate({ setTagList }: ComponentProps) {
-
-  const tagRef = useRef<HTMLInputElement | null>(null)
-
+  const [chosenDate, setChosenDate] = useState<number>(0)
   const [category, setCategory] = useState([
     { category: "anime", display: "Anime" },
     { category: "music", display: "Music" },
@@ -58,42 +50,26 @@ export default function CategoryDate({ setTagList }: ComponentProps) {
     setChosenCategory(e.target.value)
   }
 
-  function addTag(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === "," && tagRef.current && tagRef.current.value.length > 0) {
-      setTagList((prev) => {
-        const updated = [...prev]
-        updated.push(tagRef.current!.value.toLowerCase())
-        return updated
-      })
-    }
+  function chooseDate(e: ChangeEvent<HTMLInputElement>) {
+    const chosenDate = new Date(e.target.value)
+    const convertToDayJS = dayjs(chosenDate).startOf("day")
+    const timestamp = convertToDayJS.unix()
+    setChosenDate(timestamp)
   }
 
 
 
   return (
-    <div className="flex flex-col gap-4 items-end justify-start w-1/2">
-      <div className="flex flex-row -mb-4">
-        <FormLabel customFor="tags" label="Additional Tags" />
-        <HoverCard>
-          <HoverCardTrigger className="text-lg font-logo tracking-widest hover:underline hover:cursor-pointer">(?)</HoverCardTrigger>
-          <HoverCardContent className="bg-orange-100 text-orange-800">
-            Press ' , ' to add tags to your item.
-          </HoverCardContent>
-        </HoverCard>
+    <div className="flex flex-col gap-5">
+      <div className="flex flex-row w-full justify-start items-center">
+        <p className="text-4xl text-orange-800 font-logo tracking-widest italic">Active Listings</p>
       </div>
-      <input name="tags" ref={tagRef} onKeyDown={(e) => addTag(e)} placeholder="Additional Tags" className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
 
-      <FormLabel customFor="category" label="Category" />
-      <select name="category" onChange={(e) => chooseCategory(e)} required className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none">
-        <option>Please Select a Category</option>
-        {category.map((cat: { category: string, display: string }) => <option value={cat.category} key={cat.category}>{cat.display}</option>)}
-      </select>
+      <FilterAuctionList category={category} subCategory={subCategory} chooseCategory={chooseCategory} chooseDate={chooseDate} chosenCategory={chosenCategory} />
 
-      <FormLabel customFor="Subcategory" label="Subcategory" />
-      <select name="subcategory" required className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none">
-        <option>Please Select a Subcategory</option>
-        {subCategory[chosenCategory].map((subCat: { value: string, display: string }) => <option value={subCat.value} key={subCat.value}>{subCat.display}</option>)}
-      </select>
+      <div className="flex flex-row items-start p-3 w-full">
+
+      </div>
     </div>
   )
 }

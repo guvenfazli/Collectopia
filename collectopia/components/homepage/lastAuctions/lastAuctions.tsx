@@ -68,17 +68,19 @@ export default function LastAuctions() {
 
       </div>
 
-      <div className="flex flex-row border items-start p-3 w-full">
-        <Carousel opts={{active: isSliding}} className="w-full">
-          <CarouselContent>
-            {fetchedLastAuctions.map((auction) =>
-              <CarouselItem key={auction._id}>
-                <AuctionCard auction={auction} setIsSliding={setIsSliding} />
-              </CarouselItem>
-            )}
-          </CarouselContent>
-        </Carousel>
-
+      <div className="flex flex-row items-start p-3 w-full">
+        {
+          fetchedLastAuctions.length <= 0 ? <p className=" text-lg tracking-wide italic">No Auction Created in the last 24 hours.</p> :
+            <Carousel opts={{ active: isSliding }} className="w-full">
+              <CarouselContent>
+                {fetchedLastAuctions.map((auction) =>
+                  <CarouselItem key={auction._id}>
+                    <AuctionCard auction={auction} setIsSliding={setIsSliding} />
+                  </CarouselItem>
+                )}
+              </CarouselContent>
+            </Carousel>
+        }
       </div>
     </div>
   )
