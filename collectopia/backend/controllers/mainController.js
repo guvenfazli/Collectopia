@@ -340,7 +340,6 @@ exports.filterAuctions = async (req, res, next) => {
       }
     })
 
-    console.log(filteredAuctions)
 
     if (filteredAuctions.length === 0) {
       throwError('There is no auction with these settings! Please clear the filters to see all the auctions.', 404)

@@ -57,7 +57,7 @@ export default function Header() {
       <header className="flex flex-row justify-between items-center p-4 w-full bg-orange-100 text-orange-800 shadow-sm">
 
         <div>
-          <p className="font-logo text-5xl">Collectopia</p>
+          <p className="font-logo text-5xl tracking-wider">Collectopia</p>
         </div>
 
         <HeaderNavigator />
