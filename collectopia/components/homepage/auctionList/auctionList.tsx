@@ -69,7 +69,7 @@ export default function AuctionList() {
         <p className="text-4xl text-orange-800 font-logo tracking-widest italic">Active Listings</p>
       </div>
 
-      <FilterAuctionList />
+      <FilterAuctionList setFetchedAuctions={setFetchedAuctions} />
 
       <div className="flex flex-row justify-between items-center">
         <button disabled={page === 0} onClick={() => navigatePage("backward")} className="p-1 bg-orange-400 text-orange-800 rounded-3xl hover:bg-orange-800 hover:text-orange-400 duration-100 disabled:bg-orange-200 disabled:text-orange-400">

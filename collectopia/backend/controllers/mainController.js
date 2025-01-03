@@ -316,9 +316,36 @@ exports.fetchAuctions = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-
 }
 
+exports.filterAuctions = async (req, res, next) => {
+  const category = req.query.category
+  const subCategory = req.query.subCategory
+  const deadline = +req.query.deadline
+  console.log(category, subCategory, deadline)
+  try {
+    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }).skip(0 * 6).limit(6)
+
+
+
+
+
+
+    if (fetchedAuctions.length === 0) {
+      throwError('There is no auction created in last 24 hours!', 404)
+    }
+
+    return res.status(200).json({ fetchedAuctions: fetchedAuctions })
+
+  } catch (err) {
+    next(err)
+  }
+
+
+
+
+
+}
 // USER FOLLOWS AND TRACKINGS
 
 exports.trackAuction = async (req, res, next) => {

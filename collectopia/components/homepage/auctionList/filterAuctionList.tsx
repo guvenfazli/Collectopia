@@ -9,20 +9,29 @@ type subCat = {
   [catName: string]: { value: string, display: string }[],
 }
 
+type FetchedAuction = {
+  auctionTag: string;
+  bidList: any;
+  deadline: number;
+  buyout: number;
+  createdAt: string;
+  followers: any;
+  item: any;
+  minValue: number;
+  seller: string;
+  _id: string
+}
+
 
 
 type ComponentProps = {
-  category: Category[]
-  subCategory: subCat
-  chooseCategory: React.Dispatch<React.ChangeEvent<HTMLSelectElement>>
-  chosenCategory: string
-  chooseDate: React.Dispatch<React.ChangeEvent<HTMLInputElement>>
+  setFetchedAuctions: React.Dispatch<React.SetStateAction<FetchedAuction[]>>
 }
 
 
 
 
-export default function FilterAuctionList() {
+export default function FilterAuctionList({ setFetchedAuctions }: ComponentProps) {
 
   const [chosenDate, setChosenDate] = useState<number>(0)
   const [category, setCategory] = useState([
@@ -59,11 +68,16 @@ export default function FilterAuctionList() {
     ]
   })
 
-  const [chosenCategory, setChosenCategory] = useState<string>("anime")
+  const [chosenCategory, setChosenCategory] = useState<string | undefined>(undefined)
+  const [chosenSubCategory, setChosenSubCategory] = useState<string | null>()
 
 
   function chooseCategory(e: BaseSyntheticEvent) {
     setChosenCategory(e.target.value)
+  }
+
+  function chooseSubCategory(e: BaseSyntheticEvent) {
+    setChosenSubCategory(e.target.value)
   }
 
   function chooseDate(e: ChangeEvent<HTMLInputElement>) {
@@ -73,16 +87,42 @@ export default function FilterAuctionList() {
     setChosenDate(timestamp)
   }
 
+  async function filterAuctionList(e: BaseSyntheticEvent) {
+    e.preventDefault()
+
+    const formData = e.target as HTMLFormElement
+    const fd = new FormData(formData)
+    fd.delete('deadline')
+    fd.append('deadline', JSON.stringify(chosenDate))
+
+
+
+    try {
+      const response = await fetch(`http://localhost:8080/filterAuctions?category=${chosenCategory}&subCategory=${chosenSubCategory}&deadline=${chosenDate}`)
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData)
+        throw error
+      }
+
+
+
+    } catch (err: any) {
+      console.log(err.message)
+    }
+  }
+
   return (
-    <form className="flex flex-row gap-2">
+    <form onSubmit={(e) => filterAuctionList(e)} className="flex flex-row gap-2">
       <select name="category" onChange={(e) => chooseCategory(e)} required className="shadow-sm shadow-slate-500 p-2 border border-orange-800 rounded-md outline-none">
-        <option>Please Select a Category</option>
+        <option value={undefined}>Please Select a Category</option>
         {category.map((cat: { category: string, display: string }) => <option value={cat.category} key={cat.category}>{cat.display}</option>)}
       </select>
 
-      <select name="subcategory" required className="shadow-sm shadow-slate-500 p-2 border border-orange-800 rounded-md outline-none">
-        <option>Please Select a Subcategory</option>
-        {subCategory[chosenCategory].map((subCat: { value: string, display: string }) => <option value={subCat.value} key={subCat.value}>{subCat.display}</option>)}
+      <select onChange={(e) => chooseSubCategory(e)} name="subcategory" required className="shadow-sm shadow-slate-500 p-2 border border-orange-800 rounded-md outline-none">
+        <option >Please Select a Subcategory</option>
+        {chosenCategory !== undefined && subCategory[chosenCategory].map((subCat: { value: string, display: string }) => <option value={subCat.value} key={subCat.value}>{subCat.display}</option>)}
       </select>
 
       <input placeholder="Additional Tag" className="border border-orange-800 px-2 bg-orange-300 placeholder:text-orange-200 rounded-md" />
