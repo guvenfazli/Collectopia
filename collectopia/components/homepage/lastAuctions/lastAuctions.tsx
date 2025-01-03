@@ -45,7 +45,7 @@ export default function LastAuctions() {
 
         const resData = await response.json()
         setFetchedAuctions(resData.fetchedLastAuctions)
-        console.log(resData)
+
 
       } catch (err: any) {
         console.log(err.message)

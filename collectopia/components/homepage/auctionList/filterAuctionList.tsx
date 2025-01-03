@@ -25,13 +25,14 @@ type FetchedAuction = {
 
 
 type ComponentProps = {
-  setFetchedAuctions: React.Dispatch<React.SetStateAction<FetchedAuction[]>>
+  setFetchedAuctions: React.Dispatch<React.SetStateAction<FetchedAuction[]>>;
+  setFilteredAuctions: React.Dispatch<React.SetStateAction<FetchedAuction[]>>;
 }
 
 
 
 
-export default function FilterAuctionList({ setFetchedAuctions }: ComponentProps) {
+export default function FilterAuctionList({ setFetchedAuctions, setFilteredAuctions }: ComponentProps) {
 
   const [chosenDate, setChosenDate] = useState<number>(0)
   const [category, setCategory] = useState([

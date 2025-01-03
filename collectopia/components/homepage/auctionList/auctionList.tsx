@@ -25,6 +25,7 @@ type FetchedAuction = {
 export default function AuctionList() {
 
   const [fetchedAuctions, setFetchedAuctions] = useState<FetchedAuction[]>([])
+  const [filteredAuctions, setFilteredAuctions] = useState<FetchedAuction[]>([])
   const [page, setPage] = useState<number>(0)
 
 
@@ -52,7 +53,10 @@ export default function AuctionList() {
       }
     }
 
-    fetchAuctions()
+    if (filteredAuctions.length <= 0) {
+      fetchAuctions()
+    }
+
   }, [page])
 
   function navigatePage(operator: string) {
@@ -69,7 +73,7 @@ export default function AuctionList() {
         <p className="text-4xl text-orange-800 font-logo tracking-widest italic">Active Listings</p>
       </div>
 
-      <FilterAuctionList setFetchedAuctions={setFetchedAuctions} />
+      <FilterAuctionList setFetchedAuctions={setFetchedAuctions} setFilteredAuctions={setFilteredAuctions} />
 
       <div className="flex flex-row justify-between items-center -mb-8">
         <button disabled={page === 0} onClick={() => navigatePage("backward")} className="p-1 bg-orange-400 text-orange-800 rounded-3xl hover:bg-orange-800 hover:text-orange-400 duration-100 disabled:bg-orange-200 disabled:text-orange-400">
