@@ -1,14 +1,29 @@
 "use client"
-import { BaseSyntheticEvent, ChangeEvent, useState } from "react"
+import { BaseSyntheticEvent, ChangeEvent, useState, useEffect } from "react"
 import dayjs from "dayjs"
 import FilterAuctionList from "./filterAuctionList"
+import MainAuctionCard from './mainAuctionCard'
 
 type subCat = {
   [catName: string]: { value: string, display: string }[],
 }
 
+type FetchedAuction = {
+  auctionTag: string;
+  bidList: any;
+  deadline: number;
+  buyout: number;
+  createdAt: string;
+  followers: any;
+  item: any;
+  minValue: number;
+  seller: string;
+  _id: string
+}
+
 export default function AuctionList() {
 
+  const [fetchedAuctions, setFetchedAuctions] = useState<FetchedAuction[]>([])
   const [chosenDate, setChosenDate] = useState<number>(0)
   const [category, setCategory] = useState([
     { category: "anime", display: "Anime" },
@@ -57,6 +72,31 @@ export default function AuctionList() {
     setChosenDate(timestamp)
   }
 
+  useEffect(() => {
+    async function fetchAuctions() {
+      try {
+        const response = await fetch('http://localhost:8080/fetchAuctions', {
+          credentials: "include"
+        })
+
+        if (!response.ok) {
+          const resData = await response.json()
+          const error = new Error(resData)
+          throw error
+        }
+
+        const resData = await response.json()
+        setFetchedAuctions(resData.fetchedAuctions)
+        console.log(resData)
+
+      } catch (err: any) {
+        console.log(err.message)
+      }
+    }
+
+    fetchAuctions()
+  }, [])
+
 
 
   return (
@@ -68,7 +108,11 @@ export default function AuctionList() {
       <FilterAuctionList category={category} subCategory={subCategory} chooseCategory={chooseCategory} chooseDate={chooseDate} chosenCategory={chosenCategory} />
 
       <div className="flex flex-row items-start p-3 w-full">
+        {
+          fetchedAuctions.length <= 0 ? <p>There is no active listing.</p> :
+            fetchedAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)
 
+        }
       </div>
     </div>
   )
