@@ -332,10 +332,16 @@ exports.filterAuctions = async (req, res, next) => {
     const test = []
 
     const filteredAuctions = fetchedAuctions.filter((auction) => {
-      return ((!category || auction.item.category === category) && (!subCategory || auction.item.subCategory === subCategory) && (!deadline || auction.deadline === deadline))
+      if (
+        (category === "undefined" || auction.item.category === category) &&
+        (subCategory === "undefined" || auction.item.subCategory === subCategory) &&
+        (deadline === 0 || auction.deadline === deadline)) {
+          return auction
+        }
     })
 
     console.log(filteredAuctions)
+
 
 
 
