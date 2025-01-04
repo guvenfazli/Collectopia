@@ -63,6 +63,9 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
     }
   }
 
+  console.log(auction.item.owner)
+  console.log(loggedInUser.id)
+
 
   return (
     <div className={`flex bg-blue-200 text-nowrap overflow-hidden duration-700 ease-in-out relative z-40 flex-shrink-0 border border-blue-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isListing ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
@@ -97,14 +100,18 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
         <CardInformation tagList={auction.item.tagList} title="Tags" auction={true} />
         <CardInformation fetchedItemInfo={dayjs(dateDataConverted).format("DD/MM/YYYY")} title="Deadline" auction={true} />
 
-        <div className="flex flex-row w-full justify-between items-center gap-1 text-gray-800 mb-2 tracking-wide text-base">
-          <p>See the Auction:</p>
-          <Link href={`/auctions/${auction._id}`} className="bg-blue-800 text-white rounded-lg p-1 hover:bg-blue-500 duration-150"><HiOutlineScale /></Link>
-        </div>
+        <div className="flex flex-col w-full items-start justify-start gap-3">
+          <div className="flex flex-row w-full justify-between items-center text-gray-800 tracking-wide mb- text-base">
+            <p>See the Auction:</p>
+            <Link href={`/auctions/${auction._id}`} className="bg-blue-800 text-white rounded-lg p-1 hover:bg-blue-500 duration-150"><HiOutlineScale /></Link>
+          </div>
 
-        <div className="flex flex-row w-full justify-between items-center gap-1 text-gray-800 tracking-wide text-base">
-          <p>{alreadyFollowed ? "Unfollow the Auction:" : "Follow the Auction:"}</p>
-          <button onClick={() => followAuction(auction._id)} className="bg-blue-800 text-white rounded-lg p-1 hover:bg-blue-500 duration-150"><HiOutlineLightBulb /></button>
+          {loggedInUser.id !== auction.item.owner &&
+            <div className="flex flex-row w-full justify-between items-center text-gray-800 tracking-wide text-base">
+              <p>{alreadyFollowed ? "Unfollow the Auction:" : "Follow the Auction:"}</p>
+              <button onClick={() => followAuction(auction._id)} className="bg-blue-800 text-white rounded-lg p-1 hover:bg-blue-500 duration-150"><HiOutlineLightBulb /></button>
+            </div>
+          }
         </div>
       </div>
     </div>
