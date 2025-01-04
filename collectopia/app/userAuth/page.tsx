@@ -9,13 +9,13 @@ export default function UserAuthPage() {
 
   if (mode === 'login') {
     return (
-      <div className="flex justify-center h-screen items-center border border-black">
+      <div className="flex justify-center h-screen items-center">
         <UserLogin />
       </div>
     )
   } else if (mode === 'register') {
     return (
-      <div className="flex justify-center h-screen items-center border border-black">
+      <div className="flex justify-center h-screen items-center">
         <UserRegister />
       </div>
     )

@@ -5,10 +5,22 @@ import UsersInventory from "@/components/profile/inventory"
 import UserLiveAuctions from "@/components/profile/liveAuctions/userLiveAuctions"
 import { useParams } from "next/navigation"
 
+type FetchedUserType = {
+  _id: string,
+  name: string,
+  surname: string,
+  interests: string[],
+  items: any,
+  auctions: any
+  createdAt: string,
+  followers: string[]
+}
+
+
 export default function UserProfilePage() {
 
   const { userId } = useParams()
-  const [foundUser, setfoundUser] = useState<any>()
+  const [foundUser, setfoundUser] = useState<FetchedUserType>({} as FetchedUserType)
   const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
@@ -24,7 +36,7 @@ export default function UserProfilePage() {
           throw error
         }
 
-        const resData = await response.json()
+        const resData: { foundUser: FetchedUserType } = await response.json()
         setfoundUser(resData.foundUser)
         setIsLoading(false)
       } catch (err: any) {

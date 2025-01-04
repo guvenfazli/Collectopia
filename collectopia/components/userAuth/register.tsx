@@ -59,7 +59,7 @@ export default function UserRegister() {
 
 
   return (
-    <div className="flex border bg-orange-100 text-orange-800 border-gray-400 w-2/4 py-5 rounded-lg h-auto flex-col items-center justify-center text-center gap-5 max-lg:w-2/3 max-md:w-full">
+    <div className="flex border bg-orange-100 text-orange-800 border-orange-800 w-2/4 py-5 rounded-lg h-auto flex-col items-center justify-center text-center gap-5 max-lg:w-2/3 max-md:w-full">
       <div className="flex flex-col w-full gap-4">
         <p className="text-3xl font-semibold max-sm:text-xl">It's nice to meet you!</p>
         <p className="text-xl text-gray-700 max-sm:text-base">Sign up and get started!</p>
