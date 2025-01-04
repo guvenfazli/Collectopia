@@ -14,7 +14,7 @@ type ComponentProps = {
 export default function MainAuctionImages({ imageList }: ComponentProps) {
   return (
     <Carousel className="w-full">
-      <CarouselContent className={`duration-100 h-64`}>
+      <CarouselContent className={`duration-100 h-44`}>
         {imageList.map((img: string) =>
           <CarouselItem className="relative " key={img}>
             <div className="absolute blur-sm top-0 right-0 bottom-0 left-0" style={{ background: `url(http://localhost:8080/${img.replaceAll(/\\/g, "/")})`, backgroundPosition: "center", backgroundSize: "contain" }} />

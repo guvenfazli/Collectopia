@@ -68,14 +68,16 @@ export default function AuctionCard({ auction, setIsSliding }: ComponentProps) {
         <AuctionInformation fetchedItemInfo={dayjs(dateDataConverted).format("DD/MM/YYYY")} title="Deadline" />
       </div>
 
-      <div className="flex flex-row w-full justify-between items-center gap-1 text-gray-800 tracking-wide text-base">
-        <p>See the Auction:</p>
-        <Link href={`/auctions/${auction._id}`} className="bg-orange-800 text-white rounded-lg p-1 hover:bg-orange-500 duration-150"><HiOutlineScale /></Link>
-      </div>
+      <div className="flex flex-col  items-start justify-start gap-3">
+        <div className="flex flex-row w-full justify-between items-center text-gray-800 tracking-wide mb- text-base">
+          <p>See the Auction:</p>
+          <Link href={`/auctions/${auction._id}`} className="bg-orange-800 text-white rounded-lg p-1 hover:bg-orange-500 duration-150"><HiOutlineScale /></Link>
+        </div>
 
-      <div className="flex flex-row w-full justify-between items-center gap-1 text-gray-800 tracking-wide text-base">
-        <p>{alreadyFollowed ? "Unfollow the Auction:" : "Follow the Auction:"}</p>
-        <button onClick={() => followAuction(auction._id)} className="bg-orange-800 text-white rounded-lg p-1 hover:bg-orange-500 duration-150"><HiOutlineLightBulb /></button>
+        <div className="flex flex-row w-full justify-between items-center text-gray-800 tracking-wide text-base">
+          <p>{alreadyFollowed ? "Unfollow the Auction:" : "Follow the Auction:"}</p>
+          <button onClick={() => followAuction(auction._id)} className="bg-orange-800 text-white rounded-lg p-1 hover:bg-orange-500 duration-150"><HiOutlineLightBulb /></button>
+        </div>
       </div>
     </div>
   )

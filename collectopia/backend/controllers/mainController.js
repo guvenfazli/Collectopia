@@ -472,9 +472,6 @@ exports.trackingAuctions = async (req, res, next) => {
     }
 
     res.status(200).json({ tracking: foundAuctions.trackingAuctions })
-
-
-
   } catch (err) {
     next(err)
   }

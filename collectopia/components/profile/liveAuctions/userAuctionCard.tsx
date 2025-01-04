@@ -97,7 +97,7 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
         <CardInformation tagList={auction.item.tagList} title="Tags" auction={true} />
         <CardInformation fetchedItemInfo={dayjs(dateDataConverted).format("DD/MM/YYYY")} title="Deadline" auction={true} />
 
-        <div className="flex flex-row w-full justify-between items-center gap-1 text-gray-800 tracking-wide text-base">
+        <div className="flex flex-row w-full justify-between items-center gap-1 text-gray-800 mb-2 tracking-wide text-base">
           <p>See the Auction:</p>
           <Link href={`/auctions/${auction._id}`} className="bg-blue-800 text-white rounded-lg p-1 hover:bg-blue-500 duration-150"><HiOutlineScale /></Link>
         </div>
