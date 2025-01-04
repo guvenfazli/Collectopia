@@ -1,11 +1,12 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { useParams } from "next/navigation"
+import { useSelector } from "react-redux"
+import dayjs from "dayjs"
 import UserAuctionCard from "./userAuctionCard"
 import UserAuctionFiltering from "./userAuctionFiltering"
 import UserAuctionNavigator from "./userAuctionNavigator"
-import { redirect, useParams } from "next/navigation"
-import { useSelector } from "react-redux"
 
 type FetchedAuction = {
   _id: string,
@@ -30,6 +31,10 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
   const [filteredUserAuctions, setFilteredUserAuctions] = useState<FetchedAuction[]>([])
   const [isError, setIsError] = useState<boolean | string>(false)
 
+  const todaysDate = dayjs(new Date()).unix()
+  const stillActive = userAuctions.filter((auction) => auction.deadline > todaysDate)
+  
+  
   useEffect(() => {
     if (filterTagList.length === 0) {
       setFilteredUserAuctions([])
@@ -64,13 +69,12 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
 
   }
 
-  
+
   return (
     <div onMouseLeave={() => setIsListing(false)} className="flex flex-col w-full items-start justify-start gap-5">
 
       <div className="flex flex-col w-full items-center justify-start">
-        <p className="text-blue-600 text-3xl font-logo tracking-wide">Active Listings <span className="text-base">({userAuctions.length})</span></p>
-
+        <p className="text-blue-600 text-3xl font-logo tracking-wide">Active Listings <span className="text-base">({stillActive.length})</span></p>
         <UserAuctionNavigator auctionLength={userAuctions.length} userId={userId} loggedUserId={loggedUser.id} listingNavNumber={listingNavigator} setListingNavigator={setListingNavigator} isListing={isListing} />
 
         {userAuctions.length > 0 &&
