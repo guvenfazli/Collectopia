@@ -9,28 +9,42 @@ export default function UserProfilePage() {
 
   const { userId } = useParams()
   const [foundUser, setfoundUser] = useState<any>()
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   useEffect(() => {
     async function fetchUser() {
-      const response = await fetch(`http://localhost:8080/findUser/${userId}`, {
-        credentials: "include"
-      })
+      try {
+        const response = await fetch(`http://localhost:8080/findUser/${userId}`, {
+          credentials: "include"
+        })
 
-      if (!response.ok) {
+        if (!response.ok) {
+          const resData = await response.json()
+          const error = new Error(resData.message)
+          throw error
+        }
+
         const resData = await response.json()
-        const error = new Error(resData.message)
-        throw error
+        console.log(resData)
+        setfoundUser(resData.foundUser)
+        setIsLoading(false)
+      } catch (err: any) {
+        console.log(err.message)
       }
-
-      const resData = await response.json()
-
-      setfoundUser(resData.foundUser)
     }
 
     fetchUser()
   }, [])
 
-  if (foundUser) {
+  if (isLoading) {
+    return (
+      <div className="flex w-full h-screen justify-center items-center">
+
+        <span id="loader"></span>
+
+      </div>
+    )
+  } else {
     return (
       <div className="flex flex-col h-auto justify-start items-center ">
         <div className="flex bg-white border-b-orange-300 border-b w-2/3 p-5 shadow-sm shadow-slate-800">
@@ -47,7 +61,5 @@ export default function UserProfilePage() {
       </div>
     )
   }
-
-
 
 }
