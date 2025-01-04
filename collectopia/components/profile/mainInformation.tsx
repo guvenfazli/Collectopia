@@ -33,7 +33,7 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
   const loggedInUser = useSelector((state: any) => state.auth.userInfo.userInfo)
   const dateData = new Date(userInformation.createdAt)
   const dateDataConverted = dayjs(dateData) // Formats the date
-  const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(userInformation.followers.some((followerId) => followerId === loggedInUser.id))
+  const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(userInformation.followers.some((followerId) => followerId === loggedInUser?.id))
 
   async function followUser(userId: string) {
     try {
@@ -65,7 +65,7 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
       <div className="flex flex-row justify-start items-end gap-5">
         <p className="text-5xl font-medium font-logo text-slate-800 tracking-wider">{userInformation.name + " " + userInformation.surname}</p>
         <p className="text-xl font-medium font-logo text-slate-800"><span className="text-sm font-sans text-slate-600 mr-1">Joined:</span> {dateDataConverted.format("DD/MM/YYYY")}</p>
-        {loggedInUser.id !== userInformation._id &&
+        {loggedInUser?.id !== userInformation._id &&
           <TooltipProvider delayDuration={300}>
             <Tooltip>
               <TooltipTrigger onClick={() => followUser(userInformation._id)} className="p-1 border border-orange-800 bg-orange-600 rounded-3xl text-white hover:bg-orange-400 duration-150">

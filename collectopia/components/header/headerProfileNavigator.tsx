@@ -25,16 +25,14 @@ export default function HeaderProfileNavigator({ loggedName, loggedId }: Compone
         const error = new Error(resData.message)
         throw error
       }
-
-      const resData = await response.json()
-      dispatch(authActions.logOutUser({ isLogged: false, userInfo: undefined }))
-
       router.push('/userAuth?mode=login')
+      const resData = await response.json()
+      const deleteAuth = setTimeout(() => {
+        dispatch(authActions.logOutUser({ isLogged: false, userInfo: undefined }))
+      }, 100)
     } catch (err: any) {
       console.log(err.message)
     }
-
-
   }
 
 

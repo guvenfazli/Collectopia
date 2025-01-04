@@ -25,7 +25,6 @@ export default function UserProfilePage() {
         }
 
         const resData = await response.json()
-        console.log(resData)
         setfoundUser(resData.foundUser)
         setIsLoading(false)
       } catch (err: any) {
