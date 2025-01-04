@@ -12,6 +12,7 @@ router.get('/fetchAuctions', mainController.fetchAuctions)
 router.get('/filterAuctions', mainController.filterAuctions)
 router.get('/filterByMyInterest', mainController.filterByMyInterest)
 router.get('/myTrackingList', mainController.trackingAuctions)
+router.get('/myActiveAuctionListing', mainController.myActiveAuctions)
 
 
 // POSTS

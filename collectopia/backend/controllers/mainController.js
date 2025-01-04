@@ -468,10 +468,29 @@ exports.trackingAuctions = async (req, res, next) => {
   try {
     const foundAuctions = await User.findById(userId).populate({ path: 'trackingAuctions', select: { _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }, match: { deadline: { $gt: todaysTimestamp } }, populate: { path: 'item' } })
     if (foundAuctions.trackingAuctions.length === 0) {
-      throwError('You are not tracking any active auctions!', 410)
+      throwError('You are not tracking any active auctions!', 404)
     }
 
     res.status(200).json({ tracking: foundAuctions.trackingAuctions })
+  } catch (err) {
+    next(err)
+  }
+}
+
+exports.myActiveAuctions = async (req, res, next) => {
+  const userId = req.session.userInfo.id
+  const todaysTimestamp = dayjs(new Date()).unix()
+
+  try {
+
+    const foundAuctions = await User.findById(userId).populate({ path: 'auctions', select: { _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }, match: { deadline: { $gt: todaysTimestamp } }, populate: { path: 'item' } })
+
+
+    if (foundAuctions.auctions.length === 0) {
+      throwError('You do not have any active listings!', 404)
+    }
+
+    res.status(200).json({ foundAuctions: foundAuctions.auctions })
   } catch (err) {
     next(err)
   }
