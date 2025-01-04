@@ -23,7 +23,7 @@ export default function UserRegister() {
     { value: 'lego', display: 'Legos', isChosen: false }
   ])
   const [chosenInterests, setChosenInterests] = useState<string[]>([])
-  const [isError, setIsError] = useState<boolean | string>(false)
+  const [isError, setIsError] = useState<false | { field: string, message: string }>(false)
   const [isSuccess, setIsSuccess] = useState<boolean | string>(false)
 
   async function createAccount(e: FormEvent<HTMLFormElement>) {
@@ -66,11 +66,11 @@ export default function UserRegister() {
       </div>
 
       <form onSubmit={(e) => createAccount(e)} className="flex flex-col w-1/2 p-3 gap-5 max-lg:w-8/12 max-md:w-full">
-        <AuthInput name={"name"} placeholder="Name" type="text" setIsError={setIsError} />
-        <AuthInput name={"surname"} placeholder="Surname" type="text" setIsError={setIsError} />
-        <AuthInput name={"email"} placeholder="Email" type="text" setIsError={setIsError} />
-        <AuthInput name={"password"} placeholder="Password" type="password" setIsError={setIsError} />
-        {isError && <p className="text-lg text-red-700">{isError}</p>}
+        <AuthInput name={"name"} placeholder="Name" type="text" setIsError={setIsError} isError={isError && isError.field} />
+        <AuthInput name={"surname"} placeholder="Surname" type="text" setIsError={setIsError} isError={isError && isError.field} />
+        <AuthInput name={"email"} placeholder="Email" type="text" setIsError={setIsError} isError={isError && isError.field} />
+        <AuthInput name={"password"} placeholder="Password" type="password" setIsError={setIsError} isError={isError && isError.field} />
+        {isError && <p className="text-lg text-red-700">{isError.message}</p>}
         {isSuccess && <p className="text-lg text-green-700">{isSuccess}</p>}
         <Interests interestList={interestList} setInterestList={setInterestList} setChosenInterests={setChosenInterests} />
         <div className="flex w-full justify-center py-1">
