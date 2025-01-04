@@ -1,9 +1,8 @@
 "use client"
-import { BaseSyntheticEvent, ChangeEvent, useState, useEffect } from "react"
-import dayjs from "dayjs"
+import { useState, useEffect } from "react"
 import FilterAuctionList from "./filterAuctionList"
 import MainAuctionCard from './mainAuctionCard'
-import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
+import AuctionPaginationNavigator from "./auctionPaginationNavigator"
 
 type subCat = {
   [catName: string]: { value: string, display: string }[],
@@ -71,8 +70,6 @@ export default function AuctionList() {
     }
   }
 
-  console.log(page)
-
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-row w-full justify-start items-center">
@@ -81,15 +78,7 @@ export default function AuctionList() {
 
       <FilterAuctionList setFetchedAuctions={setFetchedAuctions} filteredAuctions={filteredAuctions} setFilteredAuctions={setFilteredAuctions} setIsLoading={setIsLoading} setIsError={setIsError} setPage={setPage} />
 
-      <div className="flex flex-row justify-between items-center -mb-8">
-        <button disabled={page === 0} onClick={() => navigatePage("backward")} className="p-1 bg-orange-400 text-orange-800 rounded-3xl hover:bg-orange-800 hover:text-orange-400 duration-100 disabled:bg-orange-200 disabled:text-orange-400">
-          <IoIosArrowBack />
-        </button>
-        <button disabled={isError !== false} onClick={() => navigatePage("forward")} className="p-1 bg-orange-400 text-orange-800 rounded-3xl hover:bg-orange-800 hover:text-orange-400 duration-100 disabled:bg-orange-200 disabled:text-orange-400 border border-orange-800">
-          <IoIosArrowForward />
-        </button>
-      </div>
-
+      <AuctionPaginationNavigator setPage={setPage} page={page} isError={isError} />
 
       <div className="flex flex-row items-start p-3 w-full flex-wrap gap-5 justify-center min-h-[653px]">
         {(fetchedAuctions.length >= 0 && !isLoading && filteredAuctions.length <= 0) && fetchedAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
