@@ -108,7 +108,6 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
 
       const resData = await response.json()
       setFilteredAuctions(resData.filteredAuctions)
-      setFetchedAuctions([])
       setIsLoading(false)
     } catch (err: any) {
       setIsError(err.message)
@@ -117,7 +116,7 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
     }
   }
 
-  async function filterByMyInterest() {
+  async function filterByMyInterest() { // Filters by the interest array of the user 
     setIsLoading(true)
 
     try {
@@ -141,7 +140,7 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
     }
   }
 
-  function clearFiltering() {
+  function clearFiltering() { // Set the page 0, turns back general listing.
     setFilteredAuctions([])
     setPage(0)
   }
@@ -160,7 +159,7 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
 
       <input name="deadline" type="date" onChange={(e) => chooseDate(e)} className="bg-orange-300 text-orange-800 font-medium p-2 rounded-lg text-sm placeholder:text-orange-800 outline-none" />
 
-      <button type="button" onClick={() => filterByMyInterest()} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
+      <button type="button" onClick={filterByMyInterest} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
         Filter by my interest
       </button>
 
