@@ -77,7 +77,7 @@ export default function AuctionCard({ auction, setIsSliding }: ComponentProps) {
         {loggedInUser.id !== auction.item.owner &&
           <div className="flex flex-row w-full justify-between items-center text-gray-800 tracking-wide text-base">
             <p>{alreadyFollowed ? "Unfollow the Auction:" : "Follow the Auction:"}</p>
-            <button onClick={() => followAuction(auction._id)} className="bg-blue-800 text-white rounded-lg p-1 hover:bg-blue-500 duration-150"><HiOutlineLightBulb /></button>
+            <button onClick={() => followAuction(auction._id)} className="bg-orange-800 text-white rounded-lg p-1 hover:bg-orange-500 duration-150"><HiOutlineLightBulb /></button>
           </div>
         }
       </div>
