@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { authActions } from "@/store/reduxStore"
 import HeaderNavigator from "./headerNavigator"
 import HeaderProfileNavigator from "./headerProfileNavigator"
+import { redirect } from "next/navigation"
 
 type userInfo = {
   isLogged: true,
@@ -42,7 +43,7 @@ export default function Header() {
         dispatch(authActions.logInUser({ isLogged: true, userInfo: resData.userInfo }))
 
       } catch (err: any) {
-        console.log(err.message)
+        redirect('/userAuth?mode=login')
       }
     }
 

@@ -29,13 +29,14 @@ type ComponentProps = {
   setFilteredAuctions: React.Dispatch<React.SetStateAction<FetchedAuction[]>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
   setIsError: React.Dispatch<React.SetStateAction<boolean | string>>,
+  setPage: React.Dispatch<React.SetStateAction<number>>
   filteredAuctions: FetchedAuction[]
 }
 
 
 
 
-export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions, setFilteredAuctions, setIsLoading, setIsError }: ComponentProps) {
+export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions, setFilteredAuctions, setIsLoading, setIsError, setPage }: ComponentProps) {
 
   const [chosenDate, setChosenDate] = useState<number>(0)
   const [category, setCategory] = useState([
@@ -146,6 +147,11 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
     }
   }
 
+  function clearFiltering() {
+    setFilteredAuctions([])
+    setPage(0)
+  }
+
   return (
     <form onSubmit={(e) => filterAuctionList(e)} className="flex flex-row gap-2">
       <select name="category" onChange={(e) => chooseCategory(e)} required className="shadow-sm shadow-slate-500 p-2 border border-orange-800 rounded-md outline-none">
@@ -169,7 +175,7 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
       </button>
 
       {filteredAuctions.length > 0 &&
-        <button type="button" onClick={() => setFilteredAuctions([])} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
+        <button type="button" onClick={clearFiltering} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
           Clear Filter
         </button>
       }

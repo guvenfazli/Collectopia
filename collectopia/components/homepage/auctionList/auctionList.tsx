@@ -52,10 +52,10 @@ export default function AuctionList() {
         setIsLoading(false)
         setIsError(false)
       } catch (err: any) {
+        setIsLoading(false)
         setFetchedAuctions([])
         setFilteredAuctions([])
         setIsError(err.message)
-        setIsLoading(false)
       }
     }
 
@@ -63,7 +63,7 @@ export default function AuctionList() {
       fetchAuctions()
     }
 
-  }, [page, filteredAuctions])
+  }, [page])
 
   function navigatePage(operator: string) {
     if (operator === "forward") {
@@ -79,7 +79,7 @@ export default function AuctionList() {
         <p className="text-4xl text-orange-800 font-logo tracking-widest italic">Active Listings</p>
       </div>
 
-      <FilterAuctionList setFetchedAuctions={setFetchedAuctions} filteredAuctions={filteredAuctions} setFilteredAuctions={setFilteredAuctions} setIsLoading={setIsLoading} setIsError={setIsError} />
+      <FilterAuctionList setFetchedAuctions={setFetchedAuctions} filteredAuctions={filteredAuctions} setFilteredAuctions={setFilteredAuctions} setIsLoading={setIsLoading} setIsError={setIsError} setPage={setPage} />
 
       <div className="flex flex-row justify-between items-center -mb-8">
         <button disabled={page === 0} onClick={() => navigatePage("backward")} className="p-1 bg-orange-400 text-orange-800 rounded-3xl hover:bg-orange-800 hover:text-orange-400 duration-100 disabled:bg-orange-200 disabled:text-orange-400">
