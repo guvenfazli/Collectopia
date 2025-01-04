@@ -358,6 +358,7 @@ exports.filterByMyInterest = async (req, res, next) => {
 
     const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
 
+    // Wanted to filter it by pure JS, thats why did not use aggregate function by mongoose.
 
     const interestedAuctions = []
 

@@ -11,7 +11,7 @@ export default function MainAuctionInformation({ fetchedItemInfo, title, tagList
       {fetchedItemInfo && <p className="text-gray-800 tracking-wide text-base">{fetchedItemInfo}</p>}
       {tagList &&
         <div style={{ scrollbarWidth: 'thin', scrollbarColor: "#9A3412 transparent", WebkitOverflowScrolling: "touch" }} className="flex flex-row justify-start items-center gap-1 overflow-scroll overflow-y-hidden">
-          {tagList.map((tag: string) => <p className="text-gray-800 tracking-wide text-sm" key={tag}>#{tag},</p>)}
+          {tagList.map((tag: string, i: number) => <p className="text-gray-800 tracking-wide text-sm" key={tag}>#{tag}</p>)}
         </div>}
     </div >
   )
