@@ -4,7 +4,7 @@ import { useState, useEffect } from "react"
 import UserAuctionCard from "./userAuctionCard"
 import UserAuctionFiltering from "./userAuctionFiltering"
 import UserAuctionNavigator from "./userAuctionNavigator"
-import { useParams } from "next/navigation"
+import { redirect, useParams } from "next/navigation"
 import { useSelector } from "react-redux"
 
 type FetchedAuction = {
@@ -64,7 +64,7 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
 
   }
 
-
+  
   return (
     <div onMouseLeave={() => setIsListing(false)} className="flex flex-col w-full items-start justify-start gap-5">
 
