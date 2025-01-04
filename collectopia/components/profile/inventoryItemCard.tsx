@@ -45,7 +45,6 @@ type ComponentsProp = {
 export default function InventoryItemCard({ fetchedItem, isInventory }: ComponentsProp) {
 
   const loggedUser = useSelector((state: { auth: { userInfo: { userInfo: any } } }) => state.auth.userInfo.userInfo)
-  const [imageNavigator, setImageNavigator] = useState(0)
 
   const createdDate = new Date(fetchedItem.createdAt)
   const dateDataConverted = dayjs(createdDate) // Formats the date

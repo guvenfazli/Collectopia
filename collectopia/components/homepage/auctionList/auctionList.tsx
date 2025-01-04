@@ -53,6 +53,7 @@ export default function AuctionList() {
         setIsError(false)
       } catch (err: any) {
         setFetchedAuctions([])
+        setFilteredAuctions([])
         setIsError(err.message)
         setIsLoading(false)
       }
@@ -78,7 +79,7 @@ export default function AuctionList() {
         <p className="text-4xl text-orange-800 font-logo tracking-widest italic">Active Listings</p>
       </div>
 
-      <FilterAuctionList setFetchedAuctions={setFetchedAuctions} setFilteredAuctions={setFilteredAuctions} setIsLoading={setIsLoading} setIsError={setIsError} />
+      <FilterAuctionList setFetchedAuctions={setFetchedAuctions} filteredAuctions={filteredAuctions} setFilteredAuctions={setFilteredAuctions} setIsLoading={setIsLoading} setIsError={setIsError} />
 
       <div className="flex flex-row justify-between items-center -mb-8">
         <button disabled={page === 0} onClick={() => navigatePage("backward")} className="p-1 bg-orange-400 text-orange-800 rounded-3xl hover:bg-orange-800 hover:text-orange-400 duration-100 disabled:bg-orange-200 disabled:text-orange-400">
@@ -93,7 +94,7 @@ export default function AuctionList() {
       <div className="flex flex-row items-start p-3 w-full flex-wrap gap-5 justify-center min-h-[653px]">
         {(fetchedAuctions.length >= 0 && !isLoading) && fetchedAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
         {(filteredAuctions.length >= 0 && !isLoading) && filteredAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
-        {(isError && !isLoading) && <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>}
+        {(isError && !isLoading && fetchedAuctions.length <= 0 && filteredAuctions.length <= 0) && <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>}
         {isLoading && <span id="headerLoader" className="self-center"></span>}
       </div>
     </div>

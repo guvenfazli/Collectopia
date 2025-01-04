@@ -319,12 +319,11 @@ exports.fetchAuctions = async (req, res, next) => {
 }
 
 exports.filterAuctions = async (req, res, next) => {
-  const todaysDate = new Date()
-  const todaysTimestamp = dayjs(todaysDate).unix()
+  const todaysTimestamp = dayjs(new Date()).unix()
   const category = req.query.category
   const subCategory = req.query.subCategory
   const deadline = +req.query.deadline
-  
+  const myInterests = req.session.userInfo.interests
   try {
 
     const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
@@ -340,7 +339,6 @@ exports.filterAuctions = async (req, res, next) => {
       }
     })
 
-
     if (filteredAuctions.length === 0) {
       throwError('There is no auction with these settings! Please clear the filters to see all the auctions.', 404)
     }
@@ -350,7 +348,36 @@ exports.filterAuctions = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
+}
 
+exports.filterByMyInterest = async (req, res, next) => {
+  const todaysTimestamp = dayjs(new Date()).unix()
+  const myInterests = req.session.userInfo.interests
+
+  try {
+
+    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
+
+
+    const interestedAuctions = []
+
+    fetchedAuctions.filter((auction) => {
+      myInterests.forEach((interest) => {
+        if (interest === auction.item.category) {
+          interestedAuctions.push(auction)
+        }
+      })
+    })
+
+    if (interestedAuctions.length === 0) {
+      throwError('There is no auction with your interests at the moment! Please try again later.', 404)
+    }
+
+    return res.status(200).json({ filteredAuctions: interestedAuctions })
+
+  } catch (err) {
+    next(err)
+  }
 }
 
 // USER FOLLOWS AND TRACKINGS

@@ -28,13 +28,14 @@ type ComponentProps = {
   setFetchedAuctions: React.Dispatch<React.SetStateAction<FetchedAuction[]>>;
   setFilteredAuctions: React.Dispatch<React.SetStateAction<FetchedAuction[]>>;
   setIsLoading: React.Dispatch<React.SetStateAction<boolean>>;
-  setIsError: React.Dispatch<React.SetStateAction<boolean | string>>
+  setIsError: React.Dispatch<React.SetStateAction<boolean | string>>,
+  filteredAuctions: FetchedAuction[]
 }
 
 
 
 
-export default function FilterAuctionList({ setFetchedAuctions, setFilteredAuctions, setIsLoading, setIsError }: ComponentProps) {
+export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions, setFilteredAuctions, setIsLoading, setIsError }: ComponentProps) {
 
   const [chosenDate, setChosenDate] = useState<number>(0)
   const [category, setCategory] = useState([
@@ -99,7 +100,34 @@ export default function FilterAuctionList({ setFetchedAuctions, setFilteredAucti
     setIsLoading(true)
 
     try {
-      const response = await fetch(`http://localhost:8080/filterAuctions?category=${chosenCategory}&subCategory=${chosenSubCategory}&deadline=${chosenDate}`)
+      const response = await fetch(`http://localhost:8080/filterAuctions?category=${chosenCategory}&subCategory=${chosenSubCategory}&deadline=${chosenDate}`, {
+        credentials: "include"
+      })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData.message)
+        throw error
+      }
+
+      const resData = await response.json()
+      setFilteredAuctions(resData.filteredAuctions)
+      setFetchedAuctions([])
+      setIsLoading(false)
+    } catch (err: any) {
+      setIsError(err.message)
+      setFetchedAuctions([])
+      setIsLoading(false)
+    }
+  }
+
+  async function filterByMyInterest() {
+    setIsLoading(true)
+
+    try {
+      const response = await fetch(`http://localhost:8080/filterByMyInterest`, {
+        credentials: "include"
+      })
 
       if (!response.ok) {
         const resData = await response.json()
@@ -132,17 +160,19 @@ export default function FilterAuctionList({ setFetchedAuctions, setFilteredAucti
 
       <input name="deadline" type="date" onChange={(e) => chooseDate(e)} className="bg-orange-300 text-orange-800 font-medium p-2 rounded-lg text-sm placeholder:text-orange-800 outline-none" />
 
-      <button className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
+      <button type="button" onClick={() => filterByMyInterest()} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
         Filter by my interest
       </button>
 
-      <button className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
+      <button disabled={(chosenDate === 0 && !chosenCategory && !chosenSubCategory)} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest disabled:bg-orange-200">
         Filter
       </button>
 
-      <button type="button" onClick={() => setFilteredAuctions([])} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
-        Clear Filter
-      </button>
+      {filteredAuctions.length > 0 &&
+        <button type="button" onClick={() => setFilteredAuctions([])} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
+          Clear Filter
+        </button>
+      }
     </form>
   )
 }

@@ -10,6 +10,7 @@ router.get('/filterUserAuction/:userId', mainController.filterUserAuction)
 router.get('/fetchLastAuctions', mainController.fetchLastAuctions)
 router.get('/fetchAuctions', mainController.fetchAuctions)
 router.get('/filterAuctions', mainController.filterAuctions)
+router.get('/filterByMyInterest', mainController.filterByMyInterest)
 
 // POSTS
 
