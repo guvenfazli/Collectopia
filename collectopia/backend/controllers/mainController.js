@@ -464,7 +464,7 @@ exports.followUser = async (req, res, next) => {
 exports.trackingAuctions = async (req, res, next) => {
   const userId = req.session.userInfo.id
   const todaysTimestamp = dayjs(new Date()).unix()
-  console.log('Working')
+
   try {
     const foundAuctions = await User.findById(userId).populate({ path: 'trackingAuctions', select: { _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }, match: { deadline: { $gt: todaysTimestamp } }, populate: { path: 'item' } })
     if (foundAuctions.trackingAuctions.length === 0) {

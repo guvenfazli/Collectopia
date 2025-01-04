@@ -25,7 +25,10 @@ export default function MyTrackings() {
   useEffect(() => {
     async function fetchTrackingAuctions() {
       try {
-        const response = await fetch('http://localhost:8080/myTrackingAuctions', { credentials: "include" })
+        const response = await fetch('http://localhost:8080/myTrackingAuctions', {
+          credentials: "include"
+        }
+        )
 
         if (!response.ok) {
           const resData = await response.json()

@@ -22,8 +22,6 @@ type FetchedAuction = {
   _id: string
 }
 
-
-
 type ComponentProps = {
   setFetchedAuctions: React.Dispatch<React.SetStateAction<FetchedAuction[]>>;
   setFilteredAuctions: React.Dispatch<React.SetStateAction<FetchedAuction[]>>;
@@ -32,9 +30,6 @@ type ComponentProps = {
   setPage: React.Dispatch<React.SetStateAction<number>>
   filteredAuctions: FetchedAuction[]
 }
-
-
-
 
 export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions, setFilteredAuctions, setIsLoading, setIsError, setPage }: ComponentProps) {
 
@@ -138,7 +133,6 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
 
       const resData = await response.json()
       setFilteredAuctions(resData.filteredAuctions)
-      setFetchedAuctions([])
       setIsLoading(false)
     } catch (err: any) {
       setIsError(err.message)

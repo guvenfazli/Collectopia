@@ -59,11 +59,9 @@ export default function AuctionList() {
       }
     }
 
-    if (filteredAuctions.length <= 0) {
-      fetchAuctions()
-    }
+    fetchAuctions()
 
-  }, [page])
+  }, [page, setPage])
 
   function navigatePage(operator: string) {
     if (operator === "forward") {
@@ -72,6 +70,8 @@ export default function AuctionList() {
       setPage(prev => prev -= 1)
     }
   }
+
+  console.log(page)
 
   return (
     <div className="flex flex-col gap-5">
@@ -92,7 +92,7 @@ export default function AuctionList() {
 
 
       <div className="flex flex-row items-start p-3 w-full flex-wrap gap-5 justify-center min-h-[653px]">
-        {(fetchedAuctions.length >= 0 && !isLoading) && fetchedAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
+        {(fetchedAuctions.length >= 0 && !isLoading && filteredAuctions.length <= 0) && fetchedAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
         {(filteredAuctions.length >= 0 && !isLoading) && filteredAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
         {(isError && !isLoading && fetchedAuctions.length <= 0 && filteredAuctions.length <= 0) && <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>}
         {isLoading && <span id="headerLoader" className="self-center"></span>}
