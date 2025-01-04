@@ -1,6 +1,10 @@
 import MyTrackings from "@/components/myTrackings/myTrackings"
-export default function MyTrackingsPage(){
+
+export default function MyTrackingsPage() {
   return (
-    <MyTrackings />
+    <div className="flex flex-col justify-start items-center w-full">
+
+      <MyTrackings />
+    </div>
   )
 }

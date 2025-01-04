@@ -1,11 +1,8 @@
-
 import AuctionImages from "./auctionImages"
 import AuctionInformation from "./auctionInformation"
 import dayjs from "dayjs"
 import { HiOutlineScale } from "react-icons/hi";
 import Link from "next/link"
-
-
 
 type FetchedAuction = {
   auctionTag: string;

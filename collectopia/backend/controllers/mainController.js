@@ -460,3 +460,22 @@ exports.followUser = async (req, res, next) => {
   }
 
 }
+
+exports.trackingAuctions = async (req, res, next) => {
+  const userId = req.session.userInfo.id
+
+  try {
+    const foundAuctions = await User.findById(userId).populate({ path: 'trackingAuctions', select: { _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }, populate: { path: 'item' } })
+
+    if (foundAuctions.trackingAuctions.length === 0) {
+      throwError('You are not tracking any active auctions!', 410)
+    }
+
+    res.status(200).json({ tracking: foundAuctions.trackingAuctions })
+
+
+
+  } catch (err) {
+    next(err)
+  }
+}
