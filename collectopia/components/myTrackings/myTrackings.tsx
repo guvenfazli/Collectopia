@@ -1,6 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
-
+import MainAuctionCard from "../homepage/auctionList/mainAuctionCard"
 
 type FetchedAuction = {
   auctionTag: string;
@@ -19,8 +19,8 @@ type TrackingAuctionsType = FetchedAuction[]
 
 export default function MyTrackings() {
 
-  const [fetchedTrackingList, setfetchedTrackingList] = useState<TrackingAuctionsType>([])
-
+  const [fetchedTrackingList, setFetchedTrackingList] = useState<TrackingAuctionsType>([])
+  const [isError, setIsError] = useState<boolean | string>(false)
 
   useEffect(() => {
     async function fetchTrackingAuctions() {
@@ -34,10 +34,10 @@ export default function MyTrackings() {
         }
 
         const resData = await response.json()
-        console.log(resData.tracking)
+        setFetchedTrackingList(resData.tracking)
 
       } catch (err: any) {
-        console.log(err.message)
+        setIsError(err.message)
       }
     }
 
@@ -53,7 +53,10 @@ export default function MyTrackings() {
       <div className="flex w-full justify-start items-start">
         <p className="text-2xl font-logo tracking-wider text-orange-800">Tracking Auctions</p>
       </div>
-      <p>Will be the page of auctions, that user follows.</p>
+      <div className="flex flex-row flex-wrap items-start justify-center py-3 w-full gap-3">
+        {isError && <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>}
+        {fetchedTrackingList.length > 0 && fetchedTrackingList.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
+      </div>
     </div>
   )
 }
