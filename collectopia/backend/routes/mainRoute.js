@@ -57,6 +57,8 @@ router.post('/trackAuction/:auctionId', mainController.trackAuction)
 
 router.post('/followUser/:userId', mainController.followUser)
 
+router.post('/bidAuction/:auctionId', mainController.bidAuction)
+
 // PATCHES
 
 router.patch('/editItem/:itemId', [

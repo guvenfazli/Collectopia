@@ -9,7 +9,7 @@ const dayjs = require('dayjs')
 const User = require('../models/userModel')
 const Item = require('../models/itemModel')
 const Auction = require('../models/auctionModel')
-const Bid = require('../models/auctionModel')
+const Bid = require('../models/bidModel')
 
 // ITEM CREATION
 exports.createItem = async (req, res, next) => {
@@ -415,7 +415,7 @@ exports.fetchSingleAuction = async (req, res, next) => {
   const auctionId = req.params.auctionId
 
   try {
-    const foundAuction = await Auction.findById(auctionId).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, bidList: 1 })
+    const foundAuction = await Auction.findById(auctionId).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, bidList: 1 }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder" } })
 
     if (!foundAuction) {
       throwError('Auction could not found!', 404)
@@ -425,6 +425,47 @@ exports.fetchSingleAuction = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
+}
+
+exports.bidAuction = async (req, res, next) => {
+  const { bid, buyout } = req.body
+  const convertedBid = +bid
+  const convertedBuyout = +buyout
+  const auctionId = req.params.auctionId
+  const userId = req.session.userInfo.id
+
+
+  try {
+    const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" })
+
+    const foundUser = await User.findById(userId)
+    const createdBid = new Bid({
+      bidValue: convertedBid,
+      bidder: foundUser._id,
+      biddedTo: foundAuction._id
+    })
+
+    if (foundAuction.bidList[0].bidValue && foundAuction.bidList[0].bidValue >= convertedBid) {
+      throwError('Your bid must be bigger than last bid!', 410)
+    } else if (isNaN(convertedBid)) {
+      throwError('Please enter a numeric value!', 410)
+    }
+
+    foundAuction.bidList.unshift(createdBid._id)
+
+    await createdBid.save()
+    await foundAuction.save()
+
+    return res.status(200).json({ message: 'Your bid settled successfully.' })
+
+  } catch (err) {
+    next(err)
+  }
+
+
+
+
+
 }
 
 // USER FOLLOWS AND TRACKINGS

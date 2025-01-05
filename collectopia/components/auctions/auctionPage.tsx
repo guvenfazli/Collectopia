@@ -51,9 +51,6 @@ export default function AuctionMainPage() {
     fetchAuction()
   }, [])
 
-
-  console.log(fetchedAuction)
-
   return (
     <div className="flex p-3 flex-col justify-start items-start w-10/12 bg-white">
       {fetchedAuction &&
@@ -64,7 +61,7 @@ export default function AuctionMainPage() {
           </div>
 
           <div className="flex w-full justify-start h-96 items-start gap-3">
-            <AuctionBidSection bidList={fetchedAuction.bidList} />
+            <AuctionBidSection bidList={fetchedAuction.bidList} auctionId={auctionId} />
             <AuctionChatSection />
           </div>
         </>
