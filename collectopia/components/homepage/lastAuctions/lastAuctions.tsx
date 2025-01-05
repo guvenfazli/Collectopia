@@ -64,13 +64,13 @@ export default function LastAuctions() {
         <p className="text-4xl text-orange-800 font-logo tracking-widest italic">Auctions in the Last 24 Hour</p>
       </div>
 
-      <div className="flex flex-row items-start p-3 w-full ">
+      <div className="flex flex-row items-start p-3 w-full">
         {
-          fetchedLastAuctions.length <= 0 ? <p className="text-lg tracking-wide italic ">No Auction Created in the last 24 hours.</p> :
-            <Carousel className="min-h-[653px]">
+          fetchedLastAuctions.length <= 0 ? <p className="text-lg tracking-wide italic">No Auction Created in the last 24 hours.</p> :
+            <Carousel className="min-h-[653px] w-full">
               <CarouselContent className="min-h-[653px]">
                 {fetchedLastAuctions.map((auction) =>
-                  <CarouselItem className="basis-1/4" key={auction._id}>
+                  <CarouselItem className="basis-1/3"  key={auction._id}>
                     <AuctionCard auction={auction} setIsSliding={setIsSliding} />
                   </CarouselItem>
                 )}

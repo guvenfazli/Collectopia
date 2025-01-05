@@ -74,7 +74,7 @@ export default function InventoryItemCard({ fetchedItem, isInventory }: Componen
   return (
     <div className={`flex bg-orange-200 text-nowrap overflow-hidden duration-1000 ease-in-out flex-shrink-0 border border-orange-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isInventory ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
       {loggedUser.id === fetchedItem.owner &&
-        <div className="flex flex-row justify-end w-full items-center gap-2 p-1 border">
+        <div className="flex flex-row justify-end w-full items-center gap-2 p-1">
 
           {fetchedItem.isListed ? <p className="text-orange-800 font-logo tracking-wider">Listed</p> :
             <p className="text-orange-800 font-logo tracking-wider">Not Listed</p>
