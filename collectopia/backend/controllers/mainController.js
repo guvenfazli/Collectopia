@@ -161,10 +161,6 @@ exports.deleteMyItem = async (req, res, next) => {
 
       const isDeadlineTomorrow = activeAuction.deadline === tomorrow
 
-      console.log(isDeadlineTomorrow)
-      console.log(activeAuction.deadline)
-      console.log(tomorrow)
-
       if (isDeadlineTomorrow) {
         throwError('There are less then 24 hours, it can not be deleted!', 410)
       }
@@ -358,8 +354,8 @@ exports.filterAuctions = async (req, res, next) => {
   const subCategory = req.query.subCategory
   const deadline = +req.query.deadline
   const myInterests = req.session.userInfo.interests
-  try {
 
+  try {
     const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
 
 
