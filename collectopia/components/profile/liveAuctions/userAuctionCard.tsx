@@ -4,15 +4,13 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel"
 
-
+import { useState } from "react";
 import { HiOutlineScale, HiOutlineLightBulb } from "react-icons/hi";
 import { useSelector } from "react-redux";
-
 import CardInformation from "../cardInformation"
 import dayjs from "dayjs"
 import Link from "next/link";
 import Image from "next/image"
-import { useState } from "react";
 
 type FetchedAuction = {
   _id: string,
@@ -28,7 +26,6 @@ type ComponentsProps = {
   auction: FetchedAuction;
   isListing: boolean
 }
-
 
 export default function UserAuctionCard({ auction, isListing }: ComponentsProps) {
 
@@ -62,10 +59,6 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
       // Will Add Toast
     }
   }
-
-  console.log(auction.item.owner)
-  console.log(loggedInUser.id)
-
 
   return (
     <div className={`flex bg-blue-200 text-nowrap overflow-hidden duration-700 ease-in-out relative z-40 flex-shrink-0 border border-blue-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isListing ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
