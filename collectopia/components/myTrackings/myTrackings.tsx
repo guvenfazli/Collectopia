@@ -21,9 +21,11 @@ export default function MyTrackings() {
 
   const [fetchedTrackingList, setFetchedTrackingList] = useState<TrackingAuctionsType>([])
   const [isError, setIsError] = useState<boolean | string>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
     async function fetchTrackingAuctions() {
+      setIsLoading(true)
       try {
         const response = await fetch(`http://localhost:8080/myTrackingList`, {
           credentials: "include"
@@ -38,9 +40,10 @@ export default function MyTrackings() {
 
         const resData = await response.json()
         setFetchedTrackingList(resData.tracking)
-
+        setIsLoading(false)
       } catch (err: any) {
         setIsError(err.message)
+        setIsLoading(false)
       }
     }
 
@@ -59,6 +62,7 @@ export default function MyTrackings() {
       <div className="flex flex-row flex-wrap items-start justify-center py-3 w-full gap-3">
         {isError && <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>}
         {fetchedTrackingList.length > 0 && fetchedTrackingList.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
+        {isLoading && <span id="headerLoader" className="self-center"></span>}
       </div>
     </div>
   )
