@@ -3,6 +3,7 @@ import { useState, useEffect } from "react"
 import { useParams } from "next/navigation"
 import AuctionItemImage from "./auctionItemImage"
 import AuctionItemInformationSection from "./auctionItemInformationSection"
+import AuctionBidSection from "./auctionBidSection"
 import dayjs from "dayjs"
 import Image from "next/image"
 
@@ -55,12 +56,21 @@ export default function AuctionMainPage() {
   return (
     <div className="flex p-3 flex-col justify-start items-start w-10/12 bg-white">
       {fetchedAuction &&
-        <div className="flex w-full justify-start h-96 items-start gap-3">
-          <AuctionItemImage imageList={fetchedAuction!.item.imageList} />
-          <AuctionItemInformationSection fetchedAuction={fetchedAuction} />
-        </div>
+        <>
+          <div className="flex w-full justify-start h-96 items-start gap-3 mb-2">
+            <AuctionItemImage imageList={fetchedAuction!.item.imageList} />
+            <AuctionItemInformationSection fetchedAuction={fetchedAuction} />
+          </div>
+
+          <div className="flex w-full justify-start h-96 items-start gap-3">
+            <AuctionBidSection />
+            <AuctionBidSection />
+          </div>
 
 
+
+
+        </>
       }
 
     </div>
