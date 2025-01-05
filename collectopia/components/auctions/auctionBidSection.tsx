@@ -8,48 +8,35 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
-
-import { BaseSyntheticEvent } from "react"
 import AuctionBidInputField from "./auctionBidInputField"
 import dayjs from "dayjs"
-type ComponentProps = {
-  bidList: any // Will Change,
-  auctionId: string
+import { useState } from "react";
+
+type FetchedAuction = {
+  auctionTag: string;
+  bidList: any;
+  deadline: number;
+  buyout: number;
+  createdAt: string;
+  followers: any;
+  item: any;
+  minValue: number;
+  seller: string;
+  _id: string
 }
 
-export default function AuctionBidSection({ bidList, auctionId }: ComponentProps) {
+type ComponentProps = {
+  bidList: any // Will Change,
+  auctionId: string;
+  fetchedAuction: FetchedAuction
+}
 
-  async function bidForAuction(e: BaseSyntheticEvent) {
-    e.preventDefault()
+export default function AuctionBidSection({ bidList, auctionId, fetchedAuction }: ComponentProps) {
 
-    const formData = new FormData(e.target as HTMLFormElement)
-
-    try {
-      const response = await fetch(`http://localhost:8080/bidAuction/${auctionId}`, {
-        method: "POST",
-        credentials: "include",
-        body: formData
-      })
-
-      if (!response.ok) {
-        const resData = await response.json()
-        const error = new Error(resData.message)
-        throw error
-      }
-
-      const resData = await response.json()
-      console.log(resData)
-
-    } catch (err: any) {
-      console.log(err.message)
-    }
-  }
-
-
-  console.log(bidList)
+  const [isBuyout, setIsBuyout] = useState<boolean>(bidList[0] ? bidList[0].bidValue > fetchedAuction.buyout : false)
 
   return (
-    <form method="POST" encType="multipart/form-data" onSubmit={(e) => bidForAuction(e)} className="flex flex-col justify-between h-full w-1/2 text-wrap">
+    <div className="flex flex-col justify-between h-full w-1/2 text-wrap">
       {bidList.length <= 0 ? <p>No bid placed yet! Be the first one!</p> :
         <Table>
           <TableCaption>Bid List</TableCaption>
@@ -76,7 +63,7 @@ export default function AuctionBidSection({ bidList, auctionId }: ComponentProps
           </TableBody>
         </Table>
       }
-      <AuctionBidInputField />
-    </form>
+      <AuctionBidInputField auctionId={auctionId} isBuyout={isBuyout} />
+    </div>
   )
 }

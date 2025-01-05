@@ -428,12 +428,10 @@ exports.fetchSingleAuction = async (req, res, next) => {
 }
 
 exports.bidAuction = async (req, res, next) => {
-  const { bid, buyout } = req.body
+  const { bid } = req.body
   const convertedBid = +bid
-  const convertedBuyout = +buyout
   const auctionId = req.params.auctionId
   const userId = req.session.userInfo.id
-
 
   try {
     const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" })
@@ -445,7 +443,9 @@ exports.bidAuction = async (req, res, next) => {
       biddedTo: foundAuction._id
     })
 
-    if (foundAuction.bidList[0].bidValue && foundAuction.bidList[0].bidValue >= convertedBid) {
+    if (convertedBid < foundAuction.minValue) {
+      throwError('Your bid must be bigger than minimum bid value!', 410)
+    } else if (foundAuction.bidList[0].bidValue && foundAuction.bidList[0].bidValue >= convertedBid) {
       throwError('Your bid must be bigger than last bid!', 410)
     } else if (isNaN(convertedBid)) {
       throwError('Please enter a numeric value!', 410)

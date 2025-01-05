@@ -6,7 +6,6 @@ import AuctionItemInformationSection from "./auctionItemInformationSection"
 import AuctionBidSection from "./auctionBidSection"
 import AuctionChatSection from "./auctionChatSection"
 import dayjs from "dayjs"
-import Image from "next/image"
 
 type FetchedAuction = {
   auctionTag: string;
@@ -20,7 +19,6 @@ type FetchedAuction = {
   seller: string;
   _id: string
 }
-
 
 export default function AuctionMainPage() {
 
@@ -77,7 +75,7 @@ export default function AuctionMainPage() {
           </div>
 
           <div className="flex w-full justify-start h-96 items-start gap-3">
-            <AuctionBidSection bidList={fetchedAuction.bidList} auctionId={auctionId} />
+            <AuctionBidSection fetchedAuction={fetchedAuction} bidList={fetchedAuction.bidList} auctionId={auctionId} />
             <AuctionChatSection />
           </div>
         </>
