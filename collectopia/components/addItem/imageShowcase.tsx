@@ -22,9 +22,9 @@ export default function ImageShowcase({ imageShowcase }: componentPropType) {
   }, [imageShowcase, setImageNavigator])
 
   return (
-    <div>
-      <div className="flex w-full items-center mb-4 overflow-hidden relative h-96">
-        {imageShowcase.length === 0 && <div className="flex w-full justify-center items-center"><p>You did not choose any image yet!</p></div>}
+
+    <div className="flex w-full items-center mb-4 overflow-hidden relative h-96">
+      {imageShowcase.length === 0 ? <div className="flex w-full justify-center items-center"><p>You did not choose any image yet!</p></div> :
         <Carousel className="w-full">
           <CarouselContent className="h-96">
             {imageShowcase.map((img) =>
@@ -39,7 +39,8 @@ export default function ImageShowcase({ imageShowcase }: componentPropType) {
             )}
           </CarouselContent>
         </Carousel>
-      </div>
+      }
     </div>
+
   )
 }
