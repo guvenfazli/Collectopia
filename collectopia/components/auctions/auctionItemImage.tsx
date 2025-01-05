@@ -13,7 +13,7 @@ export default function AuctionItemImage({ imageList }: ComponentProps) {
 
 
   return (
-    <Carousel className="w-full">
+    <Carousel className="w-1/2">
       <CarouselContent className={`duration-100 h-96`}>
         {imageList.map((img: string) =>
           <CarouselItem className="relative " key={img}>
