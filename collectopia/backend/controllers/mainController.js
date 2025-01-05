@@ -143,17 +143,48 @@ exports.fetchMyItems = async (req, res, next) => { // Fetching items in order to
 
 exports.deleteMyItem = async (req, res, next) => {
   const itemId = req.params.itemId
+  const today = dayjs(new Date()).startOf("day")
+  const tomorrow = today.add(1, 'day').unix()
 
   try {
 
-    const foundItem = await Item.findOneAndDelete({ _id: itemId })
+    const foundItem = await Item.findOne({ _id: itemId })
     const owner = await User.findById(foundItem.owner)
     const itemIndex = owner.items.findIndex((item) => item === foundItem)
-    owner.items.splice(itemIndex, 1)
-    await owner.save()
+
 
     if (foundItem.isListed) {
-      const activeAuction = await Auction.findOneAndDelete({ item: foundItem._id })
+      const activeAuction = await Auction.findOne({ item: foundItem._id })
+      if (!activeAuction) {
+        throwError('This item does not exist!', 404)
+      }
+
+      const isDeadlineTomorrow = activeAuction.deadline === tomorrow
+
+      console.log(isDeadlineTomorrow)
+      console.log(activeAuction.deadline)
+      console.log(tomorrow)
+
+      if (isDeadlineTomorrow) {
+        throwError('There are less then 24 hours, it can not be deleted!', 410)
+      }
+
+      await activeAuction.deleteOne()
+      await foundItem.deleteOne()
+      owner.items.splice(itemIndex, 1)
+      await owner.save()
+
+      for (const img of foundItem.imageList) {
+        try {
+          fs.unlink(path.join(__dirname, '..', img), (err) => {
+            console.log(err)
+          })
+        } catch (err) {
+          next(err)
+        }
+      }
+      return res.status(200).json({ message: 'Item and Its Auction Deleted Successfully' })
+
     }
 
 
@@ -167,6 +198,9 @@ exports.deleteMyItem = async (req, res, next) => {
       }
     }
 
+    await foundItem.deleteOne()
+    owner.items.splice(itemIndex, 1)
+    await owner.save()
     return res.status(201).json({ message: 'Item deleted successfully.' })
 
   } catch (err) {

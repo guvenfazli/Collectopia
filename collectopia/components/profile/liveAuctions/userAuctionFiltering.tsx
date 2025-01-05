@@ -6,8 +6,6 @@ type ComponentProps = {
   filterUsersAuctionList: any
 }
 
-
-
 export default function UserAuctionFiltering({ filterTagList, setFilterTagList, filterUsersAuctionList }: ComponentProps) {
 
   const tagRef = useRef<HTMLInputElement | null>(null)

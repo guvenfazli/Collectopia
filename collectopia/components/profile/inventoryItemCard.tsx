@@ -76,7 +76,9 @@ export default function InventoryItemCard({ fetchedItem, isInventory }: Componen
       {loggedUser.id === fetchedItem.owner &&
         <div className="flex flex-row justify-end w-full items-center gap-2 p-1 border">
 
-          {fetchedItem.isListed ? <p className="text-orange-800 font-logo tracking-wider">Listed</p> : <p>Not Listed</p>}
+          {fetchedItem.isListed ? <p className="text-orange-800 font-logo tracking-wider">Listed</p> :
+            <p className="text-orange-800 font-logo tracking-wider">Not Listed</p>
+          }
 
           <button onClick={deleteItem} className="bg-orange-800 text-white rounded-xl p-1 hover:bg-orange-500 duration-200 shadow-lg shadow-slate-200">
             <MdDelete />
