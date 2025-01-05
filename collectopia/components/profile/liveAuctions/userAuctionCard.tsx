@@ -7,6 +7,7 @@ import {
 import { useState } from "react";
 import { HiOutlineScale, HiOutlineLightBulb } from "react-icons/hi";
 import { useSelector } from "react-redux";
+import UserAuctionCardImageSlider from "./userAuctionCardImageSlider";
 import CardInformation from "../cardInformation"
 import dayjs from "dayjs"
 import Link from "next/link";
@@ -24,10 +25,11 @@ type FetchedAuction = {
 
 type ComponentsProps = {
   auction: FetchedAuction;
-  isListing: boolean
+  isListing: boolean;
+  index: number
 }
 
-export default function UserAuctionCard({ auction, isListing }: ComponentsProps) {
+export default function UserAuctionCard({ auction, isListing, index }: ComponentsProps) {
 
   const loggedInUser = useSelector((state: any) => state.auth.userInfo.userInfo)
   const todaysDate = dayjs(new Date())
@@ -61,7 +63,7 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
   }
 
   return (
-    <div className={`flex bg-blue-200 text-nowrap overflow-hidden duration-700 ease-in-out relative z-40 flex-shrink-0 border border-blue-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl rounded-lg ${!isListing ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
+    <div className={`flex bg-blue-200 text-nowrap overflow-hidden duration-700 ease-in-out relative z-40 flex-shrink-0 border border-blue-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl z-${index} rounded-lg ${!isListing ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
 
       {metTheDeadline &&
         <div className="top-0 flex flex-row justify-center items-center absolute bottom-0 z-20 group left-0 right-0 bg-white/70 hover:bg-white/0 duration-100">
@@ -70,20 +72,7 @@ export default function UserAuctionCard({ auction, isListing }: ComponentsProps)
       }
 
       <div className={`flex w-full items-start mb-4 min-h-44 overflow-hidden relative ${!isListing ? 'mb-0' : 'mb-4'}`}>
-        <Carousel className="w-full">
-          <CarouselContent className="h-64">
-            {auction.item.imageList.map((img: string) =>
-              <CarouselItem className="relative" key={img}>
-                <div className="absolute blur-sm top-0 right-0 bottom-0 left-0" style={{ background: `url(http://localhost:8080/${img.replaceAll(/\\/g, "/")})`, backgroundPosition: "center", backgroundSize: "contain" }} />
-                <Image
-                  fill
-                  alt="uploadedImage"
-                  src={`http://localhost:8080/${img.replaceAll(/\\/g, "/")}`}
-                  style={{ objectFit: `${isListing ? "contain" : "cover"}` }} />
-              </CarouselItem>
-            )}
-          </CarouselContent>
-        </Carousel>
+        <UserAuctionCardImageSlider fetchedAuctionImage={auction.item.imageList} isListing={isListing} />
       </div>
 
       <div className={`flex flex-col w-full p-1 gap-3 justify-start items-start duration-500 ${!isListing ? 'h-0 p-0' : 'h-96'}`}>

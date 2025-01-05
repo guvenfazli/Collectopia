@@ -33,8 +33,8 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
 
   const todaysDate = dayjs(new Date()).unix()
   const stillActive = userAuctions.filter((auction) => auction.deadline > todaysDate)
-  
-  
+
+
   useEffect(() => {
     if (filterTagList.length === 0) {
       setFilteredUserAuctions([])
@@ -87,8 +87,8 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
         <div onClick={() => setIsListing(true)} style={{ translate: `${listingNavigator * -50}%` }} className={`flex flex-row h-auto items-center justify-start ${!isListing ? 'w-44' : 'gap-5 w-full'} duration-1000 hover:cursor-pointer`}>
           {
             (filteredUserAuctions.length === 0 && !isError) ?
-              userAuctions.map((auction: FetchedAuction) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} />) :
-              filteredUserAuctions.map((auction: FetchedAuction) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} />)
+              userAuctions.map((auction: FetchedAuction, i: number) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} index={i} />) :
+              filteredUserAuctions.map((auction: FetchedAuction, i: number) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} index={i} />)
           }
         </div>
       </div>
