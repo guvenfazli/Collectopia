@@ -70,7 +70,7 @@ export default function LastAuctions() {
             <Carousel className="min-h-[653px] w-full">
               <CarouselContent className="min-h-[653px]">
                 {fetchedLastAuctions.map((auction) =>
-                  <CarouselItem className="basis-1/3"  key={auction._id}>
+                  <CarouselItem className="basis-1/4"  key={auction._id}>
                     <AuctionCard auction={auction} setIsSliding={setIsSliding} />
                   </CarouselItem>
                 )}
