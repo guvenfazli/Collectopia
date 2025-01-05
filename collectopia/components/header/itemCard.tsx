@@ -22,10 +22,10 @@ export default function ItemCard({ item }: ComponentsProp) {
   const [isError, setIsError] = useState<boolean | string>()
 
   function chooseDate(e: ChangeEvent<HTMLInputElement>) {
+    const today = dayjs(new Date) // To add the current time with hour, minute, second
     const chosenDate = new Date(e.target.value)
-    const convertToDayJS = dayjs(chosenDate).startOf("day")
-    const timestamp = convertToDayJS.unix()
-    setChosenDate(timestamp)
+    const convertToDayJS = dayjs(chosenDate).set("hour", today.hour()).set("minute", today.minute()).set("second", today.second()).unix() // adds current hour, minute, second
+    setChosenDate(convertToDayJS)
   }
 
 
