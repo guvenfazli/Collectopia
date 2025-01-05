@@ -43,9 +43,6 @@ export default function AuctionBidSection({ bidList, auctionId }: ComponentProps
     } catch (err: any) {
       console.log(err.message)
     }
-
-
-
   }
 
 
@@ -67,7 +64,7 @@ export default function AuctionBidSection({ bidList, auctionId }: ComponentProps
             {bidList.map((bid: any) =>
               <TableRow key={bid._id}>
                 <TableCell className="font-medium">
-                  {bid.bidder.name}
+                  {bid.bidder.name + ' ' + bid.bidder.surname}
                 </TableCell>
                 <TableCell>
                   {dayjs(bid.createdAt).format("DD/MM/YY")}
@@ -79,8 +76,6 @@ export default function AuctionBidSection({ bidList, auctionId }: ComponentProps
           </TableBody>
         </Table>
       }
-
-
       <AuctionBidInputField />
     </form>
   )
