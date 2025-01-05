@@ -415,7 +415,7 @@ exports.fetchSingleAuction = async (req, res, next) => {
   const auctionId = req.params.auctionId
 
   try {
-    const foundAuction = await Auction.findById(auctionId).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
+    const foundAuction = await Auction.findById(auctionId).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, bidList: 1 })
 
     if (!foundAuction) {
       throwError('Auction could not found!', 404)
