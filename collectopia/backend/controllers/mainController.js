@@ -411,6 +411,22 @@ exports.filterByMyInterest = async (req, res, next) => {
   }
 }
 
+exports.fetchSingleAuction = async (req, res, next) => {
+  const auctionId = req.params.auctionId
+
+  try {
+    const foundAuction = await Auction.findById(auctionId).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
+
+    if (!foundAuction) {
+      throwError('Auction could not found!', 404)
+    }
+
+    return res.status(200).json({ fetchedAuction: foundAuction })
+  } catch (err) {
+    next(err)
+  }
+}
+
 // USER FOLLOWS AND TRACKINGS
 
 exports.trackAuction = async (req, res, next) => {
