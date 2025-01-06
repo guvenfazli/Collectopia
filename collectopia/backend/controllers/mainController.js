@@ -10,6 +10,7 @@ const User = require('../models/userModel')
 const Item = require('../models/itemModel')
 const Auction = require('../models/auctionModel')
 const Bid = require('../models/bidModel')
+const AuctionBid = require('../models/auctionBidModel')
 const MessageRoom = require('../models/messageRoomModel')
 
 // ITEM CREATION
@@ -416,17 +417,17 @@ exports.fetchSingleAuction = async (req, res, next) => {
   const auctionId = req.params.auctionId
 
   try {
-    const foundAuction = await Auction.findById(auctionId).populate({ path: "item", populate: { path: "owner", select: { _id: 1, name: 1, surname: 1 } } }).populate({ path: "messages", populate: { path: "sender", select: { name: 1, _id: 1 } } }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, bidList: 1, isSold: 1, messages: 1 }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
-
+    const foundAuction = await Auction.findById(auctionId).populate({ path: "item", populate: { path: "owner", select: { _id: 1, name: 1, surname: 1 } } }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, bidList: 1, isSold: 1, messages: 1 }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
 
     const messageRoomOfAuction = await MessageRoom.findOne({ auctionRoom: auctionId }).populate({ path: "messages", populate: { path: "sender", select: { name: 1, _id: 1 } } })
 
+    const bidList = await AuctionBid.findOne({ auctionId: auctionId }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
 
     if (!foundAuction) {
       throwError('Auction could not found!', 404)
     }
 
-    return res.status(200).json({ fetchedAuction: foundAuction, fetchedMessages: messageRoomOfAuction })
+    return res.status(200).json({ fetchedAuction: foundAuction, fetchedMessages: messageRoomOfAuction, fetchedBidlist: bidList })
   } catch (err) {
     next(err)
   }
@@ -441,13 +442,7 @@ exports.bidAuction = async (req, res, next) => {
 
   try {
     const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" })
-
-    const foundUser = await User.findById(userId)
-    const createdBid = new Bid({
-      bidValue: convertedBid,
-      bidder: foundUser._id,
-      biddedTo: foundAuction._id
-    })
+    const BidList = await AuctionBid.findOne({ auctionId: auctionId }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
 
 
     if (foundAuction.isSold) {
@@ -462,10 +457,31 @@ exports.bidAuction = async (req, res, next) => {
       throwError('Please enter a numeric value!', 410)
     }
 
+
+    const foundUser = await User.findById(userId)
+    const createdBid = new Bid({
+      bidValue: convertedBid,
+      bidder: foundUser._id,
+      biddedTo: foundAuction._id
+    })
+
     foundAuction.bidList.unshift(createdBid._id)
 
     await createdBid.save()
     await foundAuction.save()
+
+    if (!BidList) {
+      const createdBidRoom = new AuctionBid({
+        auctionId: auctionId
+      })
+
+      createdBidRoom.bidList.push(createdBid)
+      await createdBidRoom.save()
+      return res.status(200).json({ message: 'Your bid settled successfully.' })
+    }
+
+    BidList.bidList.push(createdBid)
+    await BidList.save()
 
     return res.status(200).json({ message: 'Your bid settled successfully.' })
 
