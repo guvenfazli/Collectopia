@@ -19,19 +19,39 @@ type FetchedAuction = {
   seller: string;
   _id: string;
   isSold: boolean;
-  messages: {
-    message: string,
-    sender: any,
-    _id: string
-  }
+
 }
+
+type FetchedMessages = {
+  auctionRoom: string;
+  createdAt: string;
+  messages: {
+    message: string;
+    sender: { _id: string, name: string };
+    _id: string
+  }[];
+  updatedAt: string;
+  _id: string;
+}
+
+type BidList = {
+  bidValue: number;
+  bidder: {
+    _id: string;
+    name: string;
+    surname: string;
+  }
+  createdAt: string;
+  _id: string
+}
+
 
 export default function AuctionMainPage() {
 
-  const { auctionId } = useParams()
+  const { auctionId } = useParams<{ auctionId: string }>()
   const [fetchedAuction, setFetchedAuction] = useState<FetchedAuction | undefined>()
-  const [messageList, setMessageList] = useState([])
-  const [fetchedBidList, setFetchedBidList] = useState([])
+  const [messageList, setMessageList] = useState<FetchedMessages[]>([])
+  const [fetchedBidList, setFetchedBidList] = useState<BidList[]>([])
   const [auctionClose, setAuctionClose] = useState<boolean>(false)
   const todaysDate = dayjs(new Date()).startOf("day")
   const todaysDateTimestamp = dayjs(todaysDate).unix()
@@ -50,22 +70,21 @@ export default function AuctionMainPage() {
         }
 
         const resData = await response.json()
-        console.log(resData)
+
         if (resData.fetchedAuction.deadline < todaysDateTimestamp || resData.fetchedAuction.isSold === true) {
           setAuctionClose(true)
         }
+        console.log(resData)
         setFetchedAuction(resData.fetchedAuction)
-        setFetchedBidList(resData.fetchedBidlist)
-        setMessageList(resData.fetchedMessages)
+        setFetchedBidList(resData.fetchedBidlist.bidList)
+        setMessageList(resData.fetchedMessages.messages)
       } catch (err: any) {
         console.log(err.message)
       }
     }
-
     fetchAuction()
   }, [])
 
-  console.log(fetchedBidList)
 
   return (
     <div className="flex p-3 flex-col relative justify-start items-start w-10/12 bg-white">
@@ -83,8 +102,8 @@ export default function AuctionMainPage() {
           </div>
 
           <div className="flex w-full justify-start h-96 items-start gap-3">
-            <AuctionBidSection fetchedAuction={fetchedAuction} bidList={fetchedBidList.bidList} auctionId={auctionId} />
-            <AuctionChatSection auctionId={auctionId} messages={messageList.messages} ownerId={fetchedAuction.item.owner._id} />
+            <AuctionBidSection fetchedAuction={fetchedAuction} bidList={fetchedBidList} auctionId={auctionId} />
+            <AuctionChatSection auctionId={auctionId} messages={messageList} ownerId={fetchedAuction.item.owner._id} />
           </div>
         </>
       }

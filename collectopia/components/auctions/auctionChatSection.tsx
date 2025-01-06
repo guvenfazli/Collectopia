@@ -2,17 +2,22 @@ import { useState } from "react"
 import { IoIosMegaphone } from "react-icons/io"
 import AuctionChatInputField from "./auctionChatInputField"
 
-type Message = {
-  message: string,
-  sender: any,
+type FetchedMessages = {
+  auctionRoom: string;
+  createdAt: string;
+  messages: {
+    message: string;
+    sender: { _id: string, name: string };
+    _id: string
+  }[];
+  updatedAt: string;
   _id: string
 }
 
-type MessageList = Message[]
-
+type MessageList = FetchedMessages[]
 
 type ComponentProps = {
-  auctionId: string
+  auctionId: string 
   messages: MessageList;
   ownerId: string
 }
@@ -26,7 +31,7 @@ export default function AuctionChatSection({ auctionId, messages, ownerId }: Com
   return (
     <div className="flex flex-col justify-between h-full w-1/2">
       <div className="flex flex-col items-start justify-start h-full w-full overflow-scroll overflow-x-hidden">
-        {messageList.length <= 0 ? <p className="self-center">No message yet! Be the first one!</p> : messageList.map((message: Message) => {
+        {messageList.length <= 0 ? <p className="self-center">No message yet! Be the first one!</p> : messageList.map((message: any) => {
           return (
             <div className="flex w-full items-center gap-1 text-wrap" key={message._id}>
               <p className="font-bold text-orange-600 flex items-center ">{message.sender.name} {message.sender._id === ownerId && <IoIosMegaphone />}:</p>
