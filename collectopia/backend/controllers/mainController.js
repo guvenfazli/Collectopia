@@ -111,7 +111,7 @@ exports.fetchUser = async (req, res, next) => {
   const userId = req.params.userId
 
   try {
-    const foundUser = await User.findById(userId).select({ name: 1, surname: 1, interests: 1, createdAt: 1, _id: 1, items: 1, auctions: 1, followers: 1 }).populate({ path: 'items', select: { title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1, tagList: 1, owner: 1, isListed: 1 } }).populate({ path: 'auctions', select: { _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }, populate: { path: 'item' } })
+    const foundUser = await User.findById(userId).select({ name: 1, surname: 1, interests: 1, createdAt: 1, _id: 1, items: 1, auctions: 1, followers: 1 }).populate({ path: 'items', select: { title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1, tagList: 1, owner: 1, isListed: 1 } }).populate({ path: 'auctions', select: { _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, isSold: 1 }, populate: { path: 'item' } })
 
     if (foundUser.length === 0) {
       throwError('User could not found!', 404)
@@ -314,7 +314,7 @@ exports.fetchLastAuctions = async (req, res, next) => {
   const tomorrowsDateFixes = tomorrowsDate.setDate(todaysDate.getDate() + 1)
 
   try {
-    const fetchedAuctions = await Auction.find().populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
+    const fetchedAuctions = await Auction.find({isSold: false}).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
     const filteredAuctions = fetchedAuctions.filter((itm) => itm.createdAt.getDay() === todaysDate.getDay() && itm.createdAt < new Date(tomorrowsDateFixes))
 
     if (filteredAuctions.length === 0) {
@@ -335,7 +335,7 @@ exports.fetchAuctions = async (req, res, next) => {
   const limit = 3
 
   try {
-    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }).skip(page * limit).limit(limit)
+    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp }, isSold: false }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }).skip(page * limit).limit(limit)
 
     if (fetchedAuctions.length === 0) {
       throwError('There is no active listing.', 404)
@@ -356,7 +356,7 @@ exports.filterAuctions = async (req, res, next) => {
   const myInterests = req.session.userInfo.interests
 
   try {
-    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
+    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp }, isSold: false }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
 
 
 
@@ -386,7 +386,7 @@ exports.filterByMyInterest = async (req, res, next) => {
 
   try {
 
-    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
+    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp }, isSold: false }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
 
     // Wanted to filter it by pure JS, thats why did not use aggregate function by mongoose.
 
@@ -444,7 +444,10 @@ exports.bidAuction = async (req, res, next) => {
       biddedTo: foundAuction._id
     })
 
-    if (foundAuction.deadline < todaysTimestamp) {
+
+    if (foundAuction.isSold) {
+      throwError('Auction is already closed!', 410)
+    } else if (foundAuction.deadline < todaysTimestamp) {
       throwError('Auction met the deadline!', 410)
     } else if (convertedBid < foundAuction.minValue) {
       throwError('Your bid must be bigger than minimum bid value!', 410)
@@ -484,7 +487,9 @@ exports.buyoutAuction = async (req, res, next) => {
           biddedTo: foundAuction._id
         }) */
 
-    if (foundAuction.deadline < todaysTimestamp) {
+    if (foundAuction.isSold) {
+      throwError('Auction is already closed!', 410)
+    } else if (foundAuction.deadline < todaysTimestamp) {
       throwError('Auction met the deadline!', 410)
     } else if (convertedBuyout < foundAuction.buyout) {
       throwError('Your buyout must be bigger than minimum buyout value of the auction!', 410)

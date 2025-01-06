@@ -21,6 +21,7 @@ type FetchedAuction = {
   createdAt: string,
   followers: string[],
   item: any
+  isSold: boolean
 }
 
 type ComponentsProps = {
@@ -37,7 +38,7 @@ export default function UserAuctionCard({ auction, isListing, index }: Component
   const diff = deadlineDate.diff(todaysDate, 'hour', true)
   const dateDataConverted = dayjs.unix(auction.deadline) // Formats the date
   const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(auction.followers.some((followerId) => followerId === loggedInUser.id))
-  const [metTheDeadline, setMetTheDeadline] = useState<boolean>(Math.round(diff) <= 0)
+  const [auctionClosed, setAuctionClosed] = useState<boolean>(Math.round(diff) <= 0 || auction.isSold === true)
 
   async function followAuction(auctionId: string) {
     try {
@@ -65,7 +66,7 @@ export default function UserAuctionCard({ auction, isListing, index }: Component
   return (
     <div className={`flex bg-blue-200 text-nowrap overflow-hidden duration-700 ease-in-out relative z-40 flex-shrink-0 border border-blue-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl z-${index} rounded-lg ${!isListing ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
 
-      {metTheDeadline &&
+      {auctionClosed &&
         <div className="top-0 flex flex-row justify-center items-center absolute bottom-0 z-20 group left-0 right-0 bg-white/70 hover:bg-white/0 duration-100">
           <p className={`-rotate-90 text-9xl font-logo text-blue-600 opacity-100 duration-100 group-hover:opacity-0`}>SOLD!</p>
         </div>
