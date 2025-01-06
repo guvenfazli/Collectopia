@@ -57,18 +57,12 @@ export default function AuctionList() {
         setIsError(err.message)
       }
     }
-
+    
     fetchAuctions()
 
   }, [page, setPage])
 
-  function navigatePage(operator: string) {
-    if (operator === "forward") {
-      setPage(prev => prev += 1)
-    } else {
-      setPage(prev => prev -= 1)
-    }
-  }
+
 
   return (
     <div className="flex flex-col gap-5">
@@ -76,14 +70,14 @@ export default function AuctionList() {
         <p className="text-4xl text-orange-800 font-logo tracking-widest italic">Active Listings</p>
       </div>
 
-      <FilterAuctionList setFetchedAuctions={setFetchedAuctions} filteredAuctions={filteredAuctions} setFilteredAuctions={setFilteredAuctions} setIsLoading={setIsLoading} setIsError={setIsError} setPage={setPage} />
+      <FilterAuctionList setFetchedAuctions={setFetchedAuctions} filteredAuctions={filteredAuctions} setFilteredAuctions={setFilteredAuctions} setIsLoading={setIsLoading} setIsError={setIsError} setPage={setPage} isError={isError} />
 
       <AuctionPaginationNavigator setPage={setPage} page={page} isError={isError} />
 
       <div className="flex flex-row items-start p-3 w-full flex-wrap gap-5 justify-center min-h-[653px]">
-        {(fetchedAuctions.length >= 0 && !isLoading && filteredAuctions.length <= 0) && fetchedAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
+        {(fetchedAuctions.length >= 0 && !isLoading && !isError &&  filteredAuctions.length <= 0) && fetchedAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
         {(filteredAuctions.length >= 0 && !isLoading) && filteredAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
-        {(isError && !isLoading && fetchedAuctions.length <= 0 && filteredAuctions.length <= 0) && <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>}
+        {(isError && !isLoading  && filteredAuctions.length <= 0) && <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>}
         {isLoading && <span id="headerLoader" className="self-center"></span>}
       </div>
     </div>

@@ -65,8 +65,6 @@ export default function Header() {
         <HeaderNavigator />
 
         <HeaderProfileNavigator loggedName={userInfo.userInfo.name} loggedId={userInfo.userInfo.id} />
-
-
       </header>
     )
   }

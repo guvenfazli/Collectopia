@@ -4,17 +4,17 @@ const mainController = require('../controllers/mainController')
 const { authCheck } = require('../utils/authCheck')
 const { body } = require('express-validator')
 
-router.get('/findUser/:userId', mainController.fetchUser)
-router.get('/fetchMyItems', mainController.fetchMyItems)
-router.get('/filterUserInventory/:userId', mainController.filterUserInventory)
-router.get('/filterUserAuction/:userId', mainController.filterUserAuction)
+router.get('/findUser/:userId', authCheck, mainController.fetchUser)
+router.get('/fetchMyItems', authCheck, mainController.fetchMyItems)
+router.get('/filterUserInventory/:userId', authCheck, mainController.filterUserInventory)
+router.get('/filterUserAuction/:userId', authCheck, mainController.filterUserAuction)
 router.get('/fetchLastAuctions', authCheck, mainController.fetchLastAuctions)
 router.get('/fetchAuctions', authCheck, mainController.fetchAuctions)
-router.get('/filterAuctions', mainController.filterAuctions)
-router.get('/filterByMyInterest', mainController.filterByMyInterest)
-router.get('/myTrackingList', mainController.trackingAuctions)
-router.get('/myActiveAuctionListing', mainController.myActiveAuctions)
-router.get('/fetchAuction/:auctionId', mainController.fetchSingleAuction)
+router.get('/filterAuctions', authCheck, mainController.filterAuctions)
+router.get('/filterByMyInterest', authCheck, mainController.filterByMyInterest)
+router.get('/myTrackingList', authCheck, mainController.trackingAuctions)
+router.get('/myActiveAuctionListing', authCheck, mainController.myActiveAuctions)
+router.get('/fetchAuction/:auctionId', authCheck, mainController.fetchSingleAuction)
 
 
 // POSTS
@@ -40,7 +40,7 @@ router.post('/createItem', [
   body('subcategory')
     .notEmpty()
     .withMessage('Please choose a subcategory!')
-], mainController.createItem)
+], authCheck, mainController.createItem)
 
 router.post('/createAuction', [
   body("minValue")
@@ -52,15 +52,15 @@ router.post('/createAuction', [
   body('deadline')
     .notEmpty()
     .withMessage('Please choose a date!'),
-], mainController.createAuction)
+], authCheck, mainController.createAuction)
 
-router.post('/trackAuction/:auctionId', mainController.trackAuction)
+router.post('/trackAuction/:auctionId', authCheck, mainController.trackAuction)
 
-router.post('/followUser/:userId', mainController.followUser)
+router.post('/followUser/:userId', authCheck, mainController.followUser)
 
-router.post('/bidAuction/:auctionId', mainController.bidAuction)
-router.post('/buyoutAuction/:auctionId', mainController.buyoutAuction)
-router.post('/sendMessage/:auctionId', mainController.sendMessage)
+router.post('/bidAuction/:auctionId', authCheck, mainController.bidAuction)
+router.post('/buyoutAuction/:auctionId', authCheck, mainController.buyoutAuction)
+router.post('/sendMessage/:auctionId', authCheck, mainController.sendMessage)
 
 // PATCHES
 
@@ -80,10 +80,10 @@ router.patch('/editItem/:itemId', [
     .isLength({ min: 1 })
     .notEmpty()
     .withMessage('Please at least add 1 tag for your item!'),
-], mainController.editItem)
+], authCheck, mainController.editItem)
 
 // DELETES
 
-router.delete('/deleteMyItem/:itemId', mainController.deleteMyItem)
+router.delete('/deleteMyItem/:itemId', authCheck, mainController.deleteMyItem)
 
 module.exports = router
