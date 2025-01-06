@@ -59,6 +59,7 @@ router.post('/followUser/:userId', mainController.followUser)
 
 router.post('/bidAuction/:auctionId', mainController.bidAuction)
 router.post('/buyoutAuction/:auctionId', mainController.buyoutAuction)
+router.post('/sendMessage/:auctionId', mainController.sendMessage)
 
 // PATCHES
 

@@ -6,6 +6,7 @@ const auctionSchema = new Schema({
   seller: { type: Schema.Types.ObjectId, ref: 'User' },
   bidList: [{ type: Schema.Types.ObjectId, ref: 'Bid', default: [] }],
   followers: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],
+  messages: [{ message: { type: String }, sender: { type: Schema.Types.ObjectId, ref: 'User' }, default: [] }],
   minValue: {
     type: Number,
     required: true

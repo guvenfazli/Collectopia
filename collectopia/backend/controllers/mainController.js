@@ -314,7 +314,7 @@ exports.fetchLastAuctions = async (req, res, next) => {
   const tomorrowsDateFixes = tomorrowsDate.setDate(todaysDate.getDate() + 1)
 
   try {
-    const fetchedAuctions = await Auction.find({isSold: false}).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
+    const fetchedAuctions = await Auction.find({ isSold: false }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
     const filteredAuctions = fetchedAuctions.filter((itm) => itm.createdAt.getDay() === todaysDate.getDay() && itm.createdAt < new Date(tomorrowsDateFixes))
 
     if (filteredAuctions.length === 0) {
@@ -415,7 +415,7 @@ exports.fetchSingleAuction = async (req, res, next) => {
   const auctionId = req.params.auctionId
 
   try {
-    const foundAuction = await Auction.findById(auctionId).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, bidList: 1, isSold: 1 }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
+    const foundAuction = await Auction.findById(auctionId).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, bidList: 1, isSold: 1, messages: 1 }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
 
     if (!foundAuction) {
       throwError('Auction could not found!', 404)
@@ -503,6 +503,31 @@ exports.buyoutAuction = async (req, res, next) => {
 
     await foundAuction.save()
     return res.status(200).json({ message: 'Your buyout ended successfully.' })
+
+  } catch (err) {
+    next(err)
+  }
+}
+
+exports.sendMessage = async (req, res, next) => {
+  const { message } = req.body
+  const auctionId = req.params.auctionId
+  const userId = req.session.userInfo.id
+  const todaysTimestamp = dayjs(new Date()).startOf("day").unix()
+
+  try {
+    const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" })
+
+    if (foundAuction.isSold) {
+      throwError('Auction is already closed!', 410)
+    } else if (foundAuction.deadline < todaysTimestamp) {
+      throwError('Auction met the deadline!', 410)
+    }
+
+    foundAuction.messages.push({ message: message, sender: userId })
+
+    await foundAuction.save()
+    return res.status(200).json({ message: 'Message sent' })
 
   } catch (err) {
     next(err)

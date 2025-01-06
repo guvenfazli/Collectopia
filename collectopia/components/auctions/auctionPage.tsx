@@ -18,7 +18,12 @@ type FetchedAuction = {
   minValue: number;
   seller: string;
   _id: string;
-  isSold: boolean
+  isSold: boolean;
+  messages: {
+    message: string,
+    sender: any,
+    _id: string
+  }
 }
 
 export default function AuctionMainPage() {
@@ -28,7 +33,7 @@ export default function AuctionMainPage() {
   const [auctionClose, setAuctionClose] = useState<boolean>(false)
   const todaysDate = dayjs(new Date()).startOf("day")
   const todaysDateTimestamp = dayjs(todaysDate).unix()
-  
+
   useEffect(() => {
     async function fetchAuction() {
       try {
@@ -59,7 +64,6 @@ export default function AuctionMainPage() {
 
 
 
-
   return (
     <div className="flex p-3 flex-col relative justify-start items-start w-10/12 bg-white">
       {auctionClose &&
@@ -77,7 +81,7 @@ export default function AuctionMainPage() {
 
           <div className="flex w-full justify-start h-96 items-start gap-3">
             <AuctionBidSection fetchedAuction={fetchedAuction} bidList={fetchedAuction.bidList} auctionId={auctionId} />
-            <AuctionChatSection />
+            <AuctionChatSection auctionId={auctionId} messages={fetchedAuction.messages} />
           </div>
         </>
       }
