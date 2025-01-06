@@ -38,12 +38,12 @@ export default function AuctionBidInputField({ auctionId, isBuyout }: ComponentP
   return (
     <div className="flex w-full items-center justify-between gap-4">
       <form onSubmit={(e) => bidForAuction(e)} className="flex w-full items-center justify-between gap-4">
-        <input name="bid" placeholder="Place your Bid" className="p-3 bg-orange-100 border border-orange-800 w-full text-orange-800 font-semibold outline-none" />
+        <input required name="bid" placeholder="Place your Bid" className="placeholder:text-orange-300 p-3 bg-orange-100 border border-orange-800 w-full text-orange-800 font-semibold outline-none" />
         <button className="px-5 py-3 bg-orange-800 font-logo h-full text-white duration-100 rounded-sm hover:bg-orange-300 hover:text-orange-800">Bid</button>
       </form>
 
       <form className="flex w-full items-center justify-between gap-4">
-        <input disabled={isBuyout} name="buyout" placeholder="Buyout" className="p-3 bg-orange-100 border border-orange-800 w-full text-orange-800 font-semibold outline-none disabled:opacity-35" />
+        <input required disabled={isBuyout} name="buyout" placeholder="Buyout" className="placeholder:text-orange-300 p-3 bg-orange-100 border border-orange-800 w-full text-orange-800 font-semibold outline-none disabled:opacity-35" />
         <button disabled={isBuyout} className="p-3 bg-orange-800 font-logo text-white duration-100 rounded-sm hover:bg-orange-300 hover:text-orange-800 disabled:bg-orange-200 disabled:pointer-events-none">Buyout</button>
       </form>
     </div>

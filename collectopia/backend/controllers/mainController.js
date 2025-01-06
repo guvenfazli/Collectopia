@@ -432,6 +432,7 @@ exports.bidAuction = async (req, res, next) => {
   const convertedBid = +bid
   const auctionId = req.params.auctionId
   const userId = req.session.userInfo.id
+  const todaysTimestamp = dayjs(new Date()).startOf("day").unix()
 
   try {
     const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" })
@@ -443,7 +444,9 @@ exports.bidAuction = async (req, res, next) => {
       biddedTo: foundAuction._id
     })
 
-    if (convertedBid < foundAuction.minValue) {
+    if (foundAuction.deadline < todaysTimestamp) {
+      throwError('Auction met the deadline!', 410)
+    } else if (convertedBid < foundAuction.minValue) {
       throwError('Your bid must be bigger than minimum bid value!', 410)
     } else if (foundAuction.bidList[0].bidValue && foundAuction.bidList[0].bidValue >= convertedBid) {
       throwError('Your bid must be bigger than last bid!', 410)
