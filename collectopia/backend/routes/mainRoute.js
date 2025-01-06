@@ -1,14 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const mainController = require('../controllers/mainController')
+const { authCheck } = require('../utils/authCheck')
 const { body } = require('express-validator')
 
 router.get('/findUser/:userId', mainController.fetchUser)
 router.get('/fetchMyItems', mainController.fetchMyItems)
 router.get('/filterUserInventory/:userId', mainController.filterUserInventory)
 router.get('/filterUserAuction/:userId', mainController.filterUserAuction)
-router.get('/fetchLastAuctions', mainController.fetchLastAuctions)
-router.get('/fetchAuctions', mainController.fetchAuctions)
+router.get('/fetchLastAuctions', authCheck, mainController.fetchLastAuctions)
+router.get('/fetchAuctions', authCheck, mainController.fetchAuctions)
 router.get('/filterAuctions', mainController.filterAuctions)
 router.get('/filterByMyInterest', mainController.filterByMyInterest)
 router.get('/myTrackingList', mainController.trackingAuctions)

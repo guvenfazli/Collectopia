@@ -31,7 +31,7 @@ export default function AuctionItemInformationSection({ fetchedAuction }: Compon
       <AuctionItemInformation fetchedItemInfo={fetchedAuction.item.owner.name} title={"Owner"} />
       <AuctionItemInformation fetchedItemInfo={fetchedAuction.item.minValue + ' $'} title={"Minimum Bid Value"} />
       <AuctionItemInformation fetchedItemInfo={fetchedAuction.item.buyout + ' $'} title={"Buyout"} />
-      <AuctionItemInformation fetchedItemInfo={fetchedAuction.bidList.length > 0 ? fetchedAuction.bidList[0].bidValue : "There is no last bid."} title={"Last Bid"} />
+      <AuctionItemInformation fetchedItemInfo={fetchedAuction.bidList.length > 0 ? fetchedAuction.bidList[0].bidValue + ' $' : "There is no last bid."} title={"Last Bid"} />
       <AuctionItemInformation fetchedItemInfo={dayjs(dateDataConverted).format("DD/MM/YYYY")} title={"Deadline"} />
     </div>
   )

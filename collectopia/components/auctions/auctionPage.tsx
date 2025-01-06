@@ -81,7 +81,7 @@ export default function AuctionMainPage() {
 
           <div className="flex w-full justify-start h-96 items-start gap-3">
             <AuctionBidSection fetchedAuction={fetchedAuction} bidList={fetchedAuction.bidList} auctionId={auctionId} />
-            <AuctionChatSection auctionId={auctionId} messages={fetchedAuction.messages} ownerId={fetchedAuction.item.owner} />
+            <AuctionChatSection auctionId={auctionId} messages={fetchedAuction.messages} ownerId={fetchedAuction.item.owner._id} />
           </div>
         </>
       }

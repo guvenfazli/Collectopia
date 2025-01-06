@@ -43,6 +43,7 @@ export default function Header() {
         dispatch(authActions.logInUser({ isLogged: true, userInfo: resData.userInfo }))
 
       } catch (err: any) {
+        console.log(err.message)
         redirect('/userAuth?mode=login')
       }
     }
