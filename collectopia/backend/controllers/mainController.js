@@ -415,7 +415,7 @@ exports.fetchSingleAuction = async (req, res, next) => {
   const auctionId = req.params.auctionId
 
   try {
-    const foundAuction = await Auction.findById(auctionId).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, bidList: 1, isSold: 1, messages: 1 }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
+    const foundAuction = await Auction.findById(auctionId).populate({ path: "item" }).populate({ path: "messages", populate: { path: "sender", select: { name: 1, _id: 0 } } }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, bidList: 1, isSold: 1, messages: 1 }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
 
     if (!foundAuction) {
       throwError('Auction could not found!', 404)
@@ -516,7 +516,7 @@ exports.sendMessage = async (req, res, next) => {
   const todaysTimestamp = dayjs(new Date()).startOf("day").unix()
 
   try {
-    const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" })
+    const foundAuction = await Auction.findById(auctionId)
 
     if (foundAuction.isSold) {
       throwError('Auction is already closed!', 410)

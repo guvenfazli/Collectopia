@@ -26,7 +26,7 @@ export default function AuctionChatSection({ auctionId, messages }: ComponentPro
       {messageList.length <= 0 ? <p className="self-center">No message yet! Be the first one!</p> : messageList.map((message: Message) => {
         return (
           <div className="flex w-full items-center justify-start gap-1" key={message._id}>
-            <p>{message.sender}:</p>
+            <p>{message.sender.name}:</p>
             <p>{message.message}</p>
           </div>
         )
