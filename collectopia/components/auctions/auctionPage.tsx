@@ -30,6 +30,7 @@ export default function AuctionMainPage() {
 
   const { auctionId } = useParams()
   const [fetchedAuction, setFetchedAuction] = useState<FetchedAuction | undefined>()
+  const [messageList, setMessageList] = useState([])
   const [auctionClose, setAuctionClose] = useState<boolean>(false)
   const todaysDate = dayjs(new Date()).startOf("day")
   const todaysDateTimestamp = dayjs(todaysDate).unix()
@@ -52,7 +53,7 @@ export default function AuctionMainPage() {
         if (resData.fetchedAuction.deadline < todaysDateTimestamp || resData.fetchedAuction.isSold === true) {
           setAuctionClose(true)
         }
-
+        setMessageList(resData.fetchedMessages)
         setFetchedAuction(resData.fetchedAuction)
       } catch (err: any) {
         console.log(err.message)
@@ -79,7 +80,7 @@ export default function AuctionMainPage() {
 
           <div className="flex w-full justify-start h-96 items-start gap-3">
             <AuctionBidSection fetchedAuction={fetchedAuction} bidList={fetchedAuction.bidList} auctionId={auctionId} />
-            <AuctionChatSection auctionId={auctionId} messages={fetchedAuction.messages} ownerId={fetchedAuction.item.owner._id} />
+            <AuctionChatSection auctionId={auctionId} messages={messageList.messages} ownerId={fetchedAuction.item.owner._id} />
           </div>
         </>
       }

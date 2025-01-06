@@ -17,6 +17,7 @@ const User = require('./models/userModel')
 const Item = require('./models/itemModel')
 const Bid = require('./models/bidModel')
 const Auction = require('./models/auctionModel')
+const MessageRoom = require('./models/messageRoomModel')
 
 // ENV FILES
 const dotenv = require('dotenv')

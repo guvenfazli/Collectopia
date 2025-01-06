@@ -29,6 +29,7 @@ export default function LastAuctions() {
   const [fetchedLastAuctions, setFetchedAuctions] = useState<FetchedAuctions>([])
   const [isSliding, setIsSliding] = useState<boolean>(true)
 
+
   useEffect(() => {
     async function fetchLastAuctions() {
 

@@ -10,6 +10,7 @@ const User = require('../models/userModel')
 const Item = require('../models/itemModel')
 const Auction = require('../models/auctionModel')
 const Bid = require('../models/bidModel')
+const MessageRoom = require('../models/messageRoomModel')
 
 // ITEM CREATION
 exports.createItem = async (req, res, next) => {
@@ -417,11 +418,15 @@ exports.fetchSingleAuction = async (req, res, next) => {
   try {
     const foundAuction = await Auction.findById(auctionId).populate({ path: "item", populate: { path: "owner", select: { _id: 1, name: 1, surname: 1 } } }).populate({ path: "messages", populate: { path: "sender", select: { name: 1, _id: 1 } } }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, bidList: 1, isSold: 1, messages: 1 }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
 
+
+    const messageRoomOfAuction = await MessageRoom.findOne({ auctionRoom: auctionId }).populate({ path: "messages", populate: { path: "sender", select: { name: 1, _id: 1 } } })
+
+
     if (!foundAuction) {
       throwError('Auction could not found!', 404)
     }
 
-    return res.status(200).json({ fetchedAuction: foundAuction })
+    return res.status(200).json({ fetchedAuction: foundAuction, fetchedMessages: messageRoomOfAuction })
   } catch (err) {
     next(err)
   }
@@ -517,6 +522,17 @@ exports.sendMessage = async (req, res, next) => {
 
   try {
     const foundAuction = await Auction.findById(auctionId)
+    const foundChatRoom = await MessageRoom.findOne({ auctionRoom: auctionId })
+
+    if (!foundChatRoom) {
+      const createdChat = new MessageRoom({
+        auctionRoom: auctionId,
+      })
+
+      createdChat.messages.push({ message: message, sender: userId })
+      await createdChat.save()
+      return res.status(200).json({ message: 'Message sent' })
+    }
 
     if (foundAuction.isSold) {
       throwError('Auction is already closed!', 410)
@@ -524,9 +540,9 @@ exports.sendMessage = async (req, res, next) => {
       throwError('Auction met the deadline!', 410)
     }
 
-    foundAuction.messages.push({ message: message, sender: userId })
+    foundChatRoom.messages.push({ message: message, sender: userId })
 
-    await foundAuction.save()
+    await foundChatRoom.save()
     return res.status(200).json({ message: 'Message sent' })
 
   } catch (err) {
