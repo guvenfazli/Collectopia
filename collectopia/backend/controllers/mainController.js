@@ -439,16 +439,24 @@ exports.bidAuction = async (req, res, next) => {
   const auctionId = req.params.auctionId
   const userId = req.session.userInfo.id
   const todaysTimestamp = dayjs(new Date()).startOf("day").unix()
+  const errors = validationResult(req)
 
   try {
-    const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" })
-    const BidList = await AuctionBid.findOne({ auctionId: auctionId }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
 
+    if (!errors.isEmpty()) {
+      throwError(errors.array()[0].msg, 410)
+    }
+
+
+    const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" }).populate({ path: "seller" })
+    const BidList = await AuctionBid.findOne({ auctionId: auctionId }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
 
     if (foundAuction.isSold) {
       throwError('Auction is already closed!', 410)
     } else if (foundAuction.deadline < todaysTimestamp) {
       throwError('Auction met the deadline!', 410)
+    } else if (JSON.stringify(foundAuction.seller._id) === JSON.stringify(userId)) {
+      throwError('You can not bid to your own auction!', 410)
     } else if (convertedBid < foundAuction.minValue) {
       throwError('Your bid must be bigger than minimum bid value!', 410)
     } else if (foundAuction.bidList.length !== 0 && foundAuction.bidList[0].bidValue >= convertedBid) {
@@ -475,12 +483,12 @@ exports.bidAuction = async (req, res, next) => {
         auctionId: auctionId
       })
 
-      createdBidRoom.bidList.push(createdBid)
+      createdBidRoom.bidList.unshift(createdBid)
       await createdBidRoom.save()
       return res.status(200).json({ message: 'Your bid settled successfully.' })
     }
 
-    BidList.bidList.push(createdBid)
+    BidList.bidList.unshift(createdBid)
     await BidList.save()
 
     return res.status(200).json({ message: 'Your bid settled successfully.' })
@@ -498,7 +506,7 @@ exports.buyoutAuction = async (req, res, next) => {
   const todaysTimestamp = dayjs(new Date()).startOf("day").unix()
 
   try {
-    const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" })
+    const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" }).populate({ path: "seller" })
 
     /*     const foundUser = await User.findById(userId)
     
@@ -512,6 +520,8 @@ exports.buyoutAuction = async (req, res, next) => {
       throwError('Auction is already closed!', 410)
     } else if (foundAuction.deadline < todaysTimestamp) {
       throwError('Auction met the deadline!', 410)
+    } else if (JSON.stringify(foundAuction.seller._id) === JSON.stringify(userId)) {
+      throwError('You can not buy your own auction!', 410)
     } else if (convertedBuyout < foundAuction.buyout) {
       throwError('Your buyout must be bigger than minimum buyout value of the auction!', 410)
     } else if (foundAuction.bidList.length !== 0 && foundAuction.bidList[0].bidValue >= convertedBuyout) {

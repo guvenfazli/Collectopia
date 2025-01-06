@@ -58,7 +58,12 @@ router.post('/trackAuction/:auctionId', authCheck, mainController.trackAuction)
 
 router.post('/followUser/:userId', authCheck, mainController.followUser)
 
-router.post('/bidAuction/:auctionId', authCheck, mainController.bidAuction)
+router.post('/bidAuction/:auctionId', [
+  body("bid")
+    .notEmpty()
+    .withMessage("Please enter a value!"),
+], authCheck, mainController.bidAuction)
+
 router.post('/buyoutAuction/:auctionId', authCheck, mainController.buyoutAuction)
 router.post('/sendMessage/:auctionId', authCheck, mainController.sendMessage)
 

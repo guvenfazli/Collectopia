@@ -28,10 +28,11 @@ type FetchedAuction = {
 type ComponentProps = {
   bidList: any // Will Change,
   auctionId: string;
-  fetchedAuction: FetchedAuction
+  fetchedAuction: FetchedAuction;
+  ownerId: string
 }
 
-export default function AuctionBidSection({ bidList, auctionId, fetchedAuction }: ComponentProps) {
+export default function AuctionBidSection({ bidList, auctionId, fetchedAuction, ownerId }: ComponentProps) {
 
   const [isBuyout, setIsBuyout] = useState<boolean>(bidList[0] ? bidList[0].bidValue > fetchedAuction.buyout : false)
 
@@ -68,7 +69,7 @@ export default function AuctionBidSection({ bidList, auctionId, fetchedAuction }
         </Table>
       }
 
-      <AuctionBidInputField auctionId={auctionId} isBuyout={isBuyout} buyoutValue={fetchedAuction.buyout} />
+      <AuctionBidInputField auctionId={auctionId} isBuyout={isBuyout} buyoutValue={fetchedAuction.buyout} ownerId={ownerId} />
     </div>
   )
 }

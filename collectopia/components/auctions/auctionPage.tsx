@@ -57,6 +57,7 @@ export default function AuctionMainPage() {
   const todaysDateTimestamp = dayjs(todaysDate).unix()
 
   useEffect(() => {
+
     async function fetchAuction() {
       try {
         const response = await fetch(`http://localhost:8080/fetchAuction/${auctionId}`, {
@@ -74,7 +75,7 @@ export default function AuctionMainPage() {
         if (resData.fetchedAuction.deadline < todaysDateTimestamp || resData.fetchedAuction.isSold === true) {
           setAuctionClose(true)
         }
-        console.log(resData)
+
         setFetchedAuction(resData.fetchedAuction)
         setFetchedBidList(resData.fetchedBidlist.bidList)
         setMessageList(resData.fetchedMessages.messages)
@@ -82,6 +83,7 @@ export default function AuctionMainPage() {
         console.log(err.message)
       }
     }
+
     fetchAuction()
   }, [])
 
@@ -102,7 +104,7 @@ export default function AuctionMainPage() {
           </div>
 
           <div className="flex w-full justify-start h-96 items-start gap-3">
-            <AuctionBidSection fetchedAuction={fetchedAuction} bidList={fetchedBidList} auctionId={auctionId} />
+            <AuctionBidSection fetchedAuction={fetchedAuction} bidList={fetchedBidList} auctionId={auctionId} ownerId={fetchedAuction.item.owner._id} />
             <AuctionChatSection auctionId={auctionId} messages={messageList} ownerId={fetchedAuction.item.owner._id} />
           </div>
         </>
