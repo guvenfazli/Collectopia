@@ -37,7 +37,7 @@ export default function AuctionBidSection({ bidList, auctionId, fetchedAuction }
 
   return (
     <div className="flex flex-col justify-between h-full w-1/2 text-wrap">
-      {bidList.length <= 0 ? <p>No bid placed yet! Be the first one!</p> :
+      {bidList.length <= 0 ? <p className="self-center">No bid placed yet! Be the first one!</p> :
         <Table>
           <TableCaption>Bid List</TableCaption>
           <TableHeader>
@@ -68,7 +68,7 @@ export default function AuctionBidSection({ bidList, auctionId, fetchedAuction }
         </Table>
       }
 
-      <AuctionBidInputField auctionId={auctionId} isBuyout={isBuyout} />
+      <AuctionBidInputField auctionId={auctionId} isBuyout={isBuyout} buyoutValue={fetchedAuction.buyout} />
     </div>
   )
 }

@@ -314,7 +314,7 @@ exports.fetchLastAuctions = async (req, res, next) => {
   const tomorrowsDateFixes = tomorrowsDate.setDate(todaysDate.getDate() + 1)
 
   try {
-    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp } }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
+    const fetchedAuctions = await Auction.find().populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
     const filteredAuctions = fetchedAuctions.filter((itm) => itm.createdAt.getDay() === todaysDate.getDay() && itm.createdAt < new Date(tomorrowsDateFixes))
 
     if (filteredAuctions.length === 0) {
@@ -448,7 +448,7 @@ exports.bidAuction = async (req, res, next) => {
       throwError('Auction met the deadline!', 410)
     } else if (convertedBid < foundAuction.minValue) {
       throwError('Your bid must be bigger than minimum bid value!', 410)
-    } else if (foundAuction.bidList[0].bidValue && foundAuction.bidList[0].bidValue >= convertedBid) {
+    } else if (foundAuction.bidList.length !== 0 && foundAuction.bidList[0].bidValue >= convertedBid) {
       throwError('Your bid must be bigger than last bid!', 410)
     } else if (isNaN(convertedBid)) {
       throwError('Please enter a numeric value!', 410)
@@ -464,11 +464,6 @@ exports.bidAuction = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
-
-
-
-
-
 }
 
 // USER FOLLOWS AND TRACKINGS
