@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { FaCrown } from "react-icons/fa";
+import { IoIosMegaphone } from "react-icons/io"
 import AuctionChatInputField from "./auctionChatInputField"
 
 type Message = {
@@ -29,7 +29,7 @@ export default function AuctionChatSection({ auctionId, messages, ownerId }: Com
         {messageList.length <= 0 ? <p className="self-center">No message yet! Be the first one!</p> : messageList.map((message: Message) => {
           return (
             <div className="flex w-full items-center gap-1 text-wrap" key={message._id}>
-              <p className="font-bold text-orange-600 flex gap-1">{message.sender.name} {message.sender._id === ownerId && <FaCrown />}:</p>
+              <p className="font-bold text-orange-600 flex items-center ">{message.sender.name} {message.sender._id === ownerId && <IoIosMegaphone />}:</p>
               <p className="break-words overflow-hidden">{message.message}</p>
             </div>
           )

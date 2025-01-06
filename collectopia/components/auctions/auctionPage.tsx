@@ -62,8 +62,6 @@ export default function AuctionMainPage() {
     fetchAuction()
   }, [])
 
-  console.log(fetchedAuction)
-
   return (
     <div className="flex p-3 flex-col relative justify-start items-start w-10/12 bg-white">
       {auctionClose &&
