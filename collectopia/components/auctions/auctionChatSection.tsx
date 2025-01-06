@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { FaCrown } from "react-icons/fa";
 import AuctionChatInputField from "./auctionChatInputField"
 
 type Message = {
@@ -12,25 +13,27 @@ type MessageList = Message[]
 
 type ComponentProps = {
   auctionId: string
-  messages: MessageList
+  messages: MessageList;
+  ownerId: string
 }
 
 
-export default function AuctionChatSection({ auctionId, messages }: ComponentProps) {
+export default function AuctionChatSection({ auctionId, messages, ownerId }: ComponentProps) {
 
   const [messageList, setMessageList] = useState<MessageList>(messages ? messages : [])
 
-  console.log(messages)
   return (
-    <div className="flex flex-col justify-between h-full w-1/2 text-wrap">
-      {messageList.length <= 0 ? <p className="self-center">No message yet! Be the first one!</p> : messageList.map((message: Message) => {
-        return (
-          <div className="flex w-full items-center justify-start gap-1" key={message._id}>
-            <p>{message.sender.name}:</p>
-            <p>{message.message}</p>
-          </div>
-        )
-      })}
+    <div className="flex flex-col justify-between h-full w-1/2">
+      <div className="flex flex-col items-start justify-start h-full w-full overflow-scroll overflow-x-hidden">
+        {messageList.length <= 0 ? <p className="self-center">No message yet! Be the first one!</p> : messageList.map((message: Message) => {
+          return (
+            <div className="flex w-full items-center gap-1 text-wrap" key={message._id}>
+              <p className="font-bold text-orange-600 flex gap-1">{message.sender.name} {message.sender._id === ownerId && <FaCrown />}:</p>
+              <p className="break-words overflow-hidden">{message.message}</p>
+            </div>
+          )
+        })}
+      </div>
 
       <AuctionChatInputField auctionId={auctionId} />
     </div>
