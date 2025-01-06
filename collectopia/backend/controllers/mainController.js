@@ -415,7 +415,7 @@ exports.fetchSingleAuction = async (req, res, next) => {
   const auctionId = req.params.auctionId
 
   try {
-    const foundAuction = await Auction.findById(auctionId).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, bidList: 1 }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
+    const foundAuction = await Auction.findById(auctionId).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, bidList: 1, isSold: 1 }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
 
     if (!foundAuction) {
       throwError('Auction could not found!', 404)
@@ -460,6 +460,44 @@ exports.bidAuction = async (req, res, next) => {
     await foundAuction.save()
 
     return res.status(200).json({ message: 'Your bid settled successfully.' })
+
+  } catch (err) {
+    next(err)
+  }
+}
+
+exports.buyoutAuction = async (req, res, next) => {
+  const { buyout } = req.body
+  const convertedBuyout = +buyout
+  const auctionId = req.params.auctionId
+  const userId = req.session.userInfo.id
+  const todaysTimestamp = dayjs(new Date()).startOf("day").unix()
+
+  try {
+    const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" })
+
+    /*     const foundUser = await User.findById(userId)
+    
+        const createdBid = new Bid({
+          bidValue: convertedBuyout,
+          bidder: foundUser._id,
+          biddedTo: foundAuction._id
+        }) */
+
+    if (foundAuction.deadline < todaysTimestamp) {
+      throwError('Auction met the deadline!', 410)
+    } else if (convertedBuyout < foundAuction.buyout) {
+      throwError('Your buyout must be bigger than minimum buyout value of the auction!', 410)
+    } else if (foundAuction.bidList.length !== 0 && foundAuction.bidList[0].bidValue >= convertedBuyout) {
+      throwError('Your buyout must be bigger than minimum bid value of the auction!', 410)
+    } else if (isNaN(convertedBuyout)) {
+      throwError('Please enter a numeric value!', 410)
+    }
+
+    foundAuction.isSold = true
+
+    await foundAuction.save()
+    return res.status(200).json({ message: 'Your buyout ended successfully.' })
 
   } catch (err) {
     next(err)
@@ -514,7 +552,6 @@ exports.trackAuction = async (req, res, next) => {
 exports.followUser = async (req, res, next) => {
   const userId = req.params.userId
   const personWhoFollowsId = req.session.userInfo.id
-
 
   try {
     const followedUser = await User.findById(userId)

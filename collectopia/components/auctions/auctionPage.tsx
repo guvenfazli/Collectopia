@@ -17,14 +17,15 @@ type FetchedAuction = {
   item: any;
   minValue: number;
   seller: string;
-  _id: string
+  _id: string;
+  isSold: boolean
 }
 
 export default function AuctionMainPage() {
 
   const { auctionId } = useParams()
   const [fetchedAuction, setFetchedAuction] = useState<FetchedAuction | undefined>()
-  const [metDeadline, setMetDeadline] = useState<boolean>(false)
+  const [auctionClose, setAuctionClose] = useState<boolean>(false)
   const todaysDate = dayjs(new Date()).startOf("day")
   const todaysDateTimestamp = dayjs(todaysDate).unix()
   
@@ -43,8 +44,8 @@ export default function AuctionMainPage() {
 
         const resData = await response.json()
 
-        if (resData.fetchedAuction.deadline < todaysDateTimestamp) {
-          setMetDeadline(true)
+        if (resData.fetchedAuction.deadline < todaysDateTimestamp || resData.fetchedAuction.isSold === true) {
+          setAuctionClose(true)
         }
 
         setFetchedAuction(resData.fetchedAuction)
@@ -61,7 +62,7 @@ export default function AuctionMainPage() {
 
   return (
     <div className="flex p-3 flex-col relative justify-start items-start w-10/12 bg-white">
-      {metDeadline &&
+      {auctionClose &&
         <div className="top-0 flex flex-row justify-center items-center absolute bottom-0 z-20 group left-0 right-0 bg-white/70 hover:bg-white/50 duration-100">
           <p className={`text-9xl font-logo text-orange-800 opacity-100 duration-100 group-hover:opacity-50`}>SOLD!</p>
         </div>
