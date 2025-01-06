@@ -35,8 +35,6 @@ export default function AuctionBidSection({ bidList, auctionId, fetchedAuction }
 
   const [isBuyout, setIsBuyout] = useState<boolean>(bidList[0] ? bidList[0].bidValue > fetchedAuction.buyout : false)
 
-
-
   return (
     <div className="flex flex-col justify-between h-full w-1/2 text-wrap">
       {bidList.length <= 0 ? <p>No bid placed yet! Be the first one!</p> :
@@ -45,7 +43,7 @@ export default function AuctionBidSection({ bidList, auctionId, fetchedAuction }
           <TableHeader>
             <TableRow>
               <TableHead className="w-[200px]">Name</TableHead>
-              <TableHead>Bid Date</TableHead>
+              <TableHead className="w-[250px]">Bid Date</TableHead>
               <TableHead>Bid Time</TableHead>
               <TableHead className="text-right">Bid Value</TableHead>
             </TableRow>
@@ -60,7 +58,7 @@ export default function AuctionBidSection({ bidList, auctionId, fetchedAuction }
                   {dayjs(bid.createdAt).format("DD/MM/YY")}
                 </TableCell>
                 <TableCell>
-                  {dayjs(bid.createdAt).get("hours") + ':' + dayjs(bid.createdAt).get("minutes")}
+                  {dayjs(bid.createdAt).format("hh:mm")}
                 </TableCell>
                 <TableCell className="text-right">
                   {bid.bidValue} $
@@ -69,6 +67,7 @@ export default function AuctionBidSection({ bidList, auctionId, fetchedAuction }
           </TableBody>
         </Table>
       }
+
       <AuctionBidInputField auctionId={auctionId} isBuyout={isBuyout} />
     </div>
   )
