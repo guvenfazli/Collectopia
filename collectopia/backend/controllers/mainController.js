@@ -689,3 +689,11 @@ exports.myActiveAuctions = async (req, res, next) => {
     next(err)
   }
 }
+
+exports.sendMessageToUsersInbox = async (req, res, next) => {
+  const { title, message } = req.body
+  const userId = req.params.userId
+  const senderId = req.session.userInfo.id
+
+  console.log(title, message, userId, senderId)
+}

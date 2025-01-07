@@ -2,6 +2,8 @@ import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
 import { authActions } from "@/store/reduxStore"
+import { BsFillPersonFill, BsEnvelopeFill } from "react-icons/bs";
+import { IoLogOut } from "react-icons/io5";
 type ComponentType = {
   loggedName: string,
   loggedId: string
@@ -41,9 +43,9 @@ export default function HeaderProfileNavigator({ loggedName, loggedId }: Compone
   return (
     <nav className="flex flex-row justify-around items-center gap-5 text-lg">
       <p>Welcome back <span className="font-logo font-medium text-xl ml-1">{loggedName && loggedName}</span></p>
-      <Link href={`/profile/${loggedId && loggedId}`}>Profile</Link>
-      <Link href={'/inbox'}>Messages</Link>
-      <button onClick={logOut}>Logout</button>
+      <Link className="scale-105" href={`/profile/${loggedId && loggedId}`}><BsFillPersonFill /></Link>
+      <Link href={'/inbox'}><BsEnvelopeFill /></Link>
+      <button onClick={logOut}><IoLogOut /></button>
     </nav>
   )
 }

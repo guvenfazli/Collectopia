@@ -66,6 +66,7 @@ router.post('/bidAuction/:auctionId', [
 
 router.post('/buyoutAuction/:auctionId', authCheck, mainController.buyoutAuction)
 router.post('/sendMessage/:auctionId', authCheck, mainController.sendMessage)
+router.post('/sendMessageToUsersInbox/:userId', authCheck, mainController.sendMessageToUsersInbox)
 
 // PATCHES
 

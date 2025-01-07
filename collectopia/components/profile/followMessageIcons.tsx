@@ -5,7 +5,19 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip"
 
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog"
+
+import SendMessageForm from "./sendMessageForm";
 import { RiUserFollowLine, RiUserUnfollowFill } from "react-icons/ri";
+import { BsEnvelopeFill } from "react-icons/bs";
+
 
 type ComponentProps = {
   alreadyFollowed: boolean;
@@ -44,7 +56,7 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
       {loggedInUser?.id !== userId &&
         <TooltipProvider delayDuration={300}>
           <Tooltip>
-            <TooltipTrigger onClick={() => followUser(userId)} className="p-1 border border-orange-800 bg-orange-600 rounded-3xl text-white hover:bg-orange-400 duration-150">
+            <TooltipTrigger onClick={() => followUser(userId)} className="p-1 border border-orange-800 bg-orange-800 rounded-3xl text-white hover:bg-orange-600 duration-150">
               {alreadyFollowed ? <RiUserFollowLine /> : <RiUserUnfollowFill />}
             </TooltipTrigger>
             <TooltipContent>
@@ -53,6 +65,32 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
           </Tooltip>
         </TooltipProvider>
       }
+
+      {loggedInUser?.id !== userId &&
+        <Dialog>
+          <DialogTrigger className="p-1 border border-orange-800 bg-orange-800 rounded-3xl text-white hover:bg-orange-600 duration-150">
+            <TooltipProvider delayDuration={300}>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <BsEnvelopeFill />
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Send a Message</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          </DialogTrigger>
+
+          <DialogContent className="bg-orange-50 text-orange-800 flex flex-col border border-orange-800 w-1/4">
+            <DialogHeader>
+              <DialogTitle className="font-logo tracking-widest text-xl">Send a Message</DialogTitle>
+            </DialogHeader>
+            <SendMessageForm userId={userId} />
+          </DialogContent>
+        </Dialog>
+      }
+
+
     </>
   )
 }
