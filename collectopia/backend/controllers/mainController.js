@@ -12,6 +12,7 @@ const Auction = require('../models/auctionModel')
 const Bid = require('../models/bidModel')
 const AuctionBid = require('../models/auctionBidModel')
 const MessageRoom = require('../models/messageRoomModel')
+const PrivateMessage = require('../models/privateMessageModel')
 
 // ITEM CREATION
 exports.createItem = async (req, res, next) => {
@@ -695,5 +696,28 @@ exports.sendMessageToUsersInbox = async (req, res, next) => {
   const userId = req.params.userId
   const senderId = req.session.userInfo.id
 
-  console.log(title, message, userId, senderId)
+  try {
+    const recieverUser = await User.findOne({ _id: userId })
+
+    if (!recieverUser) {
+      throwError('User could not found!', 404)
+    }
+
+    const sentMessage = new PrivateMessage({
+      title,
+      message,
+      sender: senderId,
+      reciever: recieverUser._id
+    })
+
+    await sentMessage.save()
+
+    recieverUser.inbox.unshift(sentMessage._id)
+    await recieverUser.save()
+
+    return res.status(200).json({message: "Message Sent Successfully!"})
+
+  } catch (err) {
+    next(err)
+  }
 }
