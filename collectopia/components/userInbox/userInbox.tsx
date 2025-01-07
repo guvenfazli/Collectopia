@@ -12,6 +12,7 @@ import {
 import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import RecievedMessage from "./recievedMessage"
+import ResponseMessage from "./responseMessage"
 
 export default function UserInbox() {
 
@@ -58,7 +59,7 @@ export default function UserInbox() {
           <Dialog key={msg._id}>
 
             <DialogTrigger className="w-full">
-              <RecievedMessage key={msg._id} message={msg} />
+              <RecievedMessage message={msg} />
             </DialogTrigger>
 
             <DialogContent className="bg-orange-50 text-lg text-orange-800 flex flex-col border border-orange-800 w-1/3">
@@ -67,12 +68,14 @@ export default function UserInbox() {
               </DialogHeader>
               <div className="flex flex-col gap-3 w-full justify-start items-start">
                 <p>{msg.message}</p>
-                <button className="p-1 bg-orange-800 duration-100 font-logo text-white px-3 rounded-sm hover:bg-orange-700">Response</button>
+                <ResponseMessage />
               </div>
             </DialogContent>
 
           </Dialog>
         )}
+
+
 
 
 
