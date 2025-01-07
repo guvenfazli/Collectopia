@@ -7,7 +7,13 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
-export default function ResponseMessage() {
+import ResponseForm from "./responseForm"
+
+type ComponentProps = {
+  senderId: string
+}
+
+export default function ResponseMessage({ senderId }: ComponentProps) {
   return (
     <Dialog >
 
@@ -19,9 +25,7 @@ export default function ResponseMessage() {
         <DialogHeader>
           <DialogTitle className="font-logo tracking-widest text-xl">Response</DialogTitle>
         </DialogHeader>
-        <div className="flex flex-col gap-3 w-full justify-start items-start">
-          <p>TEST</p>
-        </div>
+        <ResponseForm senderId={senderId} />
       </DialogContent>
 
     </Dialog>

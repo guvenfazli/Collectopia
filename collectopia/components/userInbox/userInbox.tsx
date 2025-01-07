@@ -68,7 +68,7 @@ export default function UserInbox() {
               </DialogHeader>
               <div className="flex flex-col gap-3 w-full justify-start items-start">
                 <p>{msg.message}</p>
-                <ResponseMessage />
+                <ResponseMessage senderId={msg.sender._id} />
               </div>
             </DialogContent>
 
