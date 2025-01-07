@@ -36,6 +36,8 @@ export default function AuctionBidSection({ bidList, auctionId, fetchedAuction, 
 
   const [isBuyout, setIsBuyout] = useState<boolean>(bidList[0] ? bidList[0].bidValue > fetchedAuction.buyout : false)
 
+  console.log(bidList)
+
   return (
     <div className="flex flex-col justify-between h-full w-1/2 text-wrap">
       {bidList.length <= 0 ? <p className="self-center">No bid placed yet! Be the first one!</p> :

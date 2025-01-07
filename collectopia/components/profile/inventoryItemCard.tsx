@@ -70,8 +70,6 @@ export default function InventoryItemCard({ fetchedItem, isInventory, index }: C
     }
   }
 
-  console.log(index)
-
   return (
     <div className={`flex bg-orange-200 text-nowrap overflow-hidden duration-1000 ease-in-out flex-shrink-0 border border-orange-300 h-full flex-col items-start justify-start shadow-slate-800 shadow-xl z-${index} rounded-lg ${!isInventory ? '-mr-20 w-full' : 'mr-0 w-1/4'}`}>
       {loggedUser.id === fetchedItem.owner &&

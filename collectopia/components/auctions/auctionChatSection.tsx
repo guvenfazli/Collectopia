@@ -27,6 +27,7 @@ export default function AuctionChatSection({ auctionId, messages, ownerId }: Com
 
   const [messageList, setMessageList] = useState<MessageList>(messages ? messages : [])
 
+  console.log(messages)
 
   return (
     <div className="flex flex-col justify-between h-full w-1/2">

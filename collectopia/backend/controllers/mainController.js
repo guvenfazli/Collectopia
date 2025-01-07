@@ -422,11 +422,13 @@ exports.fetchSingleAuction = async (req, res, next) => {
 
     const messageRoomOfAuction = await MessageRoom.findOne({ auctionRoom: auctionId }).populate({ path: "messages", populate: { path: "sender", select: { name: 1, _id: 1 } } })
 
-    const bidList = await AuctionBid.findOne({ auctionId: auctionId }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
+    const bidList = await AuctionBid.find({ auctionId: auctionId }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
 
     if (!foundAuction) {
       throwError('Auction could not found!', 404)
     }
+
+    console.log(bidList)
 
     return res.status(200).json({ fetchedAuction: foundAuction, fetchedMessages: messageRoomOfAuction, fetchedBidlist: bidList })
   } catch (err) {

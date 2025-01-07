@@ -71,13 +71,13 @@ export default function AuctionMainPage() {
         }
 
         const resData = await response.json()
-
+        console.log(resData)
         if (resData.fetchedAuction.deadline < todaysDateTimestamp || resData.fetchedAuction.isSold === true) {
           setAuctionClose(true)
         }
-
+        console.log(resData.fetchedMessages.messages)
         setFetchedAuction(resData.fetchedAuction)
-        setFetchedBidList(resData.fetchedBidlist.bidList)
+        setFetchedBidList(resData.fetchedBidlist.bidList ? resData.fetchedBidlist.bidList : [])
         setMessageList(resData.fetchedMessages.messages)
       } catch (err: any) {
         console.log(err.message)
@@ -87,7 +87,7 @@ export default function AuctionMainPage() {
     fetchAuction()
   }, [])
 
-
+  console.log(messageList)
   return (
     <div className="flex p-3 flex-col relative justify-start items-start w-10/12 bg-white">
       {auctionClose &&
