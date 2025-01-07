@@ -15,6 +15,7 @@ router.get('/filterByMyInterest', authCheck, mainController.filterByMyInterest)
 router.get('/myTrackingList', authCheck, mainController.trackingAuctions)
 router.get('/myActiveAuctionListing', authCheck, mainController.myActiveAuctions)
 router.get('/fetchAuction/:auctionId', authCheck, mainController.fetchSingleAuction)
+router.get('/inbox', authCheck, mainController.fetchMyInbox)
 
 
 // POSTS
@@ -66,7 +67,18 @@ router.post('/bidAuction/:auctionId', [
 
 router.post('/buyoutAuction/:auctionId', authCheck, mainController.buyoutAuction)
 router.post('/sendMessage/:auctionId', authCheck, mainController.sendMessage)
-router.post('/sendMessageToUsersInbox/:userId', authCheck, mainController.sendMessageToUsersInbox)
+router.post('/sendMessageToUsersInbox/:userId', [
+  body("title")
+    .notEmpty()
+    .withMessage("Please enter a valid title!")
+    .isLength({ min: 1 })
+    .withMessage("Title must be minimum 1 character!"),
+  body("message")
+    .notEmpty()
+    .withMessage("Please enter a valid message!")
+    .isLength({ min: 5 })
+    .withMessage("Message must be minimum 5 character!"),
+], authCheck, mainController.sendMessageToUsersInbox)
 
 // PATCHES
 

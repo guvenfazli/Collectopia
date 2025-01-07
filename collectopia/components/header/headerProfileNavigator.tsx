@@ -44,7 +44,7 @@ export default function HeaderProfileNavigator({ loggedName, loggedId }: Compone
     <nav className="flex flex-row justify-around items-center gap-5 text-lg">
       <p>Welcome back <span className="font-logo font-medium text-xl ml-1">{loggedName && loggedName}</span></p>
       <Link className="scale-105" href={`/profile/${loggedId && loggedId}`}><BsFillPersonFill /></Link>
-      <Link href={'/inbox'}><BsEnvelopeFill /></Link>
+      <Link href={'/inbox?mode=recieved'}><BsEnvelopeFill /></Link>
       <button onClick={logOut}><IoLogOut /></button>
     </nav>
   )

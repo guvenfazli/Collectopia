@@ -685,21 +685,40 @@ exports.myActiveAuctions = async (req, res, next) => {
       throwError('You do not have any active listings!', 404)
     }
 
-    res.status(200).json({ foundAuctions: foundAuctions.auctions })
+    return res.status(200).json({ foundAuctions: foundAuctions.auctions })
   } catch (err) {
     next(err)
   }
+}
+
+exports.fetchMyInbox = async (req, res, next) => {
+  const userId = req.session.userInfo.id
+
+  try {
+    const foundInbox = await User.findById(userId).populate({ path: 'inbox', populate: { path: "sender", select: { name: 1, surname: 1, _id: 1 } } })
+
+    if (foundInbox.length === 0) {
+      throwError('Account or Inbox could not found!!', 404)
+    }
+
+    return res.status(200).json({ fetchedInbox: foundInbox.inbox })
+  } catch (err) {
+    next(err)
+  }
+
 }
 
 exports.sendMessageToUsersInbox = async (req, res, next) => {
   const { title, message } = req.body
   const userId = req.params.userId
   const senderId = req.session.userInfo.id
-
+  const errors = validationResult(req)
   try {
     const recieverUser = await User.findOne({ _id: userId })
 
-    if (!recieverUser) {
+    if (!errors.isEmpty) {
+      throwError(errors.array()[0].msg, 410)
+    } else if (!recieverUser) {
       throwError('User could not found!', 404)
     }
 
@@ -715,7 +734,7 @@ exports.sendMessageToUsersInbox = async (req, res, next) => {
     recieverUser.inbox.unshift(sentMessage._id)
     await recieverUser.save()
 
-    return res.status(200).json({message: "Message Sent Successfully!"})
+    return res.status(200).json({ message: "Message Sent Successfully!" })
 
   } catch (err) {
     next(err)

@@ -90,8 +90,6 @@ export default function ItemEditForm({ fetchedItem }: ComponentProps) {
       </div>
 
       <button className="bg-orange-800 text-orange-50 px-3 py-1 rounded-md hover:bg-orange-500 duration-150 font-logo self-center tracking-widest">Confirm</button>
-
-
     </form>
   )
 }
