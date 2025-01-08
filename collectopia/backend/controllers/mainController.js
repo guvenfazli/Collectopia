@@ -721,9 +721,8 @@ exports.fetchMyHistory = async (req, res, next) => {
   const userId = req.session.userInfo.id
   try {
     const foundEventHistoryList = await User.findById(userId).populate({ path: "eventHistory", select: { createdAt: 1, _id: 0 }, populate: { path: "interactionId", select: { _id: 1 } } })
-    console.log(foundEventHistoryList)
 
-    return res.status(200).json({ fetchedEventHistory: foundEventHistoryList.eventHistory })
+    return res.status(200).json({ fetchedEventHistory: foundEventHistoryList.eventHistory.length > 0 ? foundEventHistoryList.eventHistory : [] })
   } catch (err) {
     next(err)
   }
