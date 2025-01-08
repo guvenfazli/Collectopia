@@ -19,13 +19,19 @@ type ComponentsProp = {
 export default function ItemCard({ item }: ComponentsProp) {
 
   const [chosenDate, setChosenDate] = useState<number>(0)
-  const [isError, setIsError] = useState<boolean | string>()
+  const [isError, setIsError] = useState<boolean | string>(false)
 
   function chooseDate(e: ChangeEvent<HTMLInputElement>) {
     const chosenDate = new Date(e.target.value)
+    const todaysDate = dayjs(new Date()).startOf("day").unix()
     const convertToDayJS = dayjs(chosenDate).startOf("day")
     const timestamp = convertToDayJS.unix()
-    setChosenDate(timestamp)
+    if (timestamp <= todaysDate) {
+      setIsError("Minimum 24 hours difference required!")
+    } else {
+      setChosenDate(timestamp)
+      setIsError(false)
+    }
   }
 
 
@@ -77,8 +83,10 @@ export default function ItemCard({ item }: ComponentsProp) {
         <label>Choose a Deadline</label>
         <input name="deadline" type="date" onChange={(e) => chooseDate(e)} className="w-full bg-orange-300 text-orange-800 font-medium p-2 rounded-lg text-sm placeholder:text-orange-800" />
       </div>
+
+      {isError && <p className="text-sm">{isError}</p>}
       <div className="flex flex-row justify-center items-center text-center w-full">
-        <button className="bg-orange-800 text-orange-50 px-3 py-1 rounded-md hover:bg-orange-500 duration-150">Create Listing</button>
+        <button disabled={isError !== false && true} className="bg-orange-800 text-orange-50 px-3 py-1 rounded-md hover:bg-orange-500 duration-150 disabled:pointer-events-none disabled:bg-orange-300">Create Listing</button>
       </div>
     </form>
   )
