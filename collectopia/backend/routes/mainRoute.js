@@ -16,6 +16,7 @@ router.get('/myTrackingList', authCheck, mainController.trackingAuctions)
 router.get('/myActiveAuctionListing', authCheck, mainController.myActiveAuctions)
 router.get('/fetchAuction/:auctionId', authCheck, mainController.fetchSingleAuction)
 router.get('/inbox', authCheck, mainController.fetchMyInbox)
+router.get('/fetchUserHistory', authCheck, mainController.fetchMyHistory)
 
 
 // POSTS

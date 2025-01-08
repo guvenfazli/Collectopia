@@ -717,6 +717,21 @@ exports.fetchMyInbox = async (req, res, next) => {
 
 }
 
+exports.fetchMyHistory = async (req, res, next) => {
+  const userId = req.session.userInfo.id
+  console.log('Worked')
+  try {
+    const foundEventHistoryList = await User.findById(userId).populate({ path: "eventHistory", populate: { path: "interactionId", select: { interactionId: 1 } } })
+    console.log(foundEventHistoryList)
+
+    return res.status(200).json({ fetchedEventHistory: foundEventHistoryList.eventHistory })
+
+
+  } catch (err) {
+    next(err)
+  }
+}
+
 exports.sendMessageToUsersInbox = async (req, res, next) => {
   const { title, message } = req.body
   const userId = req.params.userId
