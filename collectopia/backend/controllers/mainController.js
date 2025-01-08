@@ -292,6 +292,7 @@ exports.createAuction = async (req, res, next) => {
 
     const foundUser = await User.findById(userId)
     foundUser.auctions.push(createdAuction)
+    foundUser.eventHistory.unshift({ event: "Created an Auction", interactionId: createdAuction })
     await foundUser.save()
 
     const foundOriginalItem = await Item.findById(itemId)
@@ -490,6 +491,8 @@ exports.bidAuction = async (req, res, next) => {
     }
 
     BidList.bidList.unshift(createdBid)
+    foundUser.eventHistory.unshift({ event: "Bidded to an Auction", interactionId: foundAuction })
+    await foundUser.save()
     await BidList.save()
 
     return res.status(200).json({ message: 'Your bid settled successfully.' })
@@ -508,7 +511,7 @@ exports.buyoutAuction = async (req, res, next) => {
 
   try {
     const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" }).populate({ path: "seller" })
-
+    const foundUser = await User.findById({ userId })
     /*     const foundUser = await User.findById(userId)
     
         const createdBid = new Bid({
@@ -532,7 +535,8 @@ exports.buyoutAuction = async (req, res, next) => {
     }
 
     foundAuction.isSold = true
-
+    foundUser.eventHistory.unshift({ event: "Bought an Auction!", interactionId: foundAuction })
+    await foundUser.save()
     await foundAuction.save()
     return res.status(200).json({ message: 'Your buyout ended successfully.' })
 
@@ -550,6 +554,8 @@ exports.sendMessage = async (req, res, next) => {
   try {
     const foundAuction = await Auction.findById(auctionId)
     const foundChatRoom = await MessageRoom.findOne({ auctionRoom: auctionId })
+    const foundUser = await User.findOne(userId)
+
 
     if (!foundChatRoom) {
       const createdChat = new MessageRoom({
@@ -568,7 +574,8 @@ exports.sendMessage = async (req, res, next) => {
     }
 
     foundChatRoom.messages.push({ message: message, sender: userId })
-
+    foundUser.eventHistory.unshift({ event: "Sent a Message to an Auction!", interactionId: foundAuction })
+    await foundUser.save()
     await foundChatRoom.save()
     return res.status(200).json({ message: 'Message sent' })
 
@@ -610,7 +617,9 @@ exports.trackAuction = async (req, res, next) => {
     }
 
     foundUser.trackingAuctions.push(foundAuction)
+    foundUser.eventHistory.unshift({ event: "Tracked an Auction!", interactionId: foundAuction })
     foundAuction.followers.push(foundUser)
+
     await foundUser.save()
     await foundAuction.save()
 
