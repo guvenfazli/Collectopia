@@ -257,19 +257,18 @@ exports.createAuction = async (req, res, next) => {
   const parsedTagList = JSON.parse(auctionTag)
   const userId = req.session.userInfo.id
   const errors = validationResult(req)
+  const todaysDate = dayjs(new Date()).startOf("day").unix()
 
 
   try {
     if (!errors.isEmpty()) {
       throwError(errors.array()[0].msg, 410)
-    }
-
-    if (isNaN(convertedBuyout) || isNaN(convertedMinValue)) {
+    } else if (isNaN(convertedBuyout) || isNaN(convertedMinValue)) {
       throwError('Please enter a numeric value!', 410)
-    }
-
-    if (convertedMinValue >= convertedBuyout) {
+    } else if (convertedMinValue >= convertedBuyout) {
       throwError('Minimum Value can not be higher than buyout value!', 410)
+    } else if (covertedDeadline <= todaysDate) {
+      throwError('Minimum 24 hours difference required!', 410)
     }
 
     const alreadyListed = await Auction.findOne({ item: itemId })
