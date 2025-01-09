@@ -7,10 +7,11 @@ import {
 import Image from "next/image"
 
 type ComponentProps = {
-  item: any
+  item: any;
+  setChosenItem: React.Dispatch<React.SetStateAction<{ userItems: string[], myItems: string[] }>>
 }
 
-export default function OfferCard({ item }: ComponentProps) {
+export default function OfferCard({ item, setChosenItem }: ComponentProps) {
   return (
     <div className="flex flex-col w-1/4">
       <div>
