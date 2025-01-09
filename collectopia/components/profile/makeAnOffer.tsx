@@ -36,14 +36,14 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
 
   return (
     <div className="flex flex-row justify-start items-start">
-      <div className="flex flex-col gap-3 border-b border-b-orange-800 w-full">
-        <div className="flex flex-col gap-3 border-b border-b-orange-800 w-full">
-          <p className="font-logo text-sm">Users Inventory</p>
+      <div className="flex flex-col gap-3 w-full">
+        <div className="flex flex-col gap-3 w-full">
+          <p className="font-logo text-sm border-b border-b-orange-800 w-full">Users Inventory</p>
           <ProfileOwnerItems userItems={userItems} />
         </div>
 
-        <div className="flex flex-col gap-3 border-b border-b-orange-800 w-full">
-          <p className="font-logo text-sm">Your Inventory</p>
+        <div className="flex flex-col gap-3 w-full">
+          <p className="font-logo text-sm border-b border-b-orange-800 ">Your Inventory</p>
           <ProfileOwnerItems userItems={myItems} />
         </div>
       </div>

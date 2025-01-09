@@ -4,7 +4,6 @@ type ComponentProps = {
   userItems: any
 }
 export default function ProfileOwnerItems({ userItems }: ComponentProps) {
-  console.log(userItems)
 
   return (
     <div className="flex w-full justify-start items-start gap-2">

@@ -31,7 +31,7 @@ export default function OfferCard({ item }: ComponentProps) {
       </div>
 
       <div>
-        {item.title}
+        <p className="text-sm">{item.title}</p>
       </div>
     </div>
   )
