@@ -781,8 +781,6 @@ exports.makeOffer = async (req, res, next) => {
   const receiverId = req.params.receiverId
   const senderId = req.session.userInfo.id
 
-
-
   try {
 
     if (offer.userItems.length === 0 && offer.myItems.length === 0) {
