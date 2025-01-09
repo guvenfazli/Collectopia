@@ -781,7 +781,13 @@ exports.makeOffer = async (req, res, next) => {
   const receiverId = req.params.receiverId
   const senderId = req.session.userInfo.id
 
+
+
   try {
+
+    if (offer.userItems.length === 0 && offer.myItems.length === 0) {
+      throwError("You can not send an empty offer!", 410)
+    }
 
     const offerer = await User.findOne({ _id: senderId })
     const receiver = await User.findOne({ _id: receiverId })
@@ -794,8 +800,6 @@ exports.makeOffer = async (req, res, next) => {
         wantedItems: offer.userItems
       }
     })
-
-    console.log(createdOffer)
 
     await createdOffer.save()
     offerer.sentOffers.push(createdOffer)

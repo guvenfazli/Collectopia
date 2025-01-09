@@ -45,6 +45,11 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
 
   async function makeTheOffer(userId: string) {
     try {
+      if (chosenItems.myItems.length === 0 && chosenItems.userItems.length === 0) {
+        const error = new Error("At least one item should be chosen from your or users inventory.")
+        throw error
+      }
+
       const response = await fetch(`http://localhost:8080/makeOffer/${userId}`, {
         method: "POST",
         credentials: "include",
@@ -99,7 +104,7 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
       </div>
 
       <div className="flex flex-row w-full justify-center items-center">
-        <button onClick={() => makeTheOffer(userId)} className="w-36 h-12 duration-100 bg-orange-800 rounded-md font-logo text-white hover:bg-orange-600">Make the Offer</button>
+        <button disabled={chosenItems.myItems.length === 0 && chosenItems.userItems.length === 0} onClick={() => makeTheOffer(userId)} className="w-36 h-12 duration-100 bg-orange-800 rounded-md font-logo text-white hover:bg-orange-600 disabled:pointer-events-none disabled:bg-orange-300">Make the Offer</button>
       </div>
 
     </div>
