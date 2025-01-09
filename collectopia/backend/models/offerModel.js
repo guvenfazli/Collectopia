@@ -7,7 +7,9 @@ const offerSchema = new Schema({
   offer: {
     offeredItems: [{ type: Schema.Types.ObjectId, ref: 'Item' }],
     wantedItems: [{ type: Schema.Types.ObjectId, ref: 'Item' }]
-  }
+  },
+  offerActive: { type: Boolean, default: true },
+  offerAccepted: { type: Boolean, default: false }
 }, { timestamps: true })
 
 module.exports = mongoose.model('Offer', offerSchema)
