@@ -10,7 +10,7 @@ type ComponentProps = {
 export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
 
   const [myItems, setMyItems] = useState([])
-  const [chosenItems, setChosenItems] = useState({
+  const [chosenItems, setChosenItems] = useState<{ userItems: string[], myItems: string[] }>({
     userItems: [],
     myItems: []
   })
@@ -42,9 +42,6 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
     fetchMyItemsForOffer()
   }, [])
 
-  console.log(chosenItems)
-
-
   return (
     <div className="flex flex-row justify-start items-start">
       <div className="flex flex-col gap-3 w-full border-r border-r-orange-800 min-h-[470px]">
@@ -64,12 +61,12 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
       <div className="flex flex-col gap-3 w-full">
         <div className="flex flex-col gap-3 w-full h-full">
           <p className="font-logo text-sm border-b border-b-orange-800 w-full">You Want</p>
-          <ChosenItemsSection chosenItems={chosenItems.userItems} />
+          <ChosenItemsSection chosenItems={chosenItems.userItems} setChosenItems={setChosenItems} items={"userItems"} />
         </div>
 
         <div className="flex flex-col gap-3 w-full h-full">
           <p className="font-logo text-sm border-b border-b-orange-800 ">Your Offer</p>
-          <ChosenItemsSection chosenItems={chosenItems.myItems} />
+          <ChosenItemsSection chosenItems={chosenItems.myItems} setChosenItems={setChosenItems} items={"myItems"} />
         </div>
       </div>
 

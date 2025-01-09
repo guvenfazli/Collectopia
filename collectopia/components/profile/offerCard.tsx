@@ -15,12 +15,15 @@ type ComponentProps = {
 export default function OfferCard({ item, setChosenItems, items }: ComponentProps) {
 
   function chooseItem(items: string, item: any) {
-    console.log(items)
-    console.log(item)
     setChosenItems((prev) => {
       const updated = { ...prev }
-      updated[items].push(item)
-      return updated
+      const alreadyAdded = updated[items].some((alreadAddedItem: any) => alreadAddedItem._id === item._id)
+      if (alreadyAdded) {
+        return updated
+      } else {
+        updated[items].push(item)
+        return updated
+      }
     })
   }
 
