@@ -1,4 +1,4 @@
-import ReceivedOfferCard from "./receivedOfferCard"
+import ReceivedOfferCard from "./receivedOffers/receivedOfferCard"
 
 type ComponentProps = {
   offersList: any,
