@@ -18,12 +18,14 @@ export default function OfferCard({ item, setChosenItems, items }: ComponentProp
     setChosenItems((prev) => {
       const updated = { ...prev }
       const alreadyAdded = updated[items].some((alreadAddedItem: any) => alreadAddedItem._id === item._id)
+
       if (alreadyAdded) {
         return updated
       } else {
         updated[items].push(item)
         return updated
       }
+
     })
   }
 

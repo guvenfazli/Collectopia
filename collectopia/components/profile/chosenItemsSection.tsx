@@ -10,8 +10,8 @@ type ComponentProps = {
 
 export default function ChosenItemsSection({ chosenItems, setChosenItems, items }: ComponentProps) {
   return (
-    <div className="flex w-full justify-start items-start gap-2">
-      {chosenItems.length === 0 ? <p>This user has no items.</p> : chosenItems.map((item: any) => {
+    <div style={{ scrollbarWidth: 'thin', scrollbarColor: "#9A3412 transparent", WebkitOverflowScrolling: "touch" }} className="flex w-full justify-start items-start overflow-scroll overflow-y-hidden  gap-2 flex-nowrap">
+      {chosenItems.length === 0 ? <p>You did not choose any item.</p> : chosenItems.map((item: any) => {
         return (
           <ChosenOfferCard key={item._id} item={item} setChosenItems={setChosenItems} items={items} />
         )

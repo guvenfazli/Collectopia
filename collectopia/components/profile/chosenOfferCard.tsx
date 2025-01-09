@@ -44,6 +44,10 @@ export default function ChosenOfferCard({ item, setChosenItems, items }: Compone
           </CarouselContent>
         </Carousel>
       </div>
+
+      <div>
+        <p className="text-sm">{item.title}</p>
+      </div>
     </div>
   )
 }
