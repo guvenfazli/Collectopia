@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import ProfileOwnerItems from "./profileOwnerItems"
+import ChosenItemsSection from "./chosenItemsSection";
+
 type ComponentProps = {
   userId: string;
   userItems: any
@@ -8,6 +10,12 @@ type ComponentProps = {
 export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
 
   const [myItems, setMyItems] = useState([])
+  const [chosenItems, setChosenItems] = useState({
+    userItems: [],
+    myItems: []
+  })
+  /*   const [chosenUserItems, setChosenUserItems] = useState([])
+    const [chosenMyItems, setChosenMyItems] = useState([]) */
 
   useEffect(() => {
     async function fetchMyItemsForOffer() {
@@ -35,18 +43,33 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
 
 
   return (
-    <div className="flex flex-row justify-start items-start">
-      <div className="flex flex-col gap-3 w-full">
+    <div className="flex flex-row justify-start items-center">
+      <div className="flex flex-col gap-3 w-full border-r border-r-orange-800">
         <div className="flex flex-col gap-3 w-full">
           <p className="font-logo text-sm border-b border-b-orange-800 w-full">Users Inventory</p>
-          <ProfileOwnerItems userItems={userItems} />
+          <ProfileOwnerItems userItems={userItems} setChosenItems={setChosenItems} />
         </div>
 
         <div className="flex flex-col gap-3 w-full">
           <p className="font-logo text-sm border-b border-b-orange-800 ">Your Inventory</p>
-          <ProfileOwnerItems userItems={myItems} />
+          <ProfileOwnerItems userItems={myItems} setChosenItems={setChosenItems} />
         </div>
       </div>
+
+      {/* OFFER SECTION */}
+
+      <div className="flex flex-col gap-3 w-full">
+        <div className="flex flex-col gap-3 w-full">
+          <p className="font-logo text-sm border-b border-b-orange-800 w-full">You Want</p>
+          <ChosenItemsSection chosenItems={chosenItems.userItems} />
+        </div>
+
+        <div className="flex flex-col gap-3 w-full">
+          <p className="font-logo text-sm border-b border-b-orange-800 ">Your Offer</p>
+          <ChosenItemsSection chosenItems={chosenItems.myItems} />
+        </div>
+      </div>
+
     </div>
   )
 }

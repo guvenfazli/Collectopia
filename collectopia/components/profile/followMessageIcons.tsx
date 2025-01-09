@@ -107,7 +107,7 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
             </TooltipProvider>
           </DialogTrigger>
 
-          <DialogContent className="bg-orange-50 text-orange-800 flex flex-col border border-orange-800 w-1/4">
+          <DialogContent className="bg-orange-50 text-orange-800 flex flex-col border border-orange-800 w-5/6">
             <DialogHeader>
               <DialogTitle className="font-logo tracking-widest text-xl">Make an Offer</DialogTitle>
             </DialogHeader>
