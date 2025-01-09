@@ -50,16 +50,14 @@ export default function UserProfilePage() {
   if (isLoading) {
     return (
       <div className="flex w-full h-screen justify-center items-center">
-
         <span id="loader"></span>
-
       </div>
     )
   } else {
     return (
       <div className="flex flex-col h-auto justify-start items-center ">
         <div className="flex bg-white border-b-orange-300 border-b w-2/3 p-5 shadow-sm shadow-slate-800">
-          <MainInformation userInformation={foundUser} />
+          <MainInformation userInformation={foundUser} userItems={foundUser.items} />
         </div>
 
         <div className="flex bg-white border-b-orange-800 w-2/3 p-5 shadow-sm shadow-slate-800">

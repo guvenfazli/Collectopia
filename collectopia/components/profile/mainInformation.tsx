@@ -26,10 +26,11 @@ type FetchedUserType = {
 
 type ComponentsProp = {
   userInformation: FetchedUserType
+  userItems: any
 }
 
 
-export default function MainInformation({ userInformation }: ComponentsProp) {
+export default function MainInformation({ userInformation, userItems }: ComponentsProp) {
 
   const loggedInUser = useSelector((state: any) => state.auth.userInfo.userInfo)
   const dateData = new Date(userInformation.createdAt)
@@ -41,7 +42,7 @@ export default function MainInformation({ userInformation }: ComponentsProp) {
       <div className="flex flex-row justify-start items-end gap-5">
         <p className="text-5xl font-medium font-logo text-slate-800 tracking-wider">{userInformation.name + " " + userInformation.surname}</p>
         <p className="text-xl font-medium font-logo text-slate-800"><span className="text-sm font-sans text-slate-600 mr-1">Joined:</span> {dateDataConverted.format("DD/MM/YYYY")}</p>
-        <FollowMessageIcons userId={userInformation._id} alreadyFollowed={alreadyFollowed} loggedInUser={loggedInUser} />
+        <FollowMessageIcons userId={userInformation._id} alreadyFollowed={alreadyFollowed} loggedInUser={loggedInUser} userItems={userItems} />
       </div>
 
       <div className="flex flex-row justify-start items-end gap-5">

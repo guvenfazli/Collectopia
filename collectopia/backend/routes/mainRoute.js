@@ -17,6 +17,7 @@ router.get('/myActiveAuctionListing', authCheck, mainController.myActiveAuctions
 router.get('/fetchAuction/:auctionId', authCheck, mainController.fetchSingleAuction)
 router.get('/inbox', authCheck, mainController.fetchMyInbox)
 router.get('/fetchUserHistory', authCheck, mainController.fetchMyHistory)
+router.get('/fetchMyItemsForOffer', authCheck, mainController.fetchMyItemsForOffer)
 
 
 // POSTS

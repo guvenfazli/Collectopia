@@ -759,3 +759,18 @@ exports.sendMessageToUsersInbox = async (req, res, next) => {
     next(err)
   }
 }
+
+// TRADE OFFER SYSTEM
+
+exports.fetchMyItemsForOffer = async (req, res, next) => {
+  const userId = req.session.userInfo.id
+
+  try {
+    const foundItems = await User.findById(userId).populate({ path: "items", select: { title: 1, _id: 1, imageList: 1 } })
+
+    return res.status(200).json({ myItemsForOffer: foundItems })
+
+  } catch (err) {
+    next(err)
+  }
+}
