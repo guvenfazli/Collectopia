@@ -20,9 +20,6 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
     myItems: []
   })
 
-  /*   const [chosenUserItems, setChosenUserItems] = useState([])
-    const [chosenMyItems, setChosenMyItems] = useState([]) */
-
   useEffect(() => {
     async function fetchMyItemsForOffer() {
       try {
@@ -38,7 +35,6 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
 
         const resData = await response.json()
         setMyItems(resData.myItemsForOffer.items)
-        console.log(resData)
       } catch (err: any) {
         console.log(err.message)
       }
@@ -46,6 +42,28 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
 
     fetchMyItemsForOffer()
   }, [])
+
+  async function makeTheOffer(userId: string) {
+    try {
+      const response = await fetch(`http://localhost:8080/makeOffer/${userId}`, {
+        method: "POST",
+        credentials: "include",
+        body: JSON.stringify(chosenItems)
+      })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData.message)
+        throw error
+      }
+
+      const resData = await response.json()
+      console.log(resData)
+
+    } catch (err: any) {
+      console.log(err.message)
+    }
+  }
 
   return (
     <div className="flex flex-col justify-start items-start">
@@ -78,7 +96,7 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
       </div>
 
       <div className="flex flex-row w-full justify-center items-center">
-        <button className="w-36 h-12 duration-100 bg-orange-800 rounded-md font-logo text-white hover:bg-orange-600">Make the Offer</button>
+        <button onClick={() => makeTheOffer(userId)} className="w-36 h-12 duration-100 bg-orange-800 rounded-md font-logo text-white hover:bg-orange-600">Make the Offer</button>
       </div>
 
     </div>
