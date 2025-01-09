@@ -811,6 +811,23 @@ exports.makeOffer = async (req, res, next) => {
     next(err)
   }
 
+}
+
+exports.fetchOffers = async (req, res, next) => {
+  const userId = req.session.userInfo.id
+
+  try {
+    const foundUser = await User.findById(userId).select({ receivedOffers: 1, sentOffers: 1 }).populate({ path: "receivedOffers" }).populate({ path: "sentOffers" })
+
+    if (!foundUser) {
+      throwError("User could not found!", 404)
+    }
+
+    return res.status(200).json({ receivedOffers: foundUser.receivedOffers, sentOffers: foundUser.sentOffers })
 
 
+
+  } catch (err) {
+    next(err)
+  }
 }

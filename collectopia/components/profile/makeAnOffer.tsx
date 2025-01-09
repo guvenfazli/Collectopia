@@ -66,6 +66,7 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
       }
 
       const resData = await response.json()
+  
 
     } catch (err: any) {
       console.log(err.message)
