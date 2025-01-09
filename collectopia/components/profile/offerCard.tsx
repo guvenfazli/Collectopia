@@ -43,6 +43,7 @@ export default function OfferCard({ item, setChosenItems, items }: ComponentProp
                   alt="uploadedImage"
                   src={`http://localhost:8080/${img.replaceAll(/\\/g, "/")}`}
                   style={{ objectFit: "contain" }} />
+
               </CarouselItem>
             )}
           </CarouselContent>

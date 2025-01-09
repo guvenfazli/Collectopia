@@ -13,6 +13,7 @@ const Bid = require('../models/bidModel')
 const AuctionBid = require('../models/auctionBidModel')
 const MessageRoom = require('../models/messageRoomModel')
 const PrivateMessage = require('../models/privateMessageModel')
+const Offer = require('../models/offerModel')
 
 // ITEM CREATION
 exports.createItem = async (req, res, next) => {
@@ -773,4 +774,41 @@ exports.fetchMyItemsForOffer = async (req, res, next) => {
   } catch (err) {
     next(err)
   }
+}
+
+exports.makeOffer = async (req, res, next) => {
+  const { offer } = req.body
+  const receiverId = req.params.receiverId
+  const senderId = req.session.userInfo.id
+
+  try {
+
+    const offerer = await User.findOne({ _id: senderId })
+    const receiver = await User.findOne({ _id: receiverId })
+
+    const createdOffer = new Offer({
+      offerer: senderId,
+      receiver: receiverId,
+      offer: {
+        offeredItems: offer.myItems,
+        wantedItems: offer.userItems
+      }
+    })
+
+    console.log(createdOffer)
+
+    await createdOffer.save()
+    offerer.sentOffers.push(createdOffer)
+    receiver.receivedOffers.push(createdOffer)
+    await offerer.save()
+    await receiver.save()
+
+    return res.status(200).json({ message: 'Offer sent successfully!' })
+
+  } catch (err) {
+    next(err)
+  }
+
+
+
 }

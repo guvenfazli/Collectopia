@@ -48,7 +48,10 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
       const response = await fetch(`http://localhost:8080/makeOffer/${userId}`, {
         method: "POST",
         credentials: "include",
-        body: JSON.stringify(chosenItems)
+        body: JSON.stringify({ offer: chosenItems }),
+        headers: {
+          "Content-Type": "application/json"
+        }
       })
 
       if (!response.ok) {

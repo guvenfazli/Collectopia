@@ -22,6 +22,8 @@ const userSchema = new Schema({
   items: [{ type: Schema.Types.ObjectId, ref: 'Item', default: [] }],
   auctions: [{ type: Schema.Types.ObjectId, ref: 'Auction', }],
   inbox: [{ type: Schema.Types.ObjectId, ref: 'PrivateMessage' }],
+  receivedOffers: [{ type: Schema.Types.ObjectId, ref: 'Offer' }],
+  sentOffers: [{ type: Schema.Types.ObjectId, ref: 'Offer' }],
   eventHistory: [{ type: new Schema({ event: { type: String }, interactionId: { type: Schema.Types.ObjectId, ref: 'Auction' } }, { timestamps: true }) }],
   trackingAuctions: [{ type: Schema.Types.ObjectId, ref: 'Auction', default: [] }],
   followers: [{ type: Schema.Types.ObjectId, ref: 'User', default: [] }],

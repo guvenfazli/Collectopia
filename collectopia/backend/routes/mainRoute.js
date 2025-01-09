@@ -82,6 +82,8 @@ router.post('/sendMessageToUsersInbox/:userId', [
     .withMessage("Message must be minimum 5 character!"),
 ], authCheck, mainController.sendMessageToUsersInbox)
 
+router.post('/makeOffer/:receiverId', authCheck, mainController.makeOffer)
+
 // PATCHES
 
 router.patch('/editItem/:itemId', [
