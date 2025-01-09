@@ -42,18 +42,20 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
     fetchMyItemsForOffer()
   }, [])
 
+  console.log(chosenItems)
+
 
   return (
-    <div className="flex flex-row justify-start items-center">
+    <div className="flex flex-row justify-start items-start">
       <div className="flex flex-col gap-3 w-full border-r border-r-orange-800 min-h-[470px]">
         <div className="flex flex-col gap-3 w-full h-1/2">
           <p className="font-logo text-sm border-b border-b-orange-800 w-full">Users Inventory</p>
-          <ProfileOwnerItems userItems={userItems} setChosenItems={setChosenItems} />
+          <ProfileOwnerItems userItems={userItems} setChosenItems={setChosenItems} items={"userItems"} />
         </div>
 
         <div className="flex flex-col gap-3 w-full h-1/2">
           <p className="font-logo text-sm border-b border-b-orange-800 ">Your Inventory</p>
-          <ProfileOwnerItems userItems={myItems} setChosenItems={setChosenItems} />
+          <ProfileOwnerItems userItems={myItems} setChosenItems={setChosenItems} items={"myItems"} />
         </div>
       </div>
 

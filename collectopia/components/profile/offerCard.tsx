@@ -8,13 +8,26 @@ import Image from "next/image"
 
 type ComponentProps = {
   item: any;
-  setChosenItem: React.Dispatch<React.SetStateAction<{ userItems: string[], myItems: string[] }>>
+  setChosenItems: React.Dispatch<React.SetStateAction<{ userItems: string[], myItems: string[] }>>
+  items: string;
 }
 
-export default function OfferCard({ item, setChosenItem }: ComponentProps) {
+export default function OfferCard({ item, setChosenItems, items }: ComponentProps) {
+
+  function chooseItem(items: string, item: any) {
+    console.log(items)
+    console.log(item)
+    setChosenItems((prev) => {
+      const updated = { ...prev }
+      updated[items].push(item)
+      return updated
+    })
+  }
+
+
   return (
     <div className="flex flex-col w-1/4">
-      <div>
+      <div onClick={() => chooseItem(items, item)}>
         <Carousel className="w-full">
           <CarouselContent className="h-44">
             {item.imageList.map((img: string) =>
