@@ -13,10 +13,7 @@ export default function OffersList({ offersList, renderOffers, setRenderOffers, 
     setRenderOffers(offerType)
   }
 
-
-
-
-
+  console.log(offersList)
 
   return (
     <div className="flex flex-col w-1/2 gap-2 border-r border-orange-800 pr-3">
@@ -30,11 +27,11 @@ export default function OffersList({ offersList, renderOffers, setRenderOffers, 
         offersList[renderOffers].map((offer: any) => {
           if (renderOffers === "receivedOffers") {
             return (
-              <ReceivedOfferCard key={offer._id} offer={offer.offer} setChosenOffer={setChosenOffer} />
+              <ReceivedOfferCard key={offer._id} offer={offer.offer} offerer={offer.offerer} setChosenOffer={setChosenOffer} />
             )
           } else {
             return (
-              <SentOfferCard key={offer._id} offer={offer.offer} setChosenOffer={setChosenOffer} />
+              <SentOfferCard key={offer._id} offer={offer.offer} offerer={offer.offerer} setChosenOffer={setChosenOffer} />
             )
           }
 

@@ -3,11 +3,12 @@ import OfferedItemsCard from "./offeredItemsCard"
 type ComponentProps = {
   offer: any;
   setChosenOffer: React.Dispatch<React.SetStateAction<any>>;
+  offerer: { _id: string, name: string, surname: string }
 }
 
-export default function SentOfferCard({ offer, setChosenOffer }: ComponentProps) {
+export default function SentOfferCard({ offer, offerer, setChosenOffer }: ComponentProps) {
   return (
-    <div onClick={() => setChosenOffer(offer)} className="flex flex-col gap-2 w-full duration-150 cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-md">
+    <div onClick={() => setChosenOffer({ offer: offer, offerer: offerer })} className="flex flex-col gap-2 w-full duration-150 cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-md">
 
       <div className="py-1 border-b border-b-orange-800">
         <p className="font-logo text-lg tracking-widest text-orange-800">Click to see details</p>
