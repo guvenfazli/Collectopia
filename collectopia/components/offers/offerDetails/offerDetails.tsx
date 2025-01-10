@@ -14,7 +14,7 @@ export default function OfferDetails({ chosenOffer, renderOffers }: ComponentPro
     <div className={`flex flex-col relative pl-4 items-center justify-center w-1/2`}>
 
       <div className="flex gap-1 self-center top-0 absolute -mt-2 text-lg bg-orange-800 py-1 px-3 text-white rounded-bl-lg rounded-br-lg">
-        <p className="font-logo tracking-widest duration-150 hover:cursor-pointer hover:font-extrabold">Offer Details</p>
+        <p className="font-logo tracking-widest">Offer Details</p>
       </div>
 
 

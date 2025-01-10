@@ -1,3 +1,4 @@
+import Link from "next/link";
 import OfferDetailItemCard from "./offerDetailItemCard"
 import dayjs from "dayjs"
 
@@ -20,7 +21,9 @@ export default function ReceivedOfferDetail({ chosenOffer }: ComponentProps) {
       </div>
 
       <div className="flex w-full justify-between px-2 border-b border-b-orange-800">
-        <p className="text-xl font-logo tracking-wider text-orange-800">{chosenOffer.offerer.name + ' ' + chosenOffer.offerer.surname}</p>
+        <Link href={`/profile/${chosenOffer.offerer._id}`} className="text-xl font-logo tracking-wider text-orange-800">
+          Sent By: <span className="hover:underline">{chosenOffer.offerer.name + ' ' + chosenOffer.offerer.surname}</span>
+        </Link>
         <p>Offer Sent At: {dayjs(chosenOffer.createdAt).startOf("day").format("DD/MM/YY")}</p>
       </div>
 
