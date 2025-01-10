@@ -1,8 +1,10 @@
 import WantedItemsCard from "./wantedItemsCard"
 type ComponentProps = {
-  offer: any
+  offer: any;
+  setChosenOffer: React.Dispatch<React.SetStateAction<any>>;
+
 }
-export default function ReceivedOfferCard({ offer }: ComponentProps) {
+export default function ReceivedOfferCard({ offer, setChosenOffer }: ComponentProps) {
 
   return (
     <div className="flex flex-col gap-2 w-full duration-150 cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-md">

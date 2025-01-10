@@ -1,12 +1,13 @@
 import ReceivedOfferCard from "./receivedOffers/receivedOfferCard"
 import SentOfferCard from "./sentOffers/sentOfferCard"
 type ComponentProps = {
-  offersList: any,
+  offersList: any;
   renderOffers: string;
-  setRenderOffers: React.Dispatch<React.SetStateAction<string>>
+  setRenderOffers: React.Dispatch<React.SetStateAction<string>>;
+  setChosenOffer: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export default function OffersList({ offersList, renderOffers, setRenderOffers }: ComponentProps) {
+export default function OffersList({ offersList, renderOffers, setRenderOffers, setChosenOffer }: ComponentProps) {
 
   function changeTheListing(offerType: string) {
     setRenderOffers(offerType)
@@ -29,11 +30,11 @@ export default function OffersList({ offersList, renderOffers, setRenderOffers }
         offersList[renderOffers].map((offer: any) => {
           if (renderOffers === "receivedOffers") {
             return (
-              <ReceivedOfferCard key={offer._id} offer={offer.offer} />
+              <ReceivedOfferCard key={offer._id} offer={offer.offer} setChosenOffer={setChosenOffer} />
             )
           } else {
             return (
-              <SentOfferCard key={offer._id} offer={offer.offer} />
+              <SentOfferCard key={offer._id} offer={offer.offer} setChosenOffer={setChosenOffer} />
             )
           }
 

@@ -11,7 +11,7 @@ export default function OffersMain() {
     receivedOffers: [],
     sentOffers: []
   })
-  const [chosenOffer, setChosenOffer] = useState<any>([])
+  const [chosenOffer, setChosenOffer] = useState<undefined | any>(undefined)
 
   useEffect(() => {
     async function fetchOfferList() {
@@ -45,8 +45,8 @@ export default function OffersMain() {
 
   return (
     <div className="flex p-3 flex-row justify-start items-start w-10/12 bg-white">
-      <OffersList renderOffers={renderOffers} offersList={offersList} setRenderOffers={setRenderOffers} />
-      <OfferDetails />
+      <OffersList renderOffers={renderOffers} offersList={offersList} setRenderOffers={setRenderOffers} setChosenOffer={setChosenOffer} />
+      <OfferDetails chosenOffer={chosenOffer} />
     </div>
   )
 }

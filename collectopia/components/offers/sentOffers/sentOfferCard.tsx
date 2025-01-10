@@ -1,13 +1,13 @@
 import OfferedItemsCard from "./offeredItemsCard"
 
-
 type ComponentProps = {
-  offer: any
+  offer: any;
+  setChosenOffer: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export default function SentOfferCard({ offer }: ComponentProps) {
+export default function SentOfferCard({ offer, setChosenOffer }: ComponentProps) {
   return (
-    <div className="flex flex-col gap-2 w-full duration-150 cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-md">
+    <div onClick={() => setChosenOffer(offer)} className="flex flex-col gap-2 w-full duration-150 cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-md">
 
       <div className="py-1 border-b border-b-orange-800">
         <p className="font-logo text-lg tracking-widest text-orange-800">Click to see details</p>
