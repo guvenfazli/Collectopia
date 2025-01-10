@@ -10,10 +10,9 @@ type ComponentProps = {
 export default function OffersList({ offersList, renderOffers, setRenderOffers, setChosenOffer }: ComponentProps) {
 
   function changeTheListing(offerType: string) {
+    setChosenOffer(undefined)
     setRenderOffers(offerType)
   }
-
-  console.log(offersList)
 
   return (
     <div className="flex flex-col w-1/2 gap-2 border-r border-orange-800 pr-3">
