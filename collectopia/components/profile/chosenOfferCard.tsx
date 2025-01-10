@@ -27,7 +27,7 @@ export default function ChosenOfferCard({ item, setChosenItems, items }: Compone
 
 
   return (
-    <div className="flex flex-col w-1/4">
+    <div className="flex flex-col w-1/4 flex-shrink-0">
       <div onClick={() => removeChosenItem(items, item)}>
         <Carousel className="w-full">
           <CarouselContent className="h-44">

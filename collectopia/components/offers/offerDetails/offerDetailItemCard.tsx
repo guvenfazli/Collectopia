@@ -8,8 +8,8 @@ import Image from "next/image"
 export default function OfferDetailItemCard({ offeredItem }: any) {
 
   return (
-    <div className="flex flex-col w-1/3 border border-orange-800 p-1 items-start justify-start">
-      <Carousel className="w-full mb-2">
+    <div className="flex flex-col w-1/3 border border-orange-100 bg-orange-800 p-1 items-start justify-start rounded-sm flex-shrink-0">
+      <Carousel className="w-full">
         <CarouselContent className="h-96">
           {offeredItem.imageList.map((img: string) =>
             <CarouselItem className="relative" key={img}>
@@ -23,7 +23,9 @@ export default function OfferDetailItemCard({ offeredItem }: any) {
           )}
         </CarouselContent>
       </Carousel>
-      <p className="text-lg tracking-wide ">{offeredItem.title}</p>
+      <div className="flex w-full items-center justify-center text-center">
+        <p className="text-lg tracking-wide text-white font-logo">{offeredItem.title}</p>
+      </div>
     </div>
   )
 }
