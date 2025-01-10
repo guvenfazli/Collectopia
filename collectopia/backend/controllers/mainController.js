@@ -800,8 +800,8 @@ exports.makeOffer = async (req, res, next) => {
     })
 
     await createdOffer.save()
-    offerer.sentOffers.push(createdOffer)
-    receiver.receivedOffers.push(createdOffer)
+    offerer.sentOffers.unshift(createdOffer)
+    receiver.receivedOffers.unshift(createdOffer)
     await offerer.save()
     await receiver.save()
 
@@ -852,9 +852,8 @@ exports.fetchOffers = async (req, res, next) => {
 
     return res.status(200).json({ receivedOffers: foundUser.receivedOffers, sentOffers: foundUser.sentOffers })
 
-
-
   } catch (err) {
     next(err)
   }
 }
+

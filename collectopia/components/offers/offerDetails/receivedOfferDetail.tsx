@@ -12,6 +12,35 @@ type ComponentProps = {
 
 export default function ReceivedOfferDetail({ chosenOffer }: ComponentProps) {
 
+  async function selectOption(offerId: string, option: string) {
+    try {
+      const response = await fetch(`http://localhost:8080/selectOption/${offerId}?selectedOption=${option}`, {
+        method: "PATCH",
+        credentials: "include",
+      })
+
+      if (!response.ok) {
+        const resData = await response.json()
+        const error = new Error(resData.message)
+        throw error
+      }
+
+      const resData = await response.json()
+
+      console.log(resData)
+
+    } catch (err: any) {
+      console.log(err.message)
+    }
+  }
+
+
+
+  console.log(chosenOffer)
+
+
+
+
   return (
     <div className="flex flex-col w-full justify-start items-start gap-3 bg-orange-200 p-1 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
 
