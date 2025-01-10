@@ -12,11 +12,12 @@ export default function OffersMain() {
     sentOffers: [],
   })
   const [chosenOffer, setChosenOffer] = useState<undefined | any>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   useEffect(() => {
     async function fetchOfferList() {
       try {
-
+        setIsLoading(true)
         const response = await fetch('http://localhost:8080/fetchOfferList', {
           credentials: "include"
         })
@@ -32,9 +33,10 @@ export default function OffersMain() {
           receivedOffers: resData.receivedOffers,
           sentOffers: resData.sentOffers
         })
-
+        setIsLoading(false)
       } catch (err: any) {
         console.log(err.message)
+        setIsLoading(false)
       }
     }
 
@@ -43,9 +45,18 @@ export default function OffersMain() {
 
 
   return (
-    <div className="flex p-3 flex-row justify-start w-10/12 bg-white">
-      <OffersList renderOffers={renderOffers} offersList={offersList} setRenderOffers={setRenderOffers} setChosenOffer={setChosenOffer} />
-      <OfferDetails chosenOffer={chosenOffer} renderOffers={renderOffers} />
+    <div className="flex p-3 flex-row justify-start w-10/12 bg-white relative">
+      {isLoading ?
+        <div className="flex w-full justify-center items-center">
+          <span id="headerLoader" className="self-center"></span>
+        </div>
+          :
+        <>
+          <OffersList renderOffers={renderOffers} offersList={offersList} setRenderOffers={setRenderOffers} setChosenOffer={setChosenOffer} />
+          <OfferDetails chosenOffer={chosenOffer} renderOffers={renderOffers} />
+        </>
+      }
+
     </div>
   )
 }
