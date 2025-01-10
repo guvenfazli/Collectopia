@@ -31,7 +31,7 @@ export default function OffersList({ offersList, renderOffers, setRenderOffers, 
             )
           } else {
             return (
-              <SentOfferCard key={offer._id} offer={offer.offer} offerer={offer.offerer} setChosenOffer={setChosenOffer} />
+              <SentOfferCard key={offer._id} offer={offer.offer} offerer={offer.offerer} receiver={offer.receiver} createdAt={offer.createdAt} setChosenOffer={setChosenOffer} />
             )
           }
 

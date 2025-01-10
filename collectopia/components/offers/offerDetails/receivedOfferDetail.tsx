@@ -4,18 +4,21 @@ import dayjs from "dayjs"
 type ComponentProps = {
   chosenOffer: {
     offer: any;
-    offerer: string | { _id: string, name: string, surname: string };
+    offerer: { _id: string, name: string, surname: string };
     createdAt: string;
   }
 }
 
 export default function ReceivedOfferDetail({ chosenOffer }: ComponentProps) {
 
+  console.log(chosenOffer)
+
+
   return (
     <div className="flex flex-col w-full justify-start items-start gap-3 bg-orange-200 p-1 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
 
-      <div className="flex w-full justify-between px-2">
-        <p className="text-xl font-logo tracking-wider text-orange-800">John Doe</p>
+      <div className="flex w-full justify-between px-2 border-b border-b-orange-800">
+        <p className="text-xl font-logo tracking-wider text-orange-800">{chosenOffer.offerer.name + ' ' + chosenOffer.offerer.surname}</p>
         <p>Offer Sent At: {dayjs(chosenOffer.createdAt).startOf("day").format("DD/MM/YY")}</p>
       </div>
 
@@ -27,7 +30,7 @@ export default function ReceivedOfferDetail({ chosenOffer }: ComponentProps) {
         {chosenOffer.offer.wantedItems.map((wantedItem: any) => <OfferDetailItemCard key={wantedItem._id} offeredItem={wantedItem} />)}
       </div>
 
-      <div className="px-2">
+      <div className="flex w-full pt-1 px-2 border-t border-t-orange-800">
         <p className="text-xl font-logo tracking-wider text-orange-800">You</p>
       </div>
 

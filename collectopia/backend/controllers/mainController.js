@@ -831,8 +831,7 @@ exports.fetchOffers = async (req, res, next) => {
         path: "receivedOffers", populate: {
           path: "offerer", select: { name: 1, surname: 1 }
         }
-      }
-      )
+      })
       .populate({
         path: "sentOffers", populate: {
           path: "offer", populate: { path: "offeredItems", select: { title: 1, imageList: 1 } }
@@ -840,6 +839,10 @@ exports.fetchOffers = async (req, res, next) => {
       }).populate({
         path: "sentOffers", populate: {
           path: "offer", populate: { path: "wantedItems", select: { title: 1, imageList: 1 } }
+        }
+      }).populate({
+        path: "sentOffers", populate: {
+          path: "receiver", select: { name: 1, surname: 1 }
         }
       })
 

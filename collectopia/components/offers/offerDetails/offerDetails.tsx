@@ -10,8 +10,6 @@ type ComponentProps = {
 
 export default function OfferDetails({ chosenOffer, renderOffers }: ComponentProps) {
 
-  console.log(chosenOffer)
-
   return (
     <div className={`flex flex-col pl-4 items-center justify-center w-1/2`}>
 
