@@ -45,7 +45,7 @@ export default function OffersMain() {
   console.log(chosenOffer)
 
   return (
-    <div className="flex p-3 flex-row justify-start items-start w-10/12 bg-white">
+    <div className="flex p-3 flex-row justify-start w-10/12 bg-white">
       <OffersList renderOffers={renderOffers} offersList={offersList} setRenderOffers={setRenderOffers} setChosenOffer={setChosenOffer} />
       <OfferDetails chosenOffer={chosenOffer} renderOffers={renderOffers} />
     </div>

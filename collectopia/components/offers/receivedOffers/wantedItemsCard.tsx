@@ -8,7 +8,7 @@ type ComponentProps = {
 
 export default function WantedItemsCard({ wantedItem }: ComponentProps) {
   return (
-    <div className="w-1/4 border border-orange-800 rounded-xl overflow-hidden flex-shrink-0">
+    <div className="w-1/4 border border-orange-800 rounded-xl overflow-hidden flex-shrink-0 ">
       <WantedItemsImages imageList={wantedItem.imageList} />
     </div>
   )
