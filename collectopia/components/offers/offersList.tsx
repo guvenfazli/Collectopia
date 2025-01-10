@@ -1,5 +1,5 @@
 import ReceivedOfferCard from "./receivedOffers/receivedOfferCard"
-
+import SentOfferCard from "./sentOffers/sentOfferCard"
 type ComponentProps = {
   offersList: any,
   renderOffers: string;
@@ -26,9 +26,18 @@ export default function OffersList({ offersList, renderOffers, setRenderOffers }
       </div>
 
       {
-        offersList[renderOffers].map((offer: any) =>
-          <ReceivedOfferCard key={offer._id} offer={offer.offer} />
-        )
+        offersList[renderOffers].map((offer: any) => {
+          if (renderOffers === "receivedOffers") {
+            return (
+              <ReceivedOfferCard key={offer._id} offer={offer.offer} />
+            )
+          } else {
+            return (
+              <SentOfferCard key={offer._id} offer={offer.offer} />
+            )
+          }
+
+        })
       }
     </div>
   )
