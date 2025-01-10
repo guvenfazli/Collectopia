@@ -2,16 +2,17 @@ import WantedItemsCard from "./wantedItemsCard"
 type ComponentProps = {
   offer: any;
   setChosenOffer: React.Dispatch<React.SetStateAction<any>>;
-  offerer: { _id: string, name: string, surname: string }
+  offerer: { _id: string, name: string, surname: string };
+  createdAt: string
 }
 
-export default function ReceivedOfferCard({ offer, offerer, setChosenOffer }: ComponentProps) {
+export default function ReceivedOfferCard({ offer, offerer, createdAt, setChosenOffer }: ComponentProps) {
 
-  
+
 
 
   return (
-    <div onClick={() => setChosenOffer({ offer: offer, offerer: offerer })} className="flex flex-col gap-2 w-full duration-150 cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
+    <div onClick={() => setChosenOffer({ offer, offerer, createdAt })} className="flex flex-col gap-2 w-full duration-150 cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
 
       <div className="py-1 border-b border-b-orange-800">
         <p className="font-logo text-lg tracking-widest text-orange-800">Click to see details</p>
