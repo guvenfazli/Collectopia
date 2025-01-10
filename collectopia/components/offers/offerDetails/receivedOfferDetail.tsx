@@ -11,15 +11,12 @@ type ComponentProps = {
 
 export default function ReceivedOfferDetail({ chosenOffer }: ComponentProps) {
 
-  console.log(chosenOffer)
-
-
   return (
     <div className="flex flex-col w-full justify-start items-start gap-3 bg-orange-200 p-1 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
 
-      <div className="flex w-full justify-center items-center gap-3">
-        <button className="w-32 h-12 bg-green-500 font-logo tracking-wider text-white duration-100 hover:bg-green-600">Accept Offer</button>
-        <button className="w-32 h-12 bg-red-500 font-logo tracking-wider text-white duration-100 hover:bg-red-600">Decline Offer</button>
+      <div className="flex w-full justify-around items-center gap-3">
+        <button className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-lg shadow-orange-100/50 hover:bg-green-600 hover:shadow-xl duration-200">Accept Offer</button>
+        <button className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg shadow-lg shadow-orange-100/50 hover:bg-red-600 hover:shadow-xl duration-200">Decline Offer</button>
       </div>
 
       <div className="flex w-full justify-between px-2 border-b border-b-orange-800">
