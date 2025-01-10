@@ -1,6 +1,9 @@
 "use client"
 import { useEffect, useState } from "react"
 import OffersList from "./offersList"
+import OfferDetails from "./offerDetails/offerDetails"
+
+
 export default function OffersMain() {
 
   const [renderOffers, setRenderOffers] = useState<string>("receivedOffers")
@@ -8,6 +11,7 @@ export default function OffersMain() {
     receivedOffers: [],
     sentOffers: []
   })
+  const [chosenOffer, setChosenOffer] = useState<any>([])
 
   useEffect(() => {
     async function fetchOfferList() {
@@ -29,10 +33,6 @@ export default function OffersMain() {
           sentOffers: resData.sentOffers
         })
 
-        console.log(resData)
-
-
-
       } catch (err: any) {
         console.log(err.message)
       }
@@ -44,8 +44,9 @@ export default function OffersMain() {
 
 
   return (
-    <div className="flex p-3 flex-col justify-start items-start w-10/12 bg-white">
+    <div className="flex p-3 flex-row justify-start items-start w-10/12 bg-white">
       <OffersList renderOffers={renderOffers} offersList={offersList} setRenderOffers={setRenderOffers} />
+      <OfferDetails />
     </div>
   )
 }
