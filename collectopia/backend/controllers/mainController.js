@@ -765,9 +765,9 @@ exports.sendMessageToUsersInbox = async (req, res, next) => {
 
 exports.fetchMyItemsForOffer = async (req, res, next) => {
   const userId = req.session.userInfo.id
-
   try {
-    const foundItems = await User.findById(userId).select({ items: 1 }).populate({ path: "items", select: { title: 1, _id: 1, imageList: 1 } })
+    const foundItems = await User.findById(userId).select({ items: 1 }).populate({ path: "items", match: { isListed: false }, select: { title: 1, _id: 1, imageList: 1 } })
+
 
     return res.status(200).json({ myItemsForOffer: foundItems })
 
