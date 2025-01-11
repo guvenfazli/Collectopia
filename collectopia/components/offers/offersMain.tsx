@@ -43,6 +43,7 @@ export default function OffersMain() {
     fetchOfferList()
   }, [])
 
+  console.log(offersList)
 
   return (
     <div className="flex p-3 flex-row justify-start w-10/12 bg-white relative">
@@ -50,7 +51,7 @@ export default function OffersMain() {
         <div className="flex w-full justify-center items-center">
           <span id="headerLoader" className="self-center"></span>
         </div>
-          :
+        :
         <>
           <OffersList renderOffers={renderOffers} offersList={offersList} setRenderOffers={setRenderOffers} setChosenOffer={setChosenOffer} />
           <OfferDetails chosenOffer={chosenOffer} renderOffers={renderOffers} />

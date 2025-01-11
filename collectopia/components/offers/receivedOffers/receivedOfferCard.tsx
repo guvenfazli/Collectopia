@@ -2,15 +2,12 @@ import WantedItemsCard from "./wantedItemsCard"
 type ComponentProps = {
   offer: any;
   setChosenOffer: React.Dispatch<React.SetStateAction<any>>;
-  offerer: { _id: string, name: string, surname: string };
-  createdAt: string;
-  offerId: string
 }
 
-export default function ReceivedOfferCard({ offerId, offer, offerer, createdAt, setChosenOffer }: ComponentProps) {
+export default function ReceivedOfferCard({ offer, setChosenOffer }: ComponentProps) {
 
   return (
-    <div onClick={() => setChosenOffer({ offerId, offer, offerer, createdAt })} className="flex flex-col gap-2 w-full duration-150 cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
+    <div onClick={() => setChosenOffer({ offer })} className="flex flex-col gap-2 w-full duration-150 cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
 
       <div className="py-1 border-b border-b-orange-800">
         <p className="font-logo text-lg tracking-widest text-orange-800">Click to see details</p>
@@ -18,12 +15,12 @@ export default function ReceivedOfferCard({ offerId, offer, offerer, createdAt, 
 
 
       <div className="flex justify-start items-start gap-2 overflow-scroll overflow-y-hidden border-b border-orange-800 pb-1" style={{ scrollbarWidth: 'thin', scrollbarColor: "#9A3412 transparent", WebkitOverflowScrolling: "touch" }}>
-        {offer.offeredItems.map((offeredItem: any) => <WantedItemsCard key={offeredItem._id} wantedItem={offeredItem} />)}
+        {offer.offer.offeredItems.map((offeredItem: any) => <WantedItemsCard key={offeredItem._id} wantedItem={offeredItem} />)}
       </div>
 
 
       <div className="flex justify-start items-start gap-2 overflow-scroll overflow-y-hidden pb-3" style={{ scrollbarWidth: 'thin', scrollbarColor: "#9A3412 transparent", WebkitOverflowScrolling: "touch" }} >
-        {offer.wantedItems.map((wantedItem: any) => <WantedItemsCard key={wantedItem._id} wantedItem={wantedItem} />)}
+        {offer.offer.wantedItems.map((wantedItem: any) => <WantedItemsCard key={wantedItem._id} wantedItem={wantedItem} />)}
       </div>
 
     </div>

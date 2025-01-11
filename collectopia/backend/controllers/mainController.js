@@ -820,11 +820,11 @@ exports.fetchOffers = async (req, res, next) => {
     const foundUser = await User.findById(userId).select({ receivedOffers: 1, sentOffers: 1 })
       .populate({
         path: "receivedOffers", populate: {
-          path: "offer", populate: { path: "offeredItems", select: { title: 1, imageList: 1 } },
+          path: "offer", populate: { path: "offeredItems", select: { title: 1, imageList: 1, offerActive: 1, offerAccepted: 1 } },
         }
       }).populate({
         path: "receivedOffers", populate: {
-          path: "offer", populate: { path: "wantedItems", select: { title: 1, imageList: 1 } },
+          path: "offer", populate: { path: "wantedItems", select: { title: 1, imageList: 1, offerActive: 1, offerAccepted: 1 } },
         }
       })
       .populate({
@@ -834,11 +834,11 @@ exports.fetchOffers = async (req, res, next) => {
       })
       .populate({
         path: "sentOffers", populate: {
-          path: "offer", populate: { path: "offeredItems", select: { title: 1, imageList: 1 } }
+          path: "offer", populate: { path: "offeredItems", select: { title: 1, imageList: 1, offerActive: 1, offerAccepted: 1 } }
         }
       }).populate({
         path: "sentOffers", populate: {
-          path: "offer", populate: { path: "wantedItems", select: { title: 1, imageList: 1 } }
+          path: "offer", populate: { path: "wantedItems", select: { title: 1, imageList: 1, offerActive: 1, offerAccepted: 1 } }
         }
       }).populate({
         path: "sentOffers", populate: {

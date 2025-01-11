@@ -26,7 +26,7 @@ export default function OffersList({ offersList, renderOffers, setRenderOffers, 
         offersList[renderOffers].map((offer: any) => {
           if (renderOffers === "receivedOffers") {
             return (
-              <ReceivedOfferCard key={offer._id} offerId={offer._id} offer={offer.offer} offerer={offer.offerer} createdAt={offer.createdAt} setChosenOffer={setChosenOffer} />
+              <ReceivedOfferCard key={offer._id} offer={offer} setChosenOffer={setChosenOffer} />
             )
           } else {
             return (

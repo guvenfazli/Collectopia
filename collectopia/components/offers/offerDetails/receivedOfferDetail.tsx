@@ -27,6 +27,7 @@ export default function ReceivedOfferDetail({ chosenOffer }: ComponentProps) {
       }
 
       const resData = await response.json()
+      console.log(resData)
     } catch (err: any) {
       console.log(err.message)
     }
