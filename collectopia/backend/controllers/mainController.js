@@ -292,7 +292,7 @@ exports.createAuction = async (req, res, next) => {
 
     const foundUser = await User.findById(userId)
     foundUser.auctions.push(createdAuction)
-    foundUser.eventHistory.unshift({ event: "Created an Auction", interactionId: createdAuction })
+    foundUser.eventHistory.push({ event: "Created an Auction", interactionId: createdAuction })
     await foundUser.save()
 
     const foundOriginalItem = await Item.findById(itemId)
@@ -720,7 +720,7 @@ exports.fetchMyInbox = async (req, res, next) => {
 exports.fetchMyHistory = async (req, res, next) => {
   const userId = req.session.userInfo.id
   try {
-    const foundEventHistoryList = await User.findById(userId).populate({ path: "eventHistory", select: { createdAt: 1, _id: 0 }, populate: { path: "interactionId", select: { _id: 1 } } })
+    const foundEventHistoryList = await User.findById(userId).populate({ path: "eventHistory", select: { createdAt: 1, _id: 0 }, populate: { path: "interactionId", select: { _id: 1 } } }).sort({ createdAt: -1 })
 
     return res.status(200).json({ fetchedEventHistory: foundEventHistoryList.eventHistory.length > 0 ? foundEventHistoryList.eventHistory : [] })
   } catch (err) {
