@@ -43,8 +43,6 @@ export default function OffersMain() {
     fetchOfferList()
   }, [])
 
-  console.log(offersList)
-
   return (
     <div className="flex p-3 flex-row justify-start w-10/12 bg-white relative">
       {isLoading ?
