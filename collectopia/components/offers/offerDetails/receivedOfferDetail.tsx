@@ -1,5 +1,6 @@
-import Link from "next/link";
 import OfferDetailItemCard from "./offerDetailItemCard"
+import OfferResult from "./offerResult";
+import Link from "next/link";
 import dayjs from "dayjs"
 
 type Offer = {
@@ -54,12 +55,17 @@ export default function ReceivedOfferDetail({ chosenOffer }: ComponentProps) {
 
 
   return (
-    <div className="flex flex-col w-full justify-start items-start gap-3 bg-orange-200 p-1 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
+    <div className="flex flex-col w-full justify-start items-start gap-3 bg-orange-200 p-1 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)] relative">
 
-      <div className="flex w-full justify-around items-center gap-3">
-        <button onClick={() => selectOption(chosenOffer.offer._id, "accept")} className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-lg shadow-orange-100/50 hover:bg-green-600 hover:shadow-xl duration-200">Accept Offer</button>
-        <button onClick={() => selectOption(chosenOffer.offer._id, "decline")} className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg shadow-lg shadow-orange-100/50 hover:bg-red-600 hover:shadow-xl duration-200">Decline Offer</button>
-      </div>
+      {
+        chosenOffer.offer.offerActive &&
+        <div className="flex w-full justify-around items-center gap-3">
+          <button onClick={() => selectOption(chosenOffer.offer._id, "accept")} className="bg-green-500 text-white font-semibold py-2 px-4 rounded-lg shadow-lg shadow-orange-100/50 hover:bg-green-600 hover:shadow-xl duration-200">Accept Offer</button>
+          <button onClick={() => selectOption(chosenOffer.offer._id, "decline")} className="bg-red-500 text-white font-semibold py-2 px-4 rounded-lg shadow-lg shadow-orange-100/50 hover:bg-red-600 hover:shadow-xl duration-200">Decline Offer</button>
+        </div>
+      }
+
+      {!chosenOffer.offer.offerActive && <OfferResult offerResult={chosenOffer.offer.offerAccepted} />}
 
       <div className="flex w-full justify-between px-2 border-b border-b-orange-800">
         <Link href={`/profile/${chosenOffer.offer.offerer._id}`} className="text-xl font-logo tracking-wider text-orange-800">
