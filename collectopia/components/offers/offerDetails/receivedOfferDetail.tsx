@@ -65,7 +65,6 @@ export default function ReceivedOfferDetail({ chosenOffer }: ComponentProps) {
         </div>
       }
 
-      {!chosenOffer.offer.offerActive && <OfferResult offerResult={chosenOffer.offer.offerAccepted} />}
 
       <div className="flex w-full justify-between px-2 border-b border-b-orange-800">
         <Link href={`/profile/${chosenOffer.offer.offerer._id}`} className="text-xl font-logo tracking-wider text-orange-800">

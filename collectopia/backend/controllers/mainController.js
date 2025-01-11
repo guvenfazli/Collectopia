@@ -867,6 +867,8 @@ exports.selectOption = async (req, res, next) => {
 
     if (!foundOffer) {
       throwError('Offer could not found!', 404)
+    } else if (!foundOffer.offerActive) {
+      throwError("You already made your choice!", 410)
     }
 
     if (option === "accept") {

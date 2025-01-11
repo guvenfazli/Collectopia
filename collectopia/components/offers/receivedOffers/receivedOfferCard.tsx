@@ -1,4 +1,5 @@
 import WantedItemsCard from "./wantedItemsCard"
+import OfferResult from "../offerDetails/offerResult"
 type ComponentProps = {
   offer: any;
   setChosenOffer: React.Dispatch<React.SetStateAction<any>>;
@@ -6,8 +7,13 @@ type ComponentProps = {
 
 export default function ReceivedOfferCard({ offer, setChosenOffer }: ComponentProps) {
 
+  console.log(offer)
+
   return (
-    <div onClick={() => setChosenOffer({ offer })} className="flex flex-col gap-2 w-full duration-150 cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
+    <div onClick={() => setChosenOffer({ offer })} className="flex flex-col gap-2 w-full duration-150 cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)] relative">
+
+      {!offer.offerActive && <OfferResult offerResult={offer.offerAccepted} />}
+
 
       <div className="py-1 border-b border-b-orange-800">
         <p className="font-logo text-lg tracking-widest text-orange-800">Click to see details</p>
