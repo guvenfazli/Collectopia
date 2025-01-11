@@ -423,7 +423,12 @@ exports.fetchSingleAuction = async (req, res, next) => {
 
     const messageRoomOfAuction = await MessageRoom.findOne({ auctionRoom: auctionId }).populate({ path: "messages", populate: { path: "sender", select: { name: 1, _id: 1 } } })
 
-    const bidList = await AuctionBid.findOne({ auctionId: auctionId }).populate({ path: "bidList", select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 }, populate: { path: "bidder", select: { name: 1, surname: 1 } } })
+    const bidList = await AuctionBid.findOne({ auctionId: auctionId })
+      .populate(
+        {
+          path: "bidList", options: { sort: { createdAt: -1 } }, select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 },
+          populate: { path: "bidder", select: { name: 1, surname: 1 } }
+        })
 
     if (!foundAuction) {
       throwError('Auction could not found!', 404)
@@ -475,7 +480,7 @@ exports.bidAuction = async (req, res, next) => {
       biddedTo: foundAuction._id
     })
 
-    foundAuction.bidList.unshift(createdBid._id)
+    foundAuction.bidList.push(createdBid._id)
 
     await createdBid.save()
     await foundAuction.save()
@@ -485,13 +490,13 @@ exports.bidAuction = async (req, res, next) => {
         auctionId: auctionId
       })
 
-      createdBidRoom.bidList.unshift(createdBid)
+      createdBidRoom.bidList.push(createdBid)
       await createdBidRoom.save()
       return res.status(200).json({ message: 'Your bid settled successfully.' })
     }
 
-    BidList.bidList.unshift(createdBid)
-    foundUser.eventHistory.unshift({ event: "Bidded to an Auction", interactionId: foundAuction })
+    BidList.bidList.push(createdBid)
+    foundUser.eventHistory.push({ event: "Bidded to an Auction", interactionId: foundAuction })
     await foundUser.save()
     await BidList.save()
 
