@@ -811,8 +811,8 @@ exports.makeOffer = async (req, res, next) => {
     })
 
     await createdOffer.save()
-    offerer.sentOffers.unshift(createdOffer)
-    receiver.receivedOffers.unshift(createdOffer)
+    offerer.sentOffers.push(createdOffer)
+    receiver.receivedOffers.push(createdOffer)
     await offerer.save()
     await receiver.save()
 
@@ -830,29 +830,29 @@ exports.fetchOffers = async (req, res, next) => {
   try {
     const foundUser = await User.findById(userId).select({ receivedOffers: 1, sentOffers: 1 })
       .populate({
-        path: "receivedOffers", populate: {
+        path: "receivedOffers", options: { sort: { createdAt: -1 } }, populate: {
           path: "offer", populate: { path: "offeredItems", select: { title: 1, imageList: 1, offerActive: 1, offerAccepted: 1 } },
         }
       }).populate({
-        path: "receivedOffers", populate: {
+        path: "receivedOffers", options: { sort: { createdAt: -1 } }, populate: {
           path: "offer", populate: { path: "wantedItems", select: { title: 1, imageList: 1, offerActive: 1, offerAccepted: 1 } },
         }
       })
       .populate({
-        path: "receivedOffers", populate: {
+        path: "receivedOffers", options: { sort: { createdAt: -1 } }, populate: {
           path: "offerer", select: { name: 1, surname: 1 }
         }
       })
       .populate({
-        path: "sentOffers", populate: {
+        path: "sentOffers", options: { sort: { createdAt: -1 } }, options: { sort: { createdAt: -1 } }, populate: {
           path: "offer", populate: { path: "offeredItems", select: { title: 1, imageList: 1, offerActive: 1, offerAccepted: 1 } }
         }
       }).populate({
-        path: "sentOffers", populate: {
+        path: "sentOffers", options: { sort: { createdAt: -1 } }, populate: {
           path: "offer", populate: { path: "wantedItems", select: { title: 1, imageList: 1, offerActive: 1, offerAccepted: 1 } }
         }
       }).populate({
-        path: "sentOffers", populate: {
+        path: "sentOffers", options: { sort: { createdAt: -1 } }, populate: {
           path: "receiver", select: { name: 1, surname: 1 }
         }
       })
