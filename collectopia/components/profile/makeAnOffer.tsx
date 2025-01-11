@@ -66,7 +66,7 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
       }
 
       const resData = await response.json()
-  
+
 
     } catch (err: any) {
       console.log(err.message)
@@ -79,12 +79,12 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
         <div className="flex flex-col gap-3 w-full border-r border-r-orange-800 h-[500px]">
           <div className="flex flex-col gap-3 h-1/2">
             <p className="font-logo text-sm border-b border-b-orange-800 w-full">Users Inventory</p>
-            <ProfileOwnerItems userItems={userItems} setChosenItems={setChosenItems} items={"userItems"} />
+            <ProfileOwnerItems userItems={userItems} profileOwner={true} setChosenItems={setChosenItems} items={"userItems"} />
           </div>
 
           <div className="flex flex-col gap-3 w-full h-1/2">
             <p className="font-logo text-sm border-b border-b-orange-800 ">Your Inventory</p>
-            <ProfileOwnerItems userItems={myItems} setChosenItems={setChosenItems} items={"myItems"} />
+            <ProfileOwnerItems userItems={myItems} profileOwner={false} setChosenItems={setChosenItems} items={"myItems"} />
           </div>
         </div>
 
