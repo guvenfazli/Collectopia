@@ -35,12 +35,6 @@ export default function ReceivedOfferDetail({ chosenOffer }: ComponentProps) {
   }
 
 
-
-  console.log(chosenOffer)
-
-
-
-
   return (
     <div className="flex flex-col w-full justify-start items-start gap-3 bg-orange-200 p-1 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
 
