@@ -857,3 +857,31 @@ exports.fetchOffers = async (req, res, next) => {
   }
 }
 
+exports.selectOption = async (req, res, next) => {
+
+  const offerId = req.params.offerId
+  const option = req.query.selectedOption
+
+  try {
+    const foundOffer = await Offer.findOne({ _id: offerId })
+
+    if (!foundOffer) {
+      throwError('Offer could not found!', 404)
+    }
+
+    if (option === "accept") {
+      foundOffer.offerActive = false
+      foundOffer.offerAccepted = true
+      await foundOffer.save()
+      return res.status(200).json({ message: "You accepted the offer!" })
+    } else if (option === "decline") {
+      foundOffer.offerActive = false
+      await foundOffer.save()
+      return res.status(200).json({ message: "You declined the offer!" })
+    }
+  } catch (err) {
+    next(err)
+  }
+
+}
+

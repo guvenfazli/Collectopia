@@ -105,6 +105,8 @@ router.patch('/editItem/:itemId', [
     .withMessage('Please at least add 1 tag for your item!'),
 ], authCheck, mainController.editItem)
 
+router.patch('/selectOption/:offerId', authCheck, mainController.selectOption)
+
 // DELETES
 
 router.delete('/deleteMyItem/:itemId', authCheck, mainController.deleteMyItem)
