@@ -790,6 +790,12 @@ exports.makeOffer = async (req, res, next) => {
     const offerer = await User.findOne({ _id: senderId })
     const receiver = await User.findOne({ _id: receiverId })
 
+    const alreadyListed = offer.userItems.some((item) => item.isListed === true)
+
+    if (alreadyListed) {
+      throwError("Item is already listed!", 410)
+    }
+
     const createdOffer = new Offer({
       offerer: senderId,
       receiver: receiverId,
