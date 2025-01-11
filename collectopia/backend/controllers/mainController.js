@@ -540,7 +540,7 @@ exports.buyoutAuction = async (req, res, next) => {
     }
 
     foundAuction.isSold = true
-    foundUser.eventHistory.unshift({ event: "Bought an Auction!", interactionId: foundAuction })
+    foundUser.eventHistory.push({ event: "Bought an Auction!", interactionId: foundAuction })
     await foundUser.save()
     await foundAuction.save()
     return res.status(200).json({ message: 'Your buyout ended successfully.' })
@@ -579,7 +579,7 @@ exports.sendMessage = async (req, res, next) => {
     }
 
     foundChatRoom.messages.push({ message: message, sender: userId })
-    foundUser.eventHistory.unshift({ event: "Sent a Message to an Auction!", interactionId: foundAuction })
+    foundUser.eventHistory.push({ event: "Sent a Message to an Auction!", interactionId: foundAuction })
     await foundUser.save()
     await foundChatRoom.save()
     return res.status(200).json({ message: 'Message sent' })
@@ -622,7 +622,7 @@ exports.trackAuction = async (req, res, next) => {
     }
 
     foundUser.trackingAuctions.push(foundAuction)
-    foundUser.eventHistory.unshift({ event: "Tracked an Auction!", interactionId: foundAuction })
+    foundUser.eventHistory.push({ event: "Tracked an Auction!", interactionId: foundAuction })
     foundAuction.followers.push(foundUser)
 
     await foundUser.save()
@@ -709,7 +709,7 @@ exports.fetchMyInbox = async (req, res, next) => {
   const userId = req.session.userInfo.id
 
   try {
-    const foundInbox = await User.findById(userId).populate({ path: 'inbox', populate: { path: "sender", select: { name: 1, surname: 1, _id: 1 } } })
+    const foundInbox = await User.findById(userId).populate({ path: 'inbox', options: { sort: { createdAt: -1 } }, populate: { path: "sender", select: { name: 1, surname: 1, _id: 1 } } })
 
     if (foundInbox.length === 0) {
       throwError('Account or Inbox could not found!!', 404)
@@ -756,7 +756,7 @@ exports.sendMessageToUsersInbox = async (req, res, next) => {
 
     await sentMessage.save()
 
-    recieverUser.inbox.unshift(sentMessage._id)
+    recieverUser.inbox.push(sentMessage._id)
     await recieverUser.save()
 
     return res.status(200).json({ message: "Message Sent Successfully!" })

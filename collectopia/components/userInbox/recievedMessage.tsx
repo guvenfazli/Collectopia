@@ -15,6 +15,9 @@ type ComponentProps = {
 
 
 export default function RecievedMessage({ message }: ComponentProps) {
+
+  console.log(message)
+
   return (
     <div className="flex flex-row w-full shadow-sm shadow-slate-300 items-start justify-between duration-150 gap-2 bg-orange-200 p-2 hover:bg-orange-300 hover:cursor-pointer rounded-sm">
       <div className="flex flex-col w-full justify-start items-start">
