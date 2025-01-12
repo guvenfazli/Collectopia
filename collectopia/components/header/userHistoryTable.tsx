@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+import TableNavigator from "./tableNavigator"
 import { useState, useEffect } from "react"
 import Link from "next/link"
 import dayjs from "dayjs"
@@ -21,12 +22,13 @@ export default function UserHistoryTable() {
 
   const [eventList, setEventList] = useState<EventList[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [currentPage, setCurrentPage] = useState<number>(0)
 
   useEffect(() => {
     async function fetchMyEventHistory() {
       setIsLoading(true)
       try {
-        const response = await fetch('http://localhost:8080/fetchUserHistory', {
+        const response = await fetch(`http://localhost:8080/fetchUserHistory?page=${currentPage}`, {
           credentials: "include"
         })
 
@@ -40,24 +42,21 @@ export default function UserHistoryTable() {
         setEventList(resData.fetchedEventHistory)
         setIsLoading(false)
       } catch (err: any) {
-        console.log(err.message)
+        setIsLoading(false)
       }
     }
 
     fetchMyEventHistory()
-  }, [])
-
-
-  if (isLoading) {
-    <span id="headerLoader" className="self-center"></span>
-  }
+  }, [currentPage])
 
 
   return (
     <>
-      {isLoading ? <span id="headerLoader" className="self-center"></span> : eventList.length === 0 ? <p>No Activity found</p> :
+      {isLoading ? <span id="headerLoader" className="self-center"></span> :
         <Table>
-          <TableCaption>My History</TableCaption>
+          <TableCaption>
+            <TableNavigator currentPage={currentPage} setCurrentPage={setCurrentPage} eventList={eventList} />
+          </TableCaption>
           <TableHeader>
             <TableRow>
               <TableHead>Event</TableHead>
@@ -66,6 +65,14 @@ export default function UserHistoryTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
+            {eventList.length === 0 &&
+              <TableRow className="text-left">
+                <TableCell>
+                  No activities found.
+                </TableCell>
+              </TableRow>
+
+            }
             {eventList.map((event: any) =>
               <TableRow key={event._id}>
                 <TableCell className="font-medium">
