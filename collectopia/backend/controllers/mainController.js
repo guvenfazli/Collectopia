@@ -318,7 +318,7 @@ exports.fetchLastAuctions = async (req, res, next) => {
   const tomorrowsDateFixes = tomorrowsDate.setDate(todaysDate.getDate() + 1)
 
   try {
-    const fetchedAuctions = await Auction.find({ isSold: false }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
+    const fetchedAuctions = await Auction.find().populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
     const filteredAuctions = fetchedAuctions.filter((itm) => itm.createdAt.getDay() === todaysDate.getDay() && itm.createdAt < new Date(tomorrowsDateFixes))
 
     if (filteredAuctions.length === 0) {
@@ -336,10 +336,10 @@ exports.fetchAuctions = async (req, res, next) => {
   const todaysDate = new Date()
   const todaysTimestamp = dayjs(todaysDate).unix()
   const page = req.query.page
-  const limit = 3
+  const limit = 5
 
   try {
-    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp }, isSold: false }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }).skip(page * limit).limit(limit)
+    const fetchedAuctions = await Auction.find(/* { deadline: { $gt: todaysTimestamp }, isSold: false } */).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }).skip(page * limit).limit(limit)
 
     if (fetchedAuctions.length === 0) {
       throwError('There is no active listing.', 404)
@@ -357,7 +357,6 @@ exports.filterAuctions = async (req, res, next) => {
   const category = req.query.category
   const subCategory = req.query.subCategory
   const deadline = +req.query.deadline
-  const myInterests = req.session.userInfo.interests
 
   try {
     const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp }, isSold: false }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })

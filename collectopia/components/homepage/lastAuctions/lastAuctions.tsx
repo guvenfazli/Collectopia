@@ -43,8 +43,9 @@ export default function LastAuctions() {
           const error = new Error(resData)
           throw error
         }
-
         const resData = await response.json()
+        console.log(resData)
+
         setFetchedAuctions(resData.fetchedLastAuctions)
 
 
@@ -56,7 +57,7 @@ export default function LastAuctions() {
     fetchLastAuctions()
   }, [])
 
-
+  console.log(fetchedLastAuctions)
 
 
   return (
@@ -68,10 +69,10 @@ export default function LastAuctions() {
       <div className="flex flex-row items-start p-3 w-full">
         {
           fetchedLastAuctions.length <= 0 ? <p className="text-lg tracking-wide italic">No Auction Created in the last 24 hours.</p> :
-            <Carousel className="min-h-[653px] w-full">
+            <Carousel opts={{ active: isSliding }} className="min-h-[653px] w-full">
               <CarouselContent className="min-h-[653px]">
                 {fetchedLastAuctions.map((auction) =>
-                  <CarouselItem className="basis-1/4"  key={auction._id}>
+                  <CarouselItem className="basis-1/4" key={auction._id}>
                     <AuctionCard auction={auction} setIsSliding={setIsSliding} />
                   </CarouselItem>
                 )}

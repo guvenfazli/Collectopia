@@ -52,7 +52,7 @@ export default function MainAuctionCard({ auction }: ComponentProps) {
   }
 
   return (
-    <div className="bg-orange-100 p-3 flex shadow-lg shadow-slate-800 flex-col border border-orange-800 rounded-lg w-1/4">
+    <div className="bg-orange-100 p-3 flex shadow-lg shadow-gray-400/20 flex-col border border-orange-800 rounded-lg w-1/4">
       <div className="flex w-full justify-start items-center">
         <MainAuctionImages imageList={auction.item.imageList} />
       </div>
