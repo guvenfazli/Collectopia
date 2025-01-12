@@ -319,7 +319,7 @@ exports.fetchLastAuctions = async (req, res, next) => {
   const tomorrowsDateFixes = tomorrowsDate.setDate(todaysDate.getDate() + 1)
 
   try {
-    const fetchedAuctions = await Auction.find({isSold: false}).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
+    const fetchedAuctions = await Auction.find({ isSold: false }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, })
     const filteredAuctions = fetchedAuctions.filter((itm) => itm.createdAt.getDay() === todaysDate.getDay() && itm.createdAt < new Date(tomorrowsDateFixes))
 
     if (filteredAuctions.length === 0) {
@@ -710,9 +710,11 @@ exports.myActiveAuctions = async (req, res, next) => {
 
 exports.fetchMyInbox = async (req, res, next) => {
   const userId = req.session.userInfo.id
+  const page = +req.query.page
+  const limit = 10
 
   try {
-    const foundInbox = await User.findById(userId).populate({ path: 'inbox', options: { sort: { createdAt: -1 } }, populate: { path: "sender", select: { name: 1, surname: 1, _id: 1 } } })
+    const foundInbox = await User.findById(userId).populate({ path: 'inbox', options: { sort: { createdAt: -1 }, skip: page }, perDocumentLimit: limit, populate: { path: "sender", select: { name: 1, surname: 1, _id: 1 } } })
 
     if (foundInbox.length === 0) {
       throwError('Account or Inbox could not found!!', 404)

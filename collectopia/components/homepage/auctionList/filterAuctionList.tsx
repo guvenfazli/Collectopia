@@ -162,7 +162,7 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
         Filter by my interest
       </button>
 
-      <button disabled={(chosenDate === 0 && !chosenCategory && !chosenSubCategory)} className={`bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest disabled:bg-orange-200 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.25),0_4px_6px_-2px_rgba(0,0,0,0.1)]`}>
+      <button disabled={(chosenDate === 0 && !chosenCategory && !chosenSubCategory)} className={`bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest disabled:bg-orange-200 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.25),0_4px_6px_-2px_rgba(0,0,0,0.1)] disabled:pointer-events-none`}>
         Filter
       </button>
 
