@@ -16,7 +16,7 @@ import {
 
 import SendMessageForm from "./sendMessageForm";
 import MakeAnOffer from "./makeAnOffer";
-import { RiUserFollowLine, RiUserUnfollowFill, RiSwapFill } from "react-icons/ri";
+import { RiUserFollowFill, RiUserUnfollowFill, RiSwapFill } from "react-icons/ri";
 import { BsEnvelopeFill } from "react-icons/bs";
 
 
@@ -59,10 +59,10 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
         <TooltipProvider delayDuration={300}>
           <Tooltip>
             <TooltipTrigger onClick={() => followUser(userId)} className="p-1 border border-orange-800 bg-orange-800 rounded-3xl text-white hover:bg-orange-600 duration-150">
-              {alreadyFollowed ? <RiUserFollowLine /> : <RiUserUnfollowFill />}
+              {alreadyFollowed ? <RiUserUnfollowFill /> : <RiUserFollowFill />}
             </TooltipTrigger>
             <TooltipContent>
-              {alreadyFollowed ? <p>Follow User</p> : <p>Unfollow User</p>}
+              {alreadyFollowed ? <p>Unfollow User</p> : <p>Follow User</p>}
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>

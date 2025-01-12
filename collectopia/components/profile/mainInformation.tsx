@@ -1,16 +1,8 @@
 "use client"
 
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip"
-
 import { useSelector } from "react-redux";
 import { useState } from "react";
 import FollowMessageIcons from "./followMessageIcons";
-import { RiUserFollowLine, RiUserUnfollowFill } from "react-icons/ri";
 import dayjs from "dayjs";
 
 type FetchedUserType = {
@@ -36,6 +28,7 @@ export default function MainInformation({ userInformation, userItems }: Componen
   const dateData = new Date(userInformation.createdAt)
   const dateDataConverted = dayjs(dateData) // Formats the date
   const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(userInformation.followers.some((followerId) => followerId === loggedInUser?.id))
+  console.log(alreadyFollowed)
 
   return (
     <div className="flex flex-row w-full justify-between items-end">
@@ -48,7 +41,7 @@ export default function MainInformation({ userInformation, userItems }: Componen
       <div className="flex flex-row justify-start items-end gap-5">
         <p className="text-sm font-medium text-slate-800">Items Added: <span className="font-bold">{userInformation.items.length}</span></p>
         <p className="text-sm font-medium text-slate-800">Auctions Listed: <span className="font-bold">{userInformation.auctions.length}</span></p>
-        <p className="text-sm font-medium text-slate-800">Followers: <span className="font-bold">0</span></p>
+        <p className="text-sm font-medium text-slate-800">Followers: <span className="font-bold">{userInformation.followers.length}</span></p>
       </div>
     </div>
   )
