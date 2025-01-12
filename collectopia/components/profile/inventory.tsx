@@ -85,7 +85,7 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
       </div>
 
       <div className="flex flex-row w-full rounded-md relative overflow-hidden">
-        <div onMouseEnter={() => setIsInventory(true)} style={{ translate: `${inventoryNavigator * -50}%` }}
+        <div onMouseEnter={() => setIsInventory(true)} style={{ translate: `${inventoryNavigator * -35}%` }}
           className={`flex flex-row h-auto items-center justify-start ${!isInventory ? 'w-44' : 'gap-5 w-full'} duration-1000`}>
           {
             filteredItems.length === 0 ?
