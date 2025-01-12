@@ -16,6 +16,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+import TableNavigator from "./tableNavigator"
 import ItemCard from "./itemCard"
 import ItemImageCarousel from "./itemImageCarousel"
 
@@ -37,6 +38,7 @@ type FetchedItems = FetchedItem[]
 
 export default function ItemsForAuctionCreation() {
 
+  const [currentPage, setCurrentPage] = useState<number>(0)
   const [myItems, setMyItems] = useState<FetchedItems>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean | string>(false)
@@ -45,7 +47,7 @@ export default function ItemsForAuctionCreation() {
     async function fetchMyItems() {
       setIsLoading(true)
       try {
-        const response = await fetch('http://localhost:8080/fetchMyItems', {
+        const response = await fetch(`http://localhost:8080/fetchMyItems?page=${currentPage}`, {
           credentials: "include"
         })
 
@@ -57,6 +59,7 @@ export default function ItemsForAuctionCreation() {
 
         const resData = await response.json()
         setMyItems(resData.foundItems)
+        setIsError(false)
         setIsLoading(false)
       } catch (err: any) {
         setIsLoading(false)
@@ -65,14 +68,16 @@ export default function ItemsForAuctionCreation() {
     }
 
     fetchMyItems()
-  }, [])
+  }, [currentPage])
 
   return (
     <div className="flex flex-col justify-start items-start gap-1">
       <div className="flex flex-col justify-start items-start w-full gap-2">
-        {isLoading ? <span id="headerLoader" className="self-center"></span> : isError ? <p>{isError}</p> :
+        {isLoading ? <span id="headerLoader" className="self-center"></span> :
           <Table>
-            <TableCaption>Your Items</TableCaption>
+            <TableCaption>
+              <TableNavigator currentPage={currentPage} setCurrentPage={setCurrentPage} fetchedList={myItems} isError={isError} addPage={1} />
+            </TableCaption>
             <TableHeader>
               <TableRow>
                 <TableHead className="w-[200px]">Title</TableHead>
@@ -82,27 +87,34 @@ export default function ItemsForAuctionCreation() {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {myItems.map((item) =>
-                <TableRow key={item._id}>
-                  <TableCell className="font-medium">
-                    <Popover>
-                      <PopoverTrigger className="hover:underline font-medium">{item.title}</PopoverTrigger>
-                      <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemCard item={item} /></PopoverContent>
-                    </Popover>
-                  </TableCell>
+              {isError ?
+                <TableRow className="text-left">
                   <TableCell>
-                    {item.minValue} $
+                    {isError}
                   </TableCell>
-                  <TableCell>
-                    {item.buyout} $
-                  </TableCell>
-                  <TableCell className="text-right">
-                    <Popover>
-                      <PopoverTrigger className="hover:underline font-medium">Click to see images</PopoverTrigger>
-                      <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemImageCarousel imageList={item.imageList} /></PopoverContent>
-                    </Popover>
-                  </TableCell>
-                </TableRow>)}
+                </TableRow> :
+                
+                myItems.map((item) =>
+                  <TableRow key={item._id}>
+                    <TableCell className="font-medium">
+                      <Popover>
+                        <PopoverTrigger className="hover:underline font-medium">{item.title}</PopoverTrigger>
+                        <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemCard item={item} /></PopoverContent>
+                      </Popover>
+                    </TableCell>
+                    <TableCell>
+                      {item.minValue} $
+                    </TableCell>
+                    <TableCell>
+                      {item.buyout} $
+                    </TableCell>
+                    <TableCell className="text-right">
+                      <Popover>
+                        <PopoverTrigger className="hover:underline font-medium">Click to see images</PopoverTrigger>
+                        <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemImageCarousel imageList={item.imageList} /></PopoverContent>
+                      </Popover>
+                    </TableCell>
+                  </TableRow>)}
             </TableBody>
           </Table>
         }

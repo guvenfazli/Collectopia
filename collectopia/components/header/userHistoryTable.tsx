@@ -55,7 +55,7 @@ export default function UserHistoryTable() {
       {isLoading ? <span id="headerLoader" className="self-center"></span> :
         <Table>
           <TableCaption>
-            <TableNavigator currentPage={currentPage} setCurrentPage={setCurrentPage} eventList={eventList} />
+            <TableNavigator currentPage={currentPage} setCurrentPage={setCurrentPage} fetchedList={eventList} />
           </TableCaption>
           <TableHeader>
             <TableRow>
@@ -71,7 +71,6 @@ export default function UserHistoryTable() {
                   No activities found.
                 </TableCell>
               </TableRow>
-
             }
             {eventList.map((event: any) =>
               <TableRow key={event._id}>
