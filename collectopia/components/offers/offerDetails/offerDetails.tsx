@@ -17,9 +17,9 @@ export default function OfferDetails({ chosenOffer, renderOffers }: ComponentPro
         <p className="font-logo tracking-widest">Offer Details</p>
       </div>
 
-
-
-      <div className={`flex duration-150 gap-1 opacity-100 self-center -mt-2 text-lg bg-orange-800 py-1 px-3 text-white rounded-lg relative ${chosenOffer && 'opacity-0'}`}>
+      <div
+        className={`flex duration-150 gap-1 self-center -mt-2 text-lg bg-orange-800 py-1 px-3 text-white rounded-lg relative 
+        ${chosenOffer && 'hidden'}`}>
         <p className="font-logo tracking-widest duration-150">You did not chose any offer!</p>
       </div>
 

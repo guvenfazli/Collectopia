@@ -14,8 +14,6 @@ export default function OffersList({ offersList, renderOffers, setRenderOffers, 
     setRenderOffers(offerType)
   }
 
-  console.log(offersList)
-
   return (
     <div className="flex flex-col w-1/2 gap-2 border-r border-orange-800 pr-3">
       <div className="flex gap-1 self-center -mt-2 text-lg bg-orange-800 py-1 px-3 text-white rounded-bl-lg rounded-br-lg">

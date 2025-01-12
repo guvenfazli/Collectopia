@@ -1,5 +1,4 @@
 import OfferDetailItemCard from "./offerDetailItemCard"
-import OfferResult from "./offerResult";
 import Link from "next/link";
 import dayjs from "dayjs"
 
@@ -30,8 +29,6 @@ type ComponentProps = {
 }
 
 export default function ReceivedOfferDetail({ chosenOffer }: ComponentProps) {
-
-  console.log(chosenOffer)
 
   async function selectOption(offerId: string, option: string) {
     try {

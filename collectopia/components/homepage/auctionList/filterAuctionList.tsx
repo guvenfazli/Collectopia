@@ -112,7 +112,6 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
       setIsLoading(false)
     } catch (err: any) {
       setIsError(err.message)
-      setFetchedAuctions([])
       setIsLoading(false)
     }
   }
@@ -136,12 +135,12 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
       setIsLoading(false)
     } catch (err: any) {
       setIsError(err.message)
-      setFetchedAuctions([])
       setIsLoading(false)
     }
   }
 
   function clearFiltering() { // Set the page 0, turns back general listing.
+    setChosenCategory(undefined)
     setFilteredAuctions([])
     setIsError(false)
     setPage(0)
@@ -169,7 +168,7 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
         Filter
       </button>
 
-      {(filteredAuctions.length > 0 || isError) &&
+      {(filteredAuctions.length > 0 || chosenCategory !== undefined) &&
         <button type="button" onClick={clearFiltering} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
           Clear Filter
         </button>

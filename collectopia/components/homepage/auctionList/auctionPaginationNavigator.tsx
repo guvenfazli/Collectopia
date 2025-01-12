@@ -1,12 +1,10 @@
 import { IoIosArrowForward, IoIosArrowBack } from "react-icons/io";
 
-
 type ComponentProps = {
   setPage: React.Dispatch<React.SetStateAction<number>>
   page: number,
   isError: boolean | string
 }
-
 
 export default function AuctionPaginationNavigator({ setPage, page, isError }: ComponentProps) {
 
@@ -19,7 +17,7 @@ export default function AuctionPaginationNavigator({ setPage, page, isError }: C
   }
 
   return (
-    <div className="flex flex-row justify-between items-center -mb-8">
+    <div className="flex flex-row justify-between items-center">
       <button disabled={page === 0} onClick={() => navigatePage("backward")} className="p-2 bg-orange-400 text-orange-800 rounded-3xl hover:bg-orange-800 hover:text-orange-400 duration-100 disabled:bg-orange-200 disabled:text-orange-400">
         <IoIosArrowBack />
       </button>

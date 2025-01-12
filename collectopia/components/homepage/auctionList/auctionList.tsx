@@ -34,6 +34,7 @@ export default function AuctionList() {
 
   useEffect(() => {
     async function fetchAuctions() {
+      setIsError(false)
       setIsLoading(true)
       try {
         const response = await fetch(`http://localhost:8080/fetchAuctions?page=${page}`, {
@@ -52,12 +53,11 @@ export default function AuctionList() {
         setIsError(false)
       } catch (err: any) {
         setIsLoading(false)
-        setFetchedAuctions([])
         setFilteredAuctions([])
         setIsError(err.message)
       }
     }
-    
+
     fetchAuctions()
 
   }, [page, setPage])
@@ -74,11 +74,30 @@ export default function AuctionList() {
 
       <AuctionPaginationNavigator setPage={setPage} page={page} isError={isError} />
 
-      <div className="flex flex-row items-start p-3 w-full flex-wrap gap-5 justify-center min-h-[653px]">
-        {(fetchedAuctions.length >= 0 && !isLoading && !isError &&  filteredAuctions.length <= 0) && fetchedAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
-        {(filteredAuctions.length >= 0 && !isLoading) && filteredAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
-        {(isError && !isLoading  && filteredAuctions.length <= 0) && <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>}
-        {isLoading && <span id="headerLoader" className="self-center"></span>}
+      <div className="flex flex-row p-3 w-full flex-wrap gap-5 justify-start min-h-[573px]">
+        {
+          isLoading &&
+          <div className="w-full flex justify-center items-center">
+            <span id="headerLoader" className="self-center" />
+          </div>
+        }
+
+        {
+          isError &&
+          <div className="w-full flex justify-center items-center">
+            <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>
+          </div>
+        }
+
+        {
+          (fetchedAuctions.length > 0 && filteredAuctions.length === 0 && !isLoading && !isError) && fetchedAuctions.map((auction) =>
+            <MainAuctionCard key={auction._id} auction={auction} />)
+        }
+
+        {
+          (filteredAuctions.length > 0 && !isLoading) && filteredAuctions.map((auction) =>
+            <MainAuctionCard key={auction._id} auction={auction} />)
+        }
       </div>
     </div>
   )
