@@ -74,7 +74,7 @@ export default function AuctionList() {
 
       <AuctionPaginationNavigator setPage={setPage} page={page} isError={isError} />
 
-      <div className="flex flex-row p-3 w-full flex-wrap gap-3 justify-around min-h-[573px]">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start place-items-center p-3 w-full flex-wrap gap-3 justify-around min-h-[573px]">
         {
           isLoading &&
           <div className="w-full flex justify-center items-center">

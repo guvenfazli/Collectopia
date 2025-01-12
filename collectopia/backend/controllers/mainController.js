@@ -336,10 +336,10 @@ exports.fetchAuctions = async (req, res, next) => {
   const todaysDate = new Date()
   const todaysTimestamp = dayjs(todaysDate).unix()
   const page = req.query.page
-  const limit = 5
+  const limit = 3
 
   try {
-    const fetchedAuctions = await Auction.find(/* { deadline: { $gt: todaysTimestamp }, isSold: false } */).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }).skip(page * limit).limit(limit)
+    const fetchedAuctions = await Auction.find({ deadline: { $gt: todaysTimestamp }, isSold: false }).populate({ path: "item" }).select({ _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }).skip(page * limit).limit(limit)
 
     if (fetchedAuctions.length === 0) {
       throwError('There is no active listing.', 404)
