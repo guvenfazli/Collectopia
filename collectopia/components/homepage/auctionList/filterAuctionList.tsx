@@ -164,7 +164,7 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
         Filter by my interest
       </button>
 
-      <button disabled={(chosenDate === 0 && !chosenCategory && !chosenSubCategory)} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest disabled:bg-orange-200">
+      <button disabled={(chosenDate === 0 && !chosenCategory && !chosenSubCategory)} className={`bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest disabled:bg-orange-200`}>
         Filter
       </button>
 
