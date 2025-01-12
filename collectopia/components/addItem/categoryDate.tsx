@@ -62,7 +62,7 @@ export default function CategoryDate({ setTagList }: ComponentProps) {
     if (e.key === "," && tagRef.current && tagRef.current.value.length > 0) {
       setTagList((prev) => {
         const updated = [...prev]
-        updated.push(tagRef.current!.value.toLowerCase())
+        updated.push(tagRef.current!.value.toLowerCase().replace(/\s/g, ""))
         return updated
       })
     }

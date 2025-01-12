@@ -692,7 +692,7 @@ exports.myActiveAuctions = async (req, res, next) => {
 
   try {
 
-    const foundAuctions = await User.findById(userId).populate({ path: 'auctions', select: { _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }, match: { deadline: { $gt: todaysTimestamp } }, populate: { path: 'item' } })
+    const foundAuctions = await User.findById(userId).populate({ path: 'auctions', select: { _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, isSold: 1 }, match: { deadline: { $gt: todaysTimestamp }, isSold: false }, populate: { path: 'item' } })
 
 
     if (foundAuctions.auctions.length === 0) {
