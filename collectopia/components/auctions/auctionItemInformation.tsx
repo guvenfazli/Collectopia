@@ -1,11 +1,11 @@
 type ComponentProps = {
-  fetchedItemInfo?: string | number;
+  fetchedItemInfo?: string | number | React.ReactNode;
   title: string;
   tagList?: string[]
 }
 
-export default function AuctionItemInformation({fetchedItemInfo, title, tagList}: ComponentProps) {
-  
+export default function AuctionItemInformation({ fetchedItemInfo, title, tagList }: ComponentProps) {
+
   return (
     <div className="flex flex-col w-full justify-start">
       <p className={` font-logo tracking-widest text-xl text-center  text-orange-800`}>{title}</p>
