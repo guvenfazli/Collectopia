@@ -55,7 +55,7 @@ export default function UserHistoryTable() {
       {isLoading ? <span id="headerLoader" className="self-center"></span> :
         <Table>
           <TableCaption>
-            <TableNavigator currentPage={currentPage} setCurrentPage={setCurrentPage} fetchedList={eventList} />
+            <TableNavigator currentPage={currentPage} setCurrentPage={setCurrentPage} fetchedList={eventList} addPage={5} />
           </TableCaption>
           <TableHeader>
             <TableRow>

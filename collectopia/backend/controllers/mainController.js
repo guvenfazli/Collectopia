@@ -730,9 +730,10 @@ exports.fetchMyInbox = async (req, res, next) => {
 exports.fetchMyHistory = async (req, res, next) => {
   const userId = req.session.userInfo.id
   const page = +req.query.page
+  const limit = 5
 
   try {
-    const foundEventHistoryList = await User.findById(userId).select({ eventHistory: { $slice: [page, page + 5] } }).populate({ path: "eventHistory", options: { $slice: [1, 6] }, select: { createdAt: 1, _id: 0 }, populate: { path: "interactionId", select: { _id: 1 } } }).sort({ createdAt: -1 })
+    const foundEventHistoryList = await User.findById(userId).populate({ path: "eventHistory", select: { createdAt: 1, _id: 0 }, options: { sort: { createdAt: -1 } }, populate: { path: "interactionId", select: { _id: 1 } } })
 
     if (foundEventHistoryList.length === 0) {
       throwError("No activities found", 404)
