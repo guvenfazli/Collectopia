@@ -10,6 +10,7 @@ import {
 
 import AuctionBidInputField from "./auctionBidInputField"
 import dayjs from "dayjs"
+import Link from "next/link";
 import { useState } from "react";
 
 type FetchedAuction = {
@@ -53,7 +54,7 @@ export default function AuctionBidSection({ bidList, auctionId, fetchedAuction, 
             {bidList.map((bid: any) =>
               <TableRow key={bid._id}>
                 <TableCell className="font-medium">
-                  {bid.bidder.name + ' ' + bid.bidder.surname}
+                  <Link href={`/profile/${bid.bidder._id}`}>{bid.bidder.name + ' ' + bid.bidder.surname}</Link>
                 </TableCell>
                 <TableCell>
                   {dayjs(bid.createdAt).format("DD/MM/YY")}

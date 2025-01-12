@@ -1,3 +1,4 @@
+import Link from "next/link";
 import AuctionItemInformation from "./auctionItemInformation"
 import dayjs from "dayjs"
 type FetchedAuction = {
@@ -23,6 +24,7 @@ type ComponentProps = {
 export default function AuctionItemInformationSection({ fetchedAuction }: ComponentProps) {
 
   const dateDataConverted = dayjs.unix(fetchedAuction.deadline)
+
 
   return (
     <div className="flex flex-col w-1/2 h-full items-start pt-2">

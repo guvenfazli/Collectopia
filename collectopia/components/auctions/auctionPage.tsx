@@ -49,6 +49,7 @@ type BidList = {
 export default function AuctionMainPage() {
 
   const { auctionId } = useParams<{ auctionId: string }>()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [fetchedAuction, setFetchedAuction] = useState<FetchedAuction | undefined>()
   const [messageList, setMessageList] = useState<FetchedMessages[]>([])
   const [fetchedBidList, setFetchedBidList] = useState<BidList[]>([])
@@ -59,6 +60,7 @@ export default function AuctionMainPage() {
   useEffect(() => {
 
     async function fetchAuction() {
+      setIsLoading(true)
       try {
         const response = await fetch(`http://localhost:8080/fetchAuction/${auctionId}`, {
           credentials: "include"
@@ -71,14 +73,13 @@ export default function AuctionMainPage() {
         }
 
         const resData = await response.json()
-        console.log(resData)
         if (resData.fetchedAuction.deadline < todaysDateTimestamp || resData.fetchedAuction.isSold === true) {
           setAuctionClose(true)
         }
-        console.log(resData.fetchedMessages.messages)
         setFetchedAuction(resData.fetchedAuction)
         setFetchedBidList(resData.fetchedBidlist.bidList ? resData.fetchedBidlist.bidList : [])
         setMessageList(resData.fetchedMessages.messages)
+        setIsLoading(false)
       } catch (err: any) {
         console.log(err.message)
       }
@@ -87,7 +88,7 @@ export default function AuctionMainPage() {
     fetchAuction()
   }, [])
 
-  console.log(messageList)
+
   return (
     <div className="flex p-3 flex-col relative justify-start items-start w-10/12 bg-white">
       {auctionClose &&
@@ -95,6 +96,8 @@ export default function AuctionMainPage() {
           <p className={`text-9xl font-logo text-orange-800 opacity-100 duration-100 group-hover:opacity-50`}>SOLD!</p>
         </div>
       }
+
+      {isLoading && <span id="headerLoader" className="self-center" />}
 
       {fetchedAuction &&
         <>
