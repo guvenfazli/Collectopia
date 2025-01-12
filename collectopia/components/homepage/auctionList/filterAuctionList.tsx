@@ -167,7 +167,7 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
       </button>
 
       {(filteredAuctions.length > 0 || chosenCategory !== undefined) &&
-        <button type="button" onClick={clearFiltering} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
+        <button type="button" onClick={clearFiltering} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md shadow-[0_10px_15px_-3px_rgba(0,0,0,0.25),0_4px_6px_-2px_rgba(0,0,0,0.1)] hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
           Clear Filter
         </button>
       }

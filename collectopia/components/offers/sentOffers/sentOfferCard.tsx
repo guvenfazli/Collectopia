@@ -1,28 +1,27 @@
 import OfferedItemsCard from "./offeredItemsCard"
+import OfferResult from "../offerDetails/offerResult"
 
 type ComponentProps = {
   offer: any;
   setChosenOffer: React.Dispatch<React.SetStateAction<any>>;
-  offerer: string;
-  receiver: { _id: string, name: string, surname: string };
-
-  createdAt: string;
 }
 
-export default function SentOfferCard({ offer, offerer, createdAt, receiver, setChosenOffer }: ComponentProps) {
+export default function SentOfferCard({ offer, setChosenOffer }: ComponentProps) {
   return (
-    <div onClick={() => setChosenOffer({ offer, offerer, receiver, createdAt })} className="flex flex-col gap-2 w-full duration-150 cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
+    <div onClick={() => setChosenOffer({ offer })} className="flex flex-col gap-2 w-full duration-150 cursor-pointer bg-orange-200 hover:bg-orange-300 p-3 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)] relative">
+
+      {!offer.offerActive && <OfferResult offerResult={offer.offerAccepted} />}
 
       <div className="py-1 border-b border-b-orange-800">
         <p className="font-logo text-lg tracking-widest text-orange-800">Click to see details</p>
       </div>
 
       <div className="flex justify-start items-start gap-2 overflow-scroll border-b border-orange-800 overflow-y-hidden pb-3" style={{ scrollbarWidth: 'thin', scrollbarColor: "#9A3412 transparent", WebkitOverflowScrolling: "touch" }} >
-        {offer.wantedItems.map((wantedItem: any) => <OfferedItemsCard key={wantedItem._id} offeredItem={wantedItem} />)}
+        {offer.offer.wantedItems.map((wantedItem: any) => <OfferedItemsCard key={wantedItem._id} offeredItem={wantedItem} />)}
       </div>
 
       <div className="flex justify-start items-start gap-2 overflow-scroll overflow-y-hidden  pb-1" style={{ scrollbarWidth: 'thin', scrollbarColor: "#9A3412 transparent", WebkitOverflowScrolling: "touch" }}>
-        {offer.offeredItems.map((offeredItem: any) => <OfferedItemsCard key={offeredItem._id} offeredItem={offeredItem} />)}
+        {offer.offer.offeredItems.map((offeredItem: any) => <OfferedItemsCard key={offeredItem._id} offeredItem={offeredItem} />)}
       </div>
 
     </div>

@@ -57,10 +57,10 @@ export default function MyAuctions() {
         <p className="text-2xl font-logo tracking-wider text-orange-800">My Active Listings <span className="text-sm">({myAuctions.length})</span></p>
       </div>
 
-      <div className="flex flex-row flex-wrap items-start justify-center py-3 w-full gap-3">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start place-items-center p-3 w-full flex-wrap gap-3 justify-around min-h-[573px]">
         {isError && <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>}
-        {isLoading && <span id="headerLoader" className="self-center"></span>}
         {myAuctions.length > 0 && myAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
+        {isLoading && <span id="headerLoader" className="self-center"></span>}
       </div>
     </div>
   )
