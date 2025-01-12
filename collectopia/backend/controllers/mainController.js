@@ -136,7 +136,7 @@ exports.fetchMyItems = async (req, res, next) => { // Fetching items in order to
     const foundItems = await Item.find({ owner: userId, isListed: false }).select({ title: 1, minValue: 1, buyout: 1, category: 1, subCategory: 1, imageList: 1, createdAt: 1, tagList: 1 }).skip(page * limit).limit(limit)
 
     if (foundItems.length === 0) {
-      throwError('You have no items', 404)
+      throwError('You have no items!', 404)
     }
 
     return res.status(200).json({ foundItems })
@@ -673,9 +673,12 @@ exports.followUser = async (req, res, next) => {
 exports.trackingAuctions = async (req, res, next) => {
   const userId = req.session.userInfo.id
   const todaysTimestamp = dayjs(new Date()).unix()
+  const page = +req.query.page
+  const limit = 3
 
   try {
-    const foundAuctions = await User.findById(userId).populate({ path: 'trackingAuctions', select: { _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }, match: { deadline: { $gt: todaysTimestamp } }, populate: { path: 'item' } })
+    const foundAuctions = await User.findById(userId).select({ trackingAuctions: { $slice: [page, page + limit] } }).populate({ path: 'trackingAuctions', select: { _id: 1, minValue: 1, buyout: 1, followers: 1, deadline: 1, createdAt: 1, }, match: { deadline: { $gt: todaysTimestamp } }, populate: { path: 'item' } })
+
     if (foundAuctions.trackingAuctions.length === 0) {
       throwError('You are not tracking any active auctions!', 404)
     }

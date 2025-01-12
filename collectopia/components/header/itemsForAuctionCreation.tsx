@@ -93,7 +93,7 @@ export default function ItemsForAuctionCreation() {
                     {isError}
                   </TableCell>
                 </TableRow> :
-                
+
                 myItems.map((item) =>
                   <TableRow key={item._id}>
                     <TableCell className="font-medium">
