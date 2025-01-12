@@ -148,23 +148,21 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
 
   return (
     <form onSubmit={(e) => filterAuctionList(e)} className="flex flex-row gap-2">
-      <select name="category" onChange={(e) => chooseCategory(e)} required className="shadow-sm shadow-slate-500 p-2 border border-orange-800 rounded-md outline-none">
+      <select name="category" onChange={(e) => chooseCategory(e)} required className="shadow-[0_4px_6px_-1px_rgba(0,0,0,0.2),0_2px_4px_-1px_rgba(0,0,0,0.1)] p-2 border border-orange-800 rounded-md outline-none">
         <option>Please Select a Category</option>
         {category.map((cat: { category: string, display: string }) => <option value={cat.category} key={cat.category}>{cat.display}</option>)}
       </select>
 
-      <select onChange={(e) => chooseSubCategory(e)} name="subcategory" required className="shadow-sm shadow-slate-500 p-2 border border-orange-800 rounded-md outline-none">
+      <select onChange={(e) => chooseSubCategory(e)} name="subcategory" required className="shadow-[0_4px_6px_-1px_rgba(0,0,0,0.2),0_2px_4px_-1px_rgba(0,0,0,0.1)] p-2 border border-orange-800 rounded-md outline-none">
         <option>Please Select a Subcategory</option>
         {chosenCategory !== undefined && subCategory[chosenCategory].map((subCat: { value: string, display: string }) => <option value={subCat.value} key={subCat.value}>{subCat.display}</option>)}
       </select>
 
-      <input name="deadline" type="date" onChange={(e) => chooseDate(e)} className="bg-orange-300 text-orange-800 font-medium p-2 rounded-lg text-sm placeholder:text-orange-800 outline-none" />
-
-      <button type="button" onClick={filterByMyInterest} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest">
+      <button type="button" onClick={filterByMyInterest} className="bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest shadow-[0_10px_15px_-3px_rgba(0,0,0,0.25),0_4px_6px_-2px_rgba(0,0,0,0.1)]">
         Filter by my interest
       </button>
 
-      <button disabled={(chosenDate === 0 && !chosenCategory && !chosenSubCategory)} className={`bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest disabled:bg-orange-200`}>
+      <button disabled={(chosenDate === 0 && !chosenCategory && !chosenSubCategory)} className={`bg-orange-800 text-orange-50 px-5 py-1 rounded-md hover:bg-orange-300 hover:text-orange-800 duration-150 font-logo tracking-widest disabled:bg-orange-200 shadow-[0_10px_15px_-3px_rgba(0,0,0,0.25),0_4px_6px_-2px_rgba(0,0,0,0.1)]`}>
         Filter
       </button>
 
