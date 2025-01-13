@@ -56,7 +56,7 @@ export default function MyAuctions() {
 
   return (
     <div className="flex p-3 flex-col justify-start items-start w-10/12 bg-white">
-      
+
       <div className="flex w-full justify-start items-start">
         <p className="text-2xl font-logo tracking-wider text-orange-800">My Active Listings <span className="text-sm">({myAuctions.length})</span></p>
       </div>
@@ -67,10 +67,12 @@ export default function MyAuctions() {
         </div>
       }
 
+      {isLoading && <span id="headerLoader" className="self-center"></span>}
+
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start place-items-center p-3 w-full flex-wrap gap-3 justify-around min-h-[573px]">
         {isError && <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>}
         {myAuctions.length > 0 && myAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
-        {isLoading && <span id="headerLoader" className="self-center"></span>}
       </div>
 
 

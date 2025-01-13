@@ -51,13 +51,11 @@ export default function UserInbox() {
     fetchInbox()
   }, [currentPage])
 
-  console.log(inbox)
-
   if (mode === "recieved") {
     return (
       <div className="flex p-3 flex-col relative justify-start gap-3 items-start w-10/12 bg-white">
         {isLoading && <span id="headerLoader" className="self-center"></span>}
-        {isError ? <p>{isError}</p> :
+        {isError ? <p className="self-center text-lg text-orange-800 tracking-wider">{isError}</p> :
 
           inbox.map((msg: any) =>
             <Dialog key={msg._id}>

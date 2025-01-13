@@ -765,8 +765,8 @@ exports.fetchMyInbox = async (req, res, next) => {
   try {
     const foundInbox = await User.findById(userId).populate({ path: 'inbox', options: { sort: { createdAt: -1 }, skip: page }, perDocumentLimit: limit, populate: { path: "sender", select: { name: 1, surname: 1, _id: 1 } } })
 
-    if (foundInbox.length === 0) {
-      throwError('Account or Inbox could not found!!', 404)
+    if (foundInbox.inbox.length === 0) {
+      throwError('You have no messages!', 404)
     }
 
     return res.status(200).json({ fetchedInbox: foundInbox.inbox })

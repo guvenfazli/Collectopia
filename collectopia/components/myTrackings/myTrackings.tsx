@@ -65,9 +65,11 @@ export default function MyTrackings() {
           <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>
         </div>
       }
+
+      {isLoading && <span id="headerLoader" className="self-center"></span>}
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start place-items-center p-3 w-full flex-wrap gap-3 justify-around min-h-[573px]">
         {!isError && fetchedTrackingList.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
-        {isLoading && <span id="headerLoader" className="self-center"></span>}
       </div>
 
       <div className="flex w-full">

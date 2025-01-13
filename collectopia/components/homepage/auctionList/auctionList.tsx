@@ -74,22 +74,21 @@ export default function AuctionList() {
 
       <AuctionPaginationNavigator setPage={setPage} page={page} isError={isError} />
 
+      {
+        isLoading &&
+        <div className="w-full flex justify-center items-center">
+          <span id="headerLoader" className="self-center" />
+        </div>
+      }
+
+      {
+        isError &&
+        <div className="w-full flex justify-center items-center">
+          <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>
+        </div>
+      }
+
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start place-items-center p-3 w-full flex-wrap gap-3 justify-around min-h-[573px]">
-
-        {
-          isLoading &&
-          <div className="w-fullflex justify-center items-center">
-            <span id="headerLoader" className="self-center" />
-          </div>
-        }
-
-        {
-          isError &&
-          <div className="w-full flex justify-center items-center">
-            <p className="text-lg tracking-wider text-orange-800 self-center">{isError}</p>
-          </div>
-        }
-
         {
           (fetchedAuctions.length > 0 && filteredAuctions.length === 0 && !isLoading && !isError) && fetchedAuctions.map((auction) =>
             <MainAuctionCard key={auction._id} auction={auction} />)
