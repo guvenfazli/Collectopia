@@ -15,6 +15,7 @@ type FetchedAuction = {
   deadline: number,
   createdAt: string,
   followers: string[],
+  isSold: boolean
   item: any
 }
 
@@ -84,7 +85,7 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
 
       <div className="flex flex-row w-full  relative overflow-hidden">
 
-        <div onClick={() => setIsListing(true)} style={{ translate: `${listingNavigator * -50}%` }} className={`flex flex-row h-auto items-center justify-start ${!isListing ? 'w-44' : 'gap-5 w-full'} duration-1000 hover:cursor-pointer`}>
+        <div onClick={() => setIsListing(true)} style={{ translate: `${listingNavigator * -35}%` }} className={`flex flex-row h-auto items-center justify-start ${!isListing ? 'w-44' : 'gap-5 w-full'} duration-1000 hover:cursor-pointer`}>
           {
             (filteredUserAuctions.length === 0 && !isError) ?
               userAuctions.map((auction: FetchedAuction, i: number) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} index={i} />) :
