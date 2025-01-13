@@ -49,6 +49,7 @@ export default function UserHistoryTable() {
     fetchMyEventHistory()
   }, [currentPage])
 
+  
 
   return (
     <>

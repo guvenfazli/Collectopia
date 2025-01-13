@@ -14,6 +14,7 @@ const AuctionBid = require('../models/auctionBidModel')
 const MessageRoom = require('../models/messageRoomModel')
 const PrivateMessage = require('../models/privateMessageModel')
 const Offer = require('../models/offerModel')
+const Event = require('../models/eventModel')
 
 // ITEM CREATION
 exports.createItem = async (req, res, next) => {
@@ -290,10 +291,17 @@ exports.createAuction = async (req, res, next) => {
 
     await createdAuction.save()
 
+    const createdEvent = new Event({
+      event: "Created an Auction",
+      interactionId: createdAuction
+    })
+
+    await createdEvent.save()
+
 
     const foundUser = await User.findById(userId)
     foundUser.auctions.push(createdAuction)
-    foundUser.eventHistory.push({ event: "Created an Auction", interactionId: createdAuction })
+    foundUser.eventHistory.push(createdEvent)
     await foundUser.save()
 
     const foundOriginalItem = await Item.findById(itemId)
@@ -495,8 +503,16 @@ exports.bidAuction = async (req, res, next) => {
       return res.status(200).json({ message: 'Your bid settled successfully.' })
     }
 
+    const createdEvent = new Event({
+      event: "Bidded to an Auction",
+      interactionId: foundAuction
+    })
+
+    await createdEvent.save()
+
+
     BidList.bidList.push(createdBid)
-    foundUser.eventHistory.push({ event: "Bidded to an Auction", interactionId: foundAuction })
+    foundUser.eventHistory.push(createdEvent)
     await foundUser.save()
     await BidList.save()
 
@@ -539,8 +555,16 @@ exports.buyoutAuction = async (req, res, next) => {
       throwError('Please enter a numeric value!', 410)
     }
 
+    const createdEvent = new Event({
+      event: "Bought an Auction!",
+      interactionId: foundAuction
+    })
+
+    await createdEvent.save()
+
+
     foundAuction.isSold = true
-    foundUser.eventHistory.push({ event: "Bought an Auction!", interactionId: foundAuction })
+    foundUser.eventHistory.push(createdEvent)
     await foundUser.save()
     await foundAuction.save()
     return res.status(200).json({ message: 'Your buyout ended successfully.' })
@@ -578,8 +602,16 @@ exports.sendMessage = async (req, res, next) => {
       throwError('Auction met the deadline!', 410)
     }
 
+    const createdEvent = new Event({
+      event: "Sent a Message to an Auction!",
+      interactionId: foundAuction
+    })
+
+    await createdEvent.save()
+
+
     foundChatRoom.messages.push({ message: message, sender: userId })
-    foundUser.eventHistory.push({ event: "Sent a Message to an Auction!", interactionId: foundAuction })
+    foundUser.eventHistory.push(createdEvent)
     await foundUser.save()
     await foundChatRoom.save()
     return res.status(200).json({ message: 'Message sent' })
@@ -614,6 +646,15 @@ exports.trackAuction = async (req, res, next) => {
       const chosenIndex = foundUser.trackingAuctions.findIndex((auction) => foundAuction === auction)
       foundUser.trackingAuctions.splice(chosenIndex, 1)
 
+      const createdEvent = new Event({
+        event: "You just unfollowed an Auction!",
+        interactionId: foundAuction
+      })
+
+      await createdEvent.save()
+
+      foundUser.eventHistory.push(createdEvent)
+
       const userIndex = foundAuction.followers.findIndex((user) => user === foundUser)
       foundAuction.followers.splice(userIndex, 1)
       await foundUser.save()
@@ -621,8 +662,16 @@ exports.trackAuction = async (req, res, next) => {
       return res.status(200).json({ message: 'You are no longer following this auction.' })
     }
 
+    const createdEvent = new Event({
+      event: "Tracked an Auction!",
+      interactionId: foundAuction
+    })
+
+    await createdEvent.save()
+
+
     foundUser.trackingAuctions.push(foundAuction)
-    foundUser.eventHistory.push({ event: "Tracked an Auction!", interactionId: foundAuction })
+    foundUser.eventHistory.push(createdEvent)
     foundAuction.followers.push(foundUser)
 
     await foundUser.save()
@@ -733,7 +782,7 @@ exports.fetchMyHistory = async (req, res, next) => {
   const limit = 5
 
   try {
-    const foundEventHistoryList = await User.findById(userId).populate({ path: "eventHistory", select: { createdAt: 1, _id: 0 }, options: { sort: { createdAt: -1 } }, populate: { path: "interactionId", select: { _id: 1 } } })
+    const foundEventHistoryList = await User.findById(userId).populate({ path: "eventHistory", options: { sort: { createdAt: -1 }, skip: page }, perDocumentLimit: limit, populate: { path: "interactionId", select: { _id: 1 } } })
 
     if (foundEventHistoryList.length === 0) {
       throwError("No activities found", 404)
