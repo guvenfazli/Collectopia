@@ -2,29 +2,23 @@ import OfferDetailItemCard from "./offerDetailItemCard"
 import Link from "next/link";
 import dayjs from "dayjs"
 
-type Offer = {
-  offeredItems: { imageList: string[], title: string, _id: string }[];
-  wantedItems: { imageList: string[], title: string, _id: string }[];
-}
-
-type Offerer = {
-  name: string;
-  surname: string;
-  _id: string;
-}
-
 type ComponentProps = {
   chosenOffer: {
     offer: {
       createdAt: string;
-      offer: Offer;
+      offer: {
+        offeredItems: [{ _id: string; title: string; imageList: string[]; }]
+        wantedItems: [{ _id: string; title: string; imageList: string[]; }]
+      };
       offerAccepted: boolean;
-      offerActive: boolean
-      offerer: Offerer;
-      receiver: string;
+      offerActive: boolean;
+      offerer: { _id: string; name: string; surname: string; }
+      receiver: { _id: string; name: string; surname: string; }
       updatedAt: string;
-      _id: string
+      _id: string;
     };
+    receiver: { _id: string, name: string, surname: string }
+    createdAt: string;
   }
 }
 

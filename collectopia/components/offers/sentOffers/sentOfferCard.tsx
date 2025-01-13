@@ -2,7 +2,19 @@ import OfferedItemsCard from "./offeredItemsCard"
 import OfferResult from "../offerDetails/offerResult"
 
 type ComponentProps = {
-  offer: any;
+  offer: {
+    createdAt: string;
+    offer: {
+      offeredItems: [{ _id: string; title: string; imageList: string[]; }]
+      wantedItems: [{ _id: string; title: string; imageList: string[]; }]
+    };
+    offerAccepted: boolean;
+    offerActive: boolean;
+    offerer: { _id: string; name: string; surname: string; }
+    receiver: string;
+    updatedAt: string;
+    _id: string;
+  };
   setChosenOffer: React.Dispatch<React.SetStateAction<any>>;
 }
 

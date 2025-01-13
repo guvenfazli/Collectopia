@@ -2,13 +2,32 @@ import SentOfferDetail from "./sentOfferDetail"
 import ReceivedOfferDetail from "./receivedOfferDetail"
 
 type ComponentProps = {
-  chosenOffer: any,
+  chosenOffer: {
+    offer: {
+      createdAt: string;
+      offer: {
+        offeredItems: [{ _id: string; title: string; imageList: string[]; }]
+        wantedItems: [{ _id: string; title: string; imageList: string[]; }]
+      };
+      offerAccepted: boolean;
+      offerActive: boolean;
+      offerer: { _id: string; name: string; surname: string; }
+      receiver: { _id: string; name: string; surname: string; }
+      updatedAt: string;
+      _id: string;
+    };
+    receiver: { _id: string, name: string, surname: string }
+    createdAt: string;
+  },
   renderOffers: string
 }
 
 
 
 export default function OfferDetails({ chosenOffer, renderOffers }: ComponentProps) {
+
+
+  console.log(chosenOffer)
 
   return (
     <div className={`flex flex-col relative pl-4 items-center justify-center w-1/2`}>

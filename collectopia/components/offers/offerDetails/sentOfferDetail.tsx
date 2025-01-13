@@ -2,7 +2,19 @@ import OfferDetailItemCard from "./offerDetailItemCard"
 import dayjs from "dayjs"
 type ComponentProps = {
   chosenOffer: {
-    offer: any,
+    offer: {
+      createdAt: string;
+      offer: {
+        offeredItems: [{ _id: string; title: string; imageList: string[]; }]
+        wantedItems: [{ _id: string; title: string; imageList: string[]; }]
+      };
+      offerAccepted: boolean;
+      offerActive: boolean;
+      offerer: { _id: string; name: string; surname: string; }
+      receiver: { _id: string; name: string; surname: string; }
+      updatedAt: string;
+      _id: string;
+    };
     receiver: { _id: string, name: string, surname: string }
     createdAt: string;
   }

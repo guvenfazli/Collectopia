@@ -1,7 +1,25 @@
 import ReceivedOfferCard from "./receivedOffers/receivedOfferCard"
 import SentOfferCard from "./sentOffers/sentOfferCard"
+type Offer = {
+
+  createdAt: string;
+  offer: {
+    offeredItems: [{ _id: string; title: string; imageList: string[]; }]
+    wantedItems: [{ _id: string; title: string; imageList: string[]; }]
+  };
+  offerAccepted: boolean;
+  offerActive: boolean;
+  offerer: { _id: string; name: string; surname: string; }
+  receiver: string;
+  updatedAt: string;
+  _id: string;
+
+}
+
 type ComponentProps = {
-  offersList: any;
+  offersList: {
+    [renderOffers: string]: Offer[];
+  };
   renderOffers: string;
   setRenderOffers: React.Dispatch<React.SetStateAction<string>>;
   setChosenOffer: React.Dispatch<React.SetStateAction<any>>;

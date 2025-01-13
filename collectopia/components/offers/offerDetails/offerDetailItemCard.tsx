@@ -5,7 +5,15 @@ import {
 } from "@/components/ui/carousel"
 import Image from "next/image"
 
-export default function OfferDetailItemCard({ offeredItem }: any) {
+type ComponentProps = {
+  offeredItem: {
+    imageList: string[]
+    title: string;
+    _id: string
+  }
+}
+
+export default function OfferDetailItemCard({ offeredItem }: ComponentProps) {
 
   return (
     <div className="flex flex-col w-1/3 bg-gray-50 border border-orange-300 shadow-lg shadow-orange-100/50 p-1 items-start justify-start rounded-sm flex-shrink-0">
