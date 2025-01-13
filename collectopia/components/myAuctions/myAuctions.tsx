@@ -71,7 +71,6 @@ export default function MyAuctions() {
 
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 items-start place-items-center p-3 w-full flex-wrap gap-3 justify-around min-h-[573px]">
-
         {(myAuctions.length > 0 && !isError) && myAuctions.map((auction) => <MainAuctionCard key={auction._id} auction={auction} />)}
       </div>
 

@@ -16,7 +16,7 @@ export default function OffersList({ offersList, renderOffers, setRenderOffers, 
 
   return (
     <div className="flex flex-col w-1/2 gap-2 border-r border-orange-800 pr-3">
-      <div className="flex gap-1 self-center -mt-2 text-lg bg-orange-800 py-1 px-3 text-white rounded-bl-lg rounded-br-lg">
+      <div className="flex gap-1 self-center -mt-2 text-lg bg-orange-800 py-1 px-3 text-white rounded-bl-lg rounded-br-lg shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
         <p onClick={() => changeTheListing("receivedOffers")} className={`font-logo tracking-widest duration-150 hover:cursor-pointer hover:font-extrabold ${renderOffers === "receivedOffers" && 'font-extrabold'}`}>Received Offers</p>
         <p>||</p>
         <p onClick={() => changeTheListing("sentOffers")} className={`font-logo tracking-widest duration-150 hover:cursor-pointer hover:font-extrabold ${renderOffers === "sentOffers" && 'font-extrabold'}`}>Sent Offers</p>
