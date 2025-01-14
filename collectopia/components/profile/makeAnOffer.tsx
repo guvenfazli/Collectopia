@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useToast } from "@/hooks/use-toast";
 import ProfileOwnerItems from "./profileOwnerItems"
 import ChosenItemsSection from "./chosenItemsSection";
 
@@ -9,16 +10,19 @@ type chosenItems = {
 
 type ComponentProps = {
   userId: string;
-  userItems: any
+  userItems: chosenItems;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
+export default function MakeAnOffer({ userId, userItems, setOpen }: ComponentProps) {
 
+  const { toast } = useToast()
   const [myItems, setMyItems] = useState([])
   const [chosenItems, setChosenItems] = useState<{ userItems: any[], myItems: any[] }>({
     userItems: [],
     myItems: []
   })
+
 
   useEffect(() => {
     async function fetchMyItemsForOffer() {
@@ -35,8 +39,13 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
 
         const resData = await response.json()
         setMyItems(resData.myItemsForOffer.items)
+
       } catch (err: any) {
-        console.log(err.message)
+        toast({
+          title: 'Error!',
+          description: err.message,
+          className: "bg-red-500 border-none text-white text-xl"
+        })
       }
     }
 
@@ -66,10 +75,18 @@ export default function MakeAnOffer({ userId, userItems }: ComponentProps) {
       }
 
       const resData = await response.json()
-
-
+      setOpen(false)
+      toast({
+        title: 'Success!',
+        description: resData.message,
+        className: "bg-green-500 border-none text-white text-xl"
+      })
     } catch (err: any) {
-      console.log(err.message)
+      toast({
+        title: 'Error!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
     }
   }
 

@@ -59,9 +59,7 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
         description: resData.message,
         className: "bg-green-500 border-none text-white text-xl"
       })
-
     } catch (err: any) {
-
       toast({
         title: 'Error!',
         description: err.message,
@@ -109,7 +107,7 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
       }
 
       {loggedInUser?.id !== userId &&
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger className="p-1 border border-orange-800 bg-orange-800 rounded-3xl text-white hover:bg-orange-600 duration-150">
             <TooltipProvider delayDuration={300}>
               <Tooltip>
@@ -127,7 +125,7 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
             <DialogHeader>
               <DialogTitle className="font-logo tracking-widest text-xl">Make an Offer</DialogTitle>
             </DialogHeader>
-            <MakeAnOffer userId={userId} userItems={userItems} />
+            <MakeAnOffer userId={userId} userItems={userItems} setOpen={setOpen} />
           </DialogContent>
         </Dialog>
       }
