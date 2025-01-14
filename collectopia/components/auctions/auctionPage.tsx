@@ -104,7 +104,27 @@ export default function AuctionMainPage() {
         }
 
         const resData = await response.json()
-        setMessageList(resData.fetchedMessages[0].messages)
+        setMessageList(resData.fetchedMessages[0].messages.reverse())
+        setIsLoading(false)
+      } catch (err: any) {
+        console.log(err.message)
+      }
+    }
+
+    async function updateBids() {
+      try {
+        const response = await fetch(`http://localhost:8080/updateBids/${auctionId}`, {
+          credentials: "include"
+        })
+
+        if (!response.ok) {
+          const resData = await response.json()
+          const error = new Error(resData.message)
+          throw error
+        }
+
+        const resData = await response.json()
+        setFetchedBidList(resData.fetchedBidlist.bidList)
         setIsLoading(false)
       } catch (err: any) {
         console.log(err.message)
@@ -117,14 +137,16 @@ export default function AuctionMainPage() {
       updateMessages()
     })
 
+    socketConnection.on("updateBids", (user) => {
+      updateBids()
+    })
+
 
     return () => {
       socketConnection.emit('leaveRoom', { auctionId: auctionId })
     }
   }, [])
 
-
-  console.log(messageList)
 
   return (
     <div className="flex p-3 flex-col relative justify-start items-start w-10/12 bg-white">
@@ -144,7 +166,7 @@ export default function AuctionMainPage() {
           </div>
 
           <div className="flex w-full justify-start h-96 items-start gap-3">
-            <AuctionBidSection fetchedAuction={fetchedAuction} bidList={fetchedBidList} auctionId={auctionId} ownerId={fetchedAuction.item.owner._id} />
+            <AuctionBidSection fetchedAuction={fetchedAuction} bidList={fetchedBidList} auctionId={auctionId} ownerId={fetchedAuction.item.owner._id} socket={socket} />
             <AuctionChatSection auctionId={auctionId} messages={messageList} ownerId={fetchedAuction.item.owner._id} socket={socket} />
           </div>
         </>

@@ -20,8 +20,12 @@ router.get('/fetchUserHistory', authCheck, mainController.fetchMyHistory)
 router.get('/fetchMyItemsForOffer', authCheck, mainController.fetchMyItemsForOffer)
 router.get('/fetchOfferList', authCheck, mainController.fetchOffers)
 
+
+
 // LIVE CHAT
+router.get('/updateBids/:auctionId', authCheck, mainController.updateBids)
 router.get('/updateMessages/:auctionId', authCheck, mainController.updateMessages)
+
 
 
 // POSTS

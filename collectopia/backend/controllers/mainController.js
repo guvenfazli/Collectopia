@@ -525,6 +525,29 @@ exports.bidAuction = async (req, res, next) => {
   }
 }
 
+exports.updateBids = async (req, res, next) => { // Updates the bid table of the auction room while people are bidding.
+  const auctionId = req.params.auctionId
+
+  try {
+
+    const bidList = await AuctionBid.findOne({ auctionId: auctionId })
+      .populate(
+        {
+          path: "bidList", options: { sort: { createdAt: -1 } }, select: { _id: 1, bidValue: 1, bidder: 1, createdAt: 1 },
+          populate: { path: "bidder", select: { name: 1, surname: 1 } }
+        })
+
+    if (!bidList) {
+      throwError('Auction could not found!', 404)
+    }
+
+    return res.status(200).json({ fetchedBidlist: bidList ? bidList : [] })
+
+  } catch (err) {
+    next(err)
+  }
+}
+
 exports.buyoutAuction = async (req, res, next) => {
   const { buyout } = req.body
   const convertedBuyout = +buyout
@@ -638,7 +661,6 @@ exports.updateMessages = async (req, res, next) => { // Updates the message room
   } catch (err) {
     next(err)
   }
-
 }
 
 // USER FOLLOWS AND TRACKINGS

@@ -139,6 +139,10 @@ auctionRoom.on('connection', (connectedUser) => {
     auctionRoom.to(joinedAuctionId).emit("updateMessages")
   })
 
+  connectedUser.on("sendBid", (user) => {
+    auctionRoom.to(joinedAuctionId).emit("updateBids")
+  })
+
   connectedUser.on('leaveRoom', (auctionInformation) => {
     const { auctionId } = auctionInformation
     connectedUser.leave(auctionId)

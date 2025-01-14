@@ -1,15 +1,17 @@
 import { BaseSyntheticEvent } from "react"
+import { Socket } from "socket.io-client"
 import { useSelector } from "react-redux"
 type ComponentProps = {
   auctionId: string;
   isBuyout: boolean;
   buyoutValue: number;
   ownerId: string;
+  socket: Socket | undefined;
 }
 
 
 
-export default function AuctionBidInputField({ auctionId, isBuyout, buyoutValue, ownerId }: ComponentProps) {
+export default function AuctionBidInputField({ auctionId, isBuyout, buyoutValue, ownerId, socket }: ComponentProps) {
 
   const authUserId = useSelector((state: any) => state.auth.userInfo.userInfo.id)
 
@@ -32,7 +34,7 @@ export default function AuctionBidInputField({ auctionId, isBuyout, buyoutValue,
       }
 
       const resData = await response.json()
-      console.log(resData)
+      socket?.emit("sendBid")
 
     } catch (err: any) {
       console.log(err.message)

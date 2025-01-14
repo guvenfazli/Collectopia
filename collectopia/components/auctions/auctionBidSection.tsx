@@ -8,6 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table"
 
+import { Socket } from "socket.io-client"
 import AuctionBidInputField from "./auctionBidInputField"
 import dayjs from "dayjs"
 import Link from "next/link";
@@ -30,12 +31,15 @@ type ComponentProps = {
   bidList: any // Will Change,
   auctionId: string;
   fetchedAuction: FetchedAuction;
-  ownerId: string
+  ownerId: string;
+  socket: Socket | undefined;
 }
 
-export default function AuctionBidSection({ bidList, auctionId, fetchedAuction, ownerId }: ComponentProps) {
+export default function AuctionBidSection({ bidList, auctionId, fetchedAuction, ownerId, socket }: ComponentProps) {
 
   const [isBuyout, setIsBuyout] = useState<boolean>(bidList[0] ? bidList[0].bidValue > fetchedAuction.buyout : false)
+
+  console.log(bidList)
 
   return (
     <div className="flex flex-col justify-between h-full w-1/2 text-wrap">
@@ -70,7 +74,7 @@ export default function AuctionBidSection({ bidList, auctionId, fetchedAuction, 
         </Table>
       }
 
-      <AuctionBidInputField auctionId={auctionId} isBuyout={isBuyout} buyoutValue={fetchedAuction.buyout} ownerId={ownerId} />
+      <AuctionBidInputField auctionId={auctionId} isBuyout={isBuyout} buyoutValue={fetchedAuction.buyout} ownerId={ownerId} socket={socket} />
     </div>
   )
 }
