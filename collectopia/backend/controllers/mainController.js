@@ -621,6 +621,23 @@ exports.sendMessage = async (req, res, next) => {
   }
 }
 
+exports.updateMessages = async (req, res, next) => { // Updates the message room while chatting.
+  const auctionId = req.params.auctionId
+
+  try {
+    const fetchedMessages = await MessageRoom.find({ auctionRoom: auctionId })
+
+    if (!foundMessages) {
+      throwError('Could not connect to chat!', 404)
+    }
+
+    return res.status(200).json({ fetchedMessages: fetchedMessages })
+  } catch (err) {
+    next(err)
+  }
+
+}
+
 // USER FOLLOWS AND TRACKINGS
 
 exports.trackAuction = async (req, res, next) => {

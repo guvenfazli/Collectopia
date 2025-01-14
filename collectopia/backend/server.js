@@ -133,8 +133,14 @@ auctionRoom.on('connection', (connectedUser) => {
   connectedUser.on("joinToAuctionRoom", (auctionId) => {
     connectedUser.join(auctionId)
     joinedAuctionId = auctionId
-    console.log(auctionId, 'worked')
   })
+
+
+
+
+
+
+
 
 
   connectedUser.on('leaveRoom', (auctionInformation) => {

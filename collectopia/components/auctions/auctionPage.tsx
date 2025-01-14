@@ -65,7 +65,7 @@ export default function AuctionMainPage() {
     setSocket(socketConnection)
     socketConnection.emit("joinToAuctionRoom", auctionId)
 
-    async function fetchAuction() {
+    async function fetchAuction() { // Fetches the whole auction on first enterence.
       setIsLoading(true)
       try {
         const response = await fetch(`http://localhost:8080/fetchAuction/${auctionId}`, {
