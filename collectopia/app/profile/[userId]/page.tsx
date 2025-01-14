@@ -31,6 +31,7 @@ export default function UserProfilePage() {
   useEffect(() => {
     const socketConnection = io("http://localhost:8080/profilePage")
     setSocket(socketConnection)
+    socketConnection.emit("joinUserProfileRoom", userId)
 
     async function fetchUser() {
       try {
@@ -56,6 +57,7 @@ export default function UserProfilePage() {
     fetchUser()
 
     socketConnection.on('profileUpdate', () => {
+      console.log('Worked.')
       fetchUser()
     })
 

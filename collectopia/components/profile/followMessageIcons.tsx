@@ -35,6 +35,7 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
 
   const { toast } = useToast()
   const [open, setOpen] = useState<boolean>(false)
+  const [openOfferWindow, setOpenOfferWindow] = useState<boolean>(false)
 
 
   async function followUser(userId: string) {
@@ -107,7 +108,7 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
       }
 
       {loggedInUser?.id !== userId &&
-        <Dialog open={open} onOpenChange={setOpen}>
+        <Dialog open={openOfferWindow} onOpenChange={setOpenOfferWindow}>
           <DialogTrigger className="p-1 border border-orange-800 bg-orange-800 rounded-3xl text-white hover:bg-orange-600 duration-150">
             <TooltipProvider delayDuration={300}>
               <Tooltip>
@@ -125,7 +126,7 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
             <DialogHeader>
               <DialogTitle className="font-logo tracking-widest text-xl">Make an Offer</DialogTitle>
             </DialogHeader>
-            <MakeAnOffer userId={userId} userItems={userItems} setOpen={setOpen} />
+            <MakeAnOffer userId={userId} userItems={userItems} setOpen={setOpenOfferWindow} />
           </DialogContent>
         </Dialog>
       }

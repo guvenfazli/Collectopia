@@ -111,7 +111,17 @@ addItemPage.on('connection', (connectedUser) => {
 })
 
 profilePage.on('connection', (connectedUser) => {
-  connectedUser.on("profileUpdateTrigger", (user) => {
-    profilePage.emit("profileUpdate", (user))
+
+  let joinedProfileId;
+
+  connectedUser.on("joinUserProfileRoom", (userId) => {
+    connectedUser.join(userId)
+    joinedProfileId = userId
   })
+
+  connectedUser.on("profileUpdateTrigger", (user) => {
+    console.log(joinedProfileId)
+    profilePage.to(joinedProfileId).emit("profileUpdate", (user))
+  })
+
 })
