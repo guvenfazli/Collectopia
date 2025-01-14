@@ -57,7 +57,6 @@ export default function UserProfilePage() {
     fetchUser()
 
     socketConnection.on('profileUpdate', () => {
-      console.log('Worked.')
       fetchUser()
     })
 
