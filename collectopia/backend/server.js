@@ -102,9 +102,14 @@ io.use((socket, next) => {
 })
 
 const addItemPage = io.of('/addItem')
+const profilePage = io.of('/profilePage')
 
 addItemPage.on('connection', (connectedUser) => {
   connectedUser.on('itemAdded', (user) => {
     addItemPage.emit('itemAddedNotification', (user))
   })
+})
+
+profilePage.on('connection', (connectedUser) => {
+  console.log('Worked')
 })

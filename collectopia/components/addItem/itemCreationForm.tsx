@@ -8,14 +8,12 @@ import ChooseFileAndSubmit from "./chooseFileAndSubmit"
 type ComponentPropType = {
   setImageShowcase: React.Dispatch<React.SetStateAction<string[]>>;
   socket: Socket | undefined;
-
 }
 
 export default function ItemCreationForm({ setImageShowcase, socket }: ComponentPropType) {
 
   const [imagePicker, setImagePicker] = useState<FileList[]>([])
   const [tagList, setTagList] = useState<string[]>([])
-  const [isError, setIsError] = useState<boolean | string>(false)
 
   const { toast } = useToast()
 
@@ -48,7 +46,6 @@ export default function ItemCreationForm({ setImageShowcase, socket }: Component
       }
 
       const resData = await response.json()
-      setIsError(false)
       socket?.emit('itemAdded')
       toast({
         title: 'Success!',

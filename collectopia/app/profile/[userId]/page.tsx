@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
+import { io, Socket } from "socket.io-client"
 import MainInformation from "@/components/profile/mainInformation"
 import UsersInventory from "@/components/profile/inventory"
 import UserLiveAuctions from "@/components/profile/liveAuctions/userLiveAuctions"
@@ -22,8 +23,12 @@ export default function UserProfilePage() {
   const { userId } = useParams()
   const [foundUser, setfoundUser] = useState<FetchedUserType>({} as FetchedUserType)
   const [isLoading, setIsLoading] = useState<boolean>(true)
+  const [socket, setSocket] = useState<Socket>()
 
   useEffect(() => {
+    const socketConnection = io("http://localhost:8080/profilePage")
+    setSocket(socketConnection)
+
     async function fetchUser() {
       try {
         const response = await fetch(`http://localhost:8080/findUser/${userId}`, {
@@ -45,6 +50,15 @@ export default function UserProfilePage() {
     }
 
     fetchUser()
+
+    socketConnection.on('profileUpdate', () => {
+      fetchUser()
+    })
+
+    return () => {
+      socketConnection.disconnect()
+    }
+
   }, [])
 
   if (isLoading) {
