@@ -89,3 +89,14 @@ mongoose.connect(`${process.env.DB_CONNECTION}`).then(result => {
   server.listen(8080)
 }).catch(err => console.log(err))
 
+const io = require('./io').init(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+    credentials: true
+  }
+})
+
+io.use((socket, next) => {
+  next()
+})
