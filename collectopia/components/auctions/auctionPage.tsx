@@ -1,5 +1,6 @@
 "use client"
 import { useState, useEffect } from "react"
+import { io, Socket } from "socket.io-client"
 import { useParams } from "next/navigation"
 import AuctionItemImage from "./auctionItemImage"
 import AuctionItemInformationSection from "./auctionItemInformationSection"
@@ -50,6 +51,7 @@ export default function AuctionMainPage() {
 
   const { auctionId } = useParams<{ auctionId: string }>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [socket, setSocket] = useState<Socket>()
   const [fetchedAuction, setFetchedAuction] = useState<FetchedAuction | undefined>()
   const [messageList, setMessageList] = useState<FetchedMessages[]>([])
   const [fetchedBidList, setFetchedBidList] = useState<BidList[]>([])
@@ -58,6 +60,10 @@ export default function AuctionMainPage() {
   const todaysDateTimestamp = dayjs(todaysDate).unix()
 
   useEffect(() => {
+
+    const socketConnection = io("http://localhost:8080/auctionRoom")
+    setSocket(socketConnection)
+    socketConnection.emit("joinToAuctionRoom", auctionId)
 
     async function fetchAuction() {
       setIsLoading(true)
@@ -86,6 +92,11 @@ export default function AuctionMainPage() {
     }
 
     fetchAuction()
+
+
+    return () => {
+      socketConnection.emit('leaveRoom', { auctionId: auctionId })
+    }
   }, [])
 
 

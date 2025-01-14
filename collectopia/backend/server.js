@@ -103,6 +103,7 @@ io.use((socket, next) => {
 
 const addItemPage = io.of('/addItem')
 const profilePage = io.of('/profilePage')
+const auctionRoom = io.of('/auctionRoom')
 
 addItemPage.on('connection', (connectedUser) => {
   connectedUser.on('itemAdded', (user) => {
@@ -120,8 +121,25 @@ profilePage.on('connection', (connectedUser) => {
   })
 
   connectedUser.on("profileUpdateTrigger", (user) => {
-    console.log(joinedProfileId)
     profilePage.to(joinedProfileId).emit("profileUpdate", (user))
+  })
+
+})
+
+auctionRoom.on('connection', (connectedUser) => {
+
+  let joinedAuctionId;
+
+  connectedUser.on("joinToAuctionRoom", (auctionId) => {
+    connectedUser.join(auctionId)
+    joinedAuctionId = auctionId
+    console.log(auctionId, 'worked')
+  })
+
+
+  connectedUser.on('leaveRoom', (auctionInformation) => {
+    const { auctionId } = auctionInformation
+    connectedUser.leave(auctionId)
   })
 
 })
