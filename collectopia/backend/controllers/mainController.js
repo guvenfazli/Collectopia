@@ -431,6 +431,8 @@ exports.fetchSingleAuction = async (req, res, next) => {
 
     const messageRoomOfAuction = await MessageRoom.findOne({ auctionRoom: auctionId }).populate({ path: "messages", populate: { path: "sender", select: { name: 1, _id: 1 } } })
 
+
+
     const bidList = await AuctionBid.findOne({ auctionId: auctionId })
       .populate(
         {
@@ -625,7 +627,7 @@ exports.updateMessages = async (req, res, next) => { // Updates the message room
   const auctionId = req.params.auctionId
 
   try {
-    const fetchedMessages = await MessageRoom.find({ auctionRoom: auctionId }).populate({ path: "messages", populate: { path: "sender", select: { name: 1, _id: 1 } } })
+    const fetchedMessages = await MessageRoom.find({ auctionRoom: auctionId }).populate({ path: "messages", options: { sort: { createdAt: -1 } }, populate: { path: "sender", select: { name: 1, _id: 1 } } })
 
     if (!fetchedMessages) {
       throwError('Could not connect to chat!', 404)

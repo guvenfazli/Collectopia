@@ -84,7 +84,7 @@ export default function AuctionMainPage() {
         }
         setFetchedAuction(resData.fetchedAuction)
         setFetchedBidList(resData.fetchedBidlist.bidList ? resData.fetchedBidlist.bidList : [])
-        setMessageList(resData.fetchedMessages.messages)
+        setMessageList(resData.fetchedMessages.messages.reverse()) // Will take a look into this later.
         setIsLoading(false)
       } catch (err: any) {
         console.log(err.message)

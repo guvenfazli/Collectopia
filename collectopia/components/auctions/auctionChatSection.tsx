@@ -37,7 +37,7 @@ export default function AuctionChatSection({ auctionId, messages, ownerId, socke
 
   return (
     <div className="flex flex-col justify-between h-full w-1/2">
-      <div className="flex flex-col items-start justify-start h-full w-full overflow-scroll overflow-x-hidden">
+      <div className="flex flex-col-reverse items-start justify-start h-full w-full overflow-scroll overflow-x-hidden scroll-smooth">
         {messageList.length <= 0 ? <p className="self-center">No message yet! Be the first one!</p> : messageList.map((message: any) => {
           return (
             <div className="flex w-full items-center gap-1 text-wrap" key={message._id}>
