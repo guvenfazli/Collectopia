@@ -7,12 +7,12 @@ import {
 
 import Link from "next/link"
 import UserHistory from "./userHistory"
+import Notifications from "./notifications"
 import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
 import { authActions } from "@/store/reduxStore"
 import { BsFillPersonFill, BsEnvelopeFill } from "react-icons/bs";
 import { IoLogOut } from "react-icons/io5";
-
 
 type ComponentType = {
   loggedName: string,
@@ -66,6 +66,8 @@ export default function HeaderProfileNavigator({ loggedName, loggedId }: Compone
       </TooltipProvider>
 
       <UserHistory />
+
+      <Notifications />
 
       <TooltipProvider delayDuration={300}>
         <Tooltip>
