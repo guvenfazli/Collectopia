@@ -4,7 +4,9 @@ import {
   CarouselItem,
 } from "@/components/ui/carousel"
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { Socket } from "socket.io-client"
+import { useToast } from "@/hooks/use-toast";
 import { HiOutlineScale, HiOutlineLightBulb } from "react-icons/hi";
 import { useSelector } from "react-redux";
 import UserAuctionCardImageSlider from "./userAuctionCardImageSlider";
@@ -27,18 +29,24 @@ type FetchedAuction = {
 type ComponentsProps = {
   auction: FetchedAuction;
   isListing: boolean;
-  index: number
+  index: number;
+  socket: Socket | undefined;
 }
 
-export default function UserAuctionCard({ auction, isListing, index }: ComponentsProps) {
+export default function UserAuctionCard({ auction, isListing, index, socket }: ComponentsProps) {
 
   const loggedInUser = useSelector((state: any) => state.auth.userInfo.userInfo)
   const todaysDate = dayjs(new Date())
   const deadlineDate = dayjs.unix(auction.deadline)
   const diff = deadlineDate.diff(todaysDate, 'hour', true)
   const dateDataConverted = dayjs.unix(auction.deadline) // Formats the date
+  const { toast } = useToast()
   const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(auction.followers.some((followerId) => followerId === loggedInUser.id))
   const [auctionClosed, setAuctionClosed] = useState<boolean>(Math.round(diff) <= 0 || auction.isSold === true)
+
+  useEffect(() => { // Trigger for refreshing the alreadyFollowed state.
+    setAlreadyFollowed(auction.followers.some((followerId) => followerId === loggedInUser.id))
+  }, [auction])
 
   async function followAuction(auctionId: string) {
     try {
@@ -54,12 +62,18 @@ export default function UserAuctionCard({ auction, isListing, index }: Component
       }
 
       const resData = await response.json()
-      // Will Add Toast
-
-
+      socket?.emit('profileUpdateTrigger')
+      toast({
+        title: 'Success!',
+        description: resData.message,
+        className: "bg-green-500 border-none text-white text-xl"
+      })
     } catch (err: any) {
-      console.log(err.message)
-      // Will Add Toast
+      toast({
+        title: 'Error!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
     }
   }
 

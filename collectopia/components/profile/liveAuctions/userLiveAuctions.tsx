@@ -1,6 +1,7 @@
 "use client"
 
 import { useState, useEffect } from "react"
+import { Socket } from "socket.io-client"
 import { useParams } from "next/navigation"
 import { useSelector } from "react-redux"
 import dayjs from "dayjs"
@@ -20,10 +21,12 @@ type FetchedAuction = {
 }
 
 type ComponentsProp = {
-  userAuctions: FetchedAuction[]
+  userAuctions: FetchedAuction[];
+  socket: Socket | undefined
 }
 
-export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
+export default function UserLiveAuctions({ userAuctions, socket }: ComponentsProp) {
+
   const { userId } = useParams()
   const loggedUser = useSelector((state: { auth: { userInfo: { userInfo: any } } }) => state.auth.userInfo.userInfo)
   const [isListing, setIsListing] = useState<boolean>(false)
@@ -59,6 +62,7 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
 
       setFilteredUserAuctions(resData.filteredAuctions)
 
+
     } catch (err: any) {
       setIsError(err.message)
       setFilteredUserAuctions([])
@@ -88,8 +92,8 @@ export default function UserLiveAuctions({ userAuctions }: ComponentsProp) {
         <div onClick={() => setIsListing(true)} style={{ translate: `${listingNavigator * -35}%` }} className={`flex flex-row h-auto items-center justify-start ${!isListing ? 'w-44' : 'gap-5 w-full'} duration-1000 hover:cursor-pointer`}>
           {
             (filteredUserAuctions.length === 0 && !isError) ?
-              userAuctions.map((auction: FetchedAuction, i: number) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} index={i} />) :
-              filteredUserAuctions.map((auction: FetchedAuction, i: number) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} index={i} />)
+              userAuctions.map((auction: FetchedAuction, i: number) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} index={i} socket={socket} />) :
+              filteredUserAuctions.map((auction: FetchedAuction, i: number) => <UserAuctionCard key={auction._id} auction={auction} isListing={isListing} index={i} socket={socket} />)
           }
         </div>
       </div>

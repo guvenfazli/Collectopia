@@ -28,7 +28,6 @@ export default function UserProfilePage() {
   const [socket, setSocket] = useState<Socket>()
   const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(false)
 
-
   useEffect(() => {
     const socketConnection = io("http://localhost:8080/profilePage")
     setSocket(socketConnection)
@@ -84,7 +83,7 @@ export default function UserProfilePage() {
         </div>
 
         <div className="flex bg-white border-b-orange-800 w-2/3 p-5 shadow-sm shadow-slate-800">
-          <UserLiveAuctions userAuctions={foundUser.auctions} />
+          <UserLiveAuctions userAuctions={foundUser.auctions} socket={socket} />
         </div>
       </div>
     )
