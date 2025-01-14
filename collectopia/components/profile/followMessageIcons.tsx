@@ -20,6 +20,7 @@ import SendMessageForm from "./sendMessageForm";
 import MakeAnOffer from "./makeAnOffer";
 import { RiUserFollowFill, RiUserUnfollowFill, RiSwapFill } from "react-icons/ri";
 import { BsEnvelopeFill } from "react-icons/bs";
+import { useState } from "react";
 
 
 type ComponentProps = {
@@ -33,7 +34,7 @@ type ComponentProps = {
 export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUser, userItems, socket }: ComponentProps) {
 
   const { toast } = useToast()
-
+  const [open, setOpen] = useState<boolean>(false)
 
 
   async function followUser(userId: string) {
@@ -58,12 +59,9 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
         description: resData.message,
         className: "bg-green-500 border-none text-white text-xl"
       })
-      // Will add socket, follow/unfollow re-fetch the userInformation.
-
-
-      // Will add toast here.
 
     } catch (err: any) {
+
       toast({
         title: 'Error!',
         description: err.message,
@@ -87,7 +85,7 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
       }
 
       {loggedInUser?.id !== userId &&
-        <Dialog>
+        <Dialog open={open} onOpenChange={setOpen}>
           <DialogTrigger className="p-1 border border-orange-800 bg-orange-800 rounded-3xl text-white hover:bg-orange-600 duration-150">
             <TooltipProvider delayDuration={300}>
               <Tooltip>
@@ -105,7 +103,7 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
             <DialogHeader>
               <DialogTitle className="font-logo tracking-widest text-xl">Send a Message</DialogTitle>
             </DialogHeader>
-            <SendMessageForm userId={userId} />
+            <SendMessageForm userId={userId} setOpen={setOpen} />
           </DialogContent>
         </Dialog>
       }

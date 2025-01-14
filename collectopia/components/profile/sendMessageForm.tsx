@@ -2,11 +2,12 @@ import { useToast } from "@/hooks/use-toast"
 import { BaseSyntheticEvent } from "react"
 
 type ComponentProps = {
-  userId: string
+  userId: string;
+  setOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
-export default function SendMessageForm({ userId }: ComponentProps) {
+export default function SendMessageForm({ userId, setOpen }: ComponentProps) {
 
   const { toast } = useToast()
 
@@ -56,7 +57,7 @@ export default function SendMessageForm({ userId }: ComponentProps) {
         <textarea required name="message" placeholder="Your Message..." className="p-2 outline-none bg-orange-200 placeholder:text-orange-400" />
       </div>
 
-      <button className="bg-orange-800 duration-100 py-1 font-logo text-white hover:bg-orange-600">Send</button>
+      <button onClick={() => setOpen(false)} className="bg-orange-800 duration-100 py-1 font-logo text-white hover:bg-orange-600">Send</button>
     </form>
   )
 }
