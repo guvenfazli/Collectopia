@@ -22,6 +22,7 @@ const AuctionBid = require('./models/auctionBidModel')
 const PrivateMessage = require('./models/privateMessageModel')
 const Offer = require('./models/offerModel')
 const Event = require('./models/eventModel')
+const Notification = require('./models/notificationModel')
 
 // ENV FILES
 const dotenv = require('dotenv')
