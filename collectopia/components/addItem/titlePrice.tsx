@@ -1,9 +1,7 @@
 import FormLabel from "./formLabel"
-type ComponentProps = {
-  isError: string | boolean
-}
 
-export default function TitlePrice({ isError }: ComponentProps) {
+
+export default function TitlePrice() {
   return (
     <div className="flex flex-col gap-4 items-start justify-start w-1/2">
       <FormLabel customFor="title" label="Title" />

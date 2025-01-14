@@ -100,3 +100,11 @@ const io = require('./io').init(server, {
 io.use((socket, next) => {
   next()
 })
+
+const addItemPage = io.of('/addItem')
+
+addItemPage.on('connection', (connectedUser) => {
+  connectedUser.on('itemAdded', (user) => {
+    addItemPage.emit('itemAddedNotification', (user))
+  })
+})

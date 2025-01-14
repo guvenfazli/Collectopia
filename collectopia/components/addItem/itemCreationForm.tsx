@@ -1,18 +1,23 @@
 import { useState } from "react"
+import { useToast } from "@/hooks/use-toast"
+import { Socket } from "socket.io-client"
 import TitlePrice from "./titlePrice"
 import CategoryDate from "./categoryDate"
 import ChooseFileAndSubmit from "./chooseFileAndSubmit"
 
 type ComponentPropType = {
-  setImageShowcase: React.Dispatch<React.SetStateAction<string[]>>
+  setImageShowcase: React.Dispatch<React.SetStateAction<string[]>>;
+  socket: Socket | undefined;
+
 }
 
-export default function ItemCreationForm({ setImageShowcase }: ComponentPropType) {
+export default function ItemCreationForm({ setImageShowcase, socket }: ComponentPropType) {
 
   const [imagePicker, setImagePicker] = useState<FileList[]>([])
   const [tagList, setTagList] = useState<string[]>([])
   const [isError, setIsError] = useState<boolean | string>(false)
-  const [isSuccess, setIsSuccess] = useState<boolean | string>(false)
+
+  const { toast } = useToast()
 
   function removeTag(chosenTag: string) {
     setTagList((prev) => {
@@ -44,33 +49,27 @@ export default function ItemCreationForm({ setImageShowcase }: ComponentPropType
 
       const resData = await response.json()
       setIsError(false)
-      setIsSuccess(resData.message)
-
+      socket?.emit('itemAdded')
+      toast({
+        title: 'Success!',
+        description: resData.message,
+        className: "bg-green-500 border-none text-white text-xl"
+      })
     } catch (err: any) {
-      setIsSuccess(false)
-      setIsError(err.message)
+      toast({
+        title: 'Error!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
     }
   }
 
   return (
     <form method="POST" onSubmit={(e) => createItem(e)} encType="multipart/form-data" className="flex flex-col w-full justify-start-start gap-4">
       <div className="flex flex-row w-full items-start">
-        <TitlePrice isError={isError} />
+        <TitlePrice />
         <CategoryDate setTagList={setTagList} />
       </div>
-      {
-        isError &&
-        <div className="flex flex-row justify-center items-center">
-          <p className="text-lg text-red-800">{isError}</p>
-        </div>
-      }
-
-      {
-        isSuccess &&
-        <div className="flex flex-row justify-center items-center">
-          <p className="text-lg text-green-800">{isSuccess}</p>
-        </div>
-      }
 
       <div className="flex w-full gap-1 justify-center items-center flex-wrap">
         {tagList.length === 0 ? <p>You did not add any tags yet.</p> :
