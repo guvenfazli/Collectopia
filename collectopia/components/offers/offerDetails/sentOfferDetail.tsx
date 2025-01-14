@@ -24,7 +24,7 @@ type ComponentProps = {
 export default function SentOfferDetail({ chosenOffer }: ComponentProps) {
 
   return (
-    <div className="flex flex-col w-full justify-start items-start gap-3 bg-orange-200 p-1 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
+    <div className="flex flex-col w-full justify-start items-start gap-3 bg-orange-200 p-1 rounded-md shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)] relative">
 
       <div className="flex w-full justify-between px-2 border-b border-b-orange-800">
         <p className="text-xl font-logo tracking-wider text-orange-800">{chosenOffer.offer.receiver.name + ' ' + chosenOffer.offer.receiver.surname}</p>

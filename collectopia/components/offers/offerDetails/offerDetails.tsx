@@ -26,11 +26,8 @@ type ComponentProps = {
 
 export default function OfferDetails({ chosenOffer, renderOffers }: ComponentProps) {
 
-
-  console.log(chosenOffer)
-
   return (
-    <div className={`flex flex-col relative pl-4 items-center justify-center w-1/2`}>
+    <div className={`flex flex-col relative pl-4 items-center justify-center w-1/2 `}>
 
       <div className="flex gap-1 self-center top-0 absolute -mt-2 text-lg bg-orange-800 py-1 px-3 text-white rounded-bl-lg rounded-br-lg shadow-[0px_4px_8px_rgba(0,0,0,0.1),0px_2px_4px_rgba(255,165,0,0.15)]">
         <p className="font-logo tracking-widest">Offer Details</p>
