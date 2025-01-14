@@ -8,7 +8,7 @@ import Image from "next/image"
 
 type ComponentProps = {
   item: any;
-  setChosenItems: React.Dispatch<React.SetStateAction<{ userItems: string[], myItems: string[] }>>
+  setChosenItems: React.Dispatch<React.SetStateAction<{ [userItems: string]: string[] }>>
   items: string;
 }
 
