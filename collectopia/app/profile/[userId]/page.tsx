@@ -1,6 +1,7 @@
 "use client"
 import { useState, useEffect } from "react"
 import { io, Socket } from "socket.io-client"
+import { useSelector } from "react-redux"
 import MainInformation from "@/components/profile/mainInformation"
 import UsersInventory from "@/components/profile/inventory"
 import UserLiveAuctions from "@/components/profile/liveAuctions/userLiveAuctions"
@@ -20,10 +21,13 @@ type FetchedUserType = {
 
 export default function UserProfilePage() {
 
+  const loggedInUser = useSelector((state: any) => state.auth.userInfo.userInfo)
   const { userId } = useParams()
   const [foundUser, setfoundUser] = useState<FetchedUserType>({} as FetchedUserType)
   const [isLoading, setIsLoading] = useState<boolean>(true)
   const [socket, setSocket] = useState<Socket>()
+  const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(false)
+
 
   useEffect(() => {
     const socketConnection = io("http://localhost:8080/profilePage")
@@ -43,6 +47,7 @@ export default function UserProfilePage() {
 
         const resData: { foundUser: FetchedUserType } = await response.json()
         setfoundUser(resData.foundUser)
+        setAlreadyFollowed(resData.foundUser.followers.some((followerId) => followerId === loggedInUser?.id))
         setIsLoading(false)
       } catch (err: any) {
         console.log(err.message)
@@ -71,7 +76,7 @@ export default function UserProfilePage() {
     return (
       <div className="flex flex-col h-auto justify-start items-center ">
         <div className="flex bg-white border-b-orange-300 border-b w-2/3 p-5 shadow-sm shadow-slate-800">
-          <MainInformation userInformation={foundUser} userItems={foundUser.items} />
+          <MainInformation userInformation={foundUser} userItems={foundUser.items} socket={socket} alreadyFollowed={alreadyFollowed} />
         </div>
 
         <div className="flex bg-white border-b-orange-800 w-2/3 p-5 shadow-sm shadow-slate-800">

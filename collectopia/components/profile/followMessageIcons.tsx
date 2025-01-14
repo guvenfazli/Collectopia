@@ -14,6 +14,8 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
+import { Socket } from "socket.io-client"
+import { useToast } from "@/hooks/use-toast";
 import SendMessageForm from "./sendMessageForm";
 import MakeAnOffer from "./makeAnOffer";
 import { RiUserFollowFill, RiUserUnfollowFill, RiSwapFill } from "react-icons/ri";
@@ -24,10 +26,15 @@ type ComponentProps = {
   alreadyFollowed: boolean;
   userId: string;
   loggedInUser: any;
-  userItems: any
+  userItems: any;
+  socket: Socket | undefined
 }
 
-export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUser, userItems }: ComponentProps) {
+export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUser, userItems, socket }: ComponentProps) {
+
+  const { toast } = useToast()
+
+
 
   async function followUser(userId: string) {
     try {
@@ -44,13 +51,24 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
       }
 
       const resData = await response.json()
+      socket?.emit('profileUpdateTrigger')
+
+      toast({
+        title: 'Success!',
+        description: resData.message,
+        className: "bg-green-500 border-none text-white text-xl"
+      })
       // Will add socket, follow/unfollow re-fetch the userInformation.
 
 
       // Will add toast here.
 
     } catch (err: any) {
-      console.log(err.message)
+      toast({
+        title: 'Error!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
     }
   }
   return (

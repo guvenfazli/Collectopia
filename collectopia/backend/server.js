@@ -111,5 +111,7 @@ addItemPage.on('connection', (connectedUser) => {
 })
 
 profilePage.on('connection', (connectedUser) => {
-  console.log('Worked')
+  connectedUser.on("profileUpdateTrigger", (user) => {
+    profilePage.emit("profileUpdate", (user))
+  })
 })
