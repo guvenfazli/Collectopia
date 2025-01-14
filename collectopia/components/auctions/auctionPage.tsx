@@ -91,7 +91,31 @@ export default function AuctionMainPage() {
       }
     }
 
+    async function updateMessages() {
+      try {
+        const response = await fetch(`http://localhost:8080/updateMessages/${auctionId}`, {
+          credentials: "include"
+        })
+
+        if (!response.ok) {
+          const resData = await response.json()
+          const error = new Error(resData.message)
+          throw error
+        }
+
+        const resData = await response.json()
+        setMessageList(resData.fetchedMessages[0].messages)
+        setIsLoading(false)
+      } catch (err: any) {
+        console.log(err.message)
+      }
+    }
+
     fetchAuction()
+
+    socketConnection.on("updateMessages", (user) => {
+      updateMessages()
+    })
 
 
     return () => {
@@ -99,6 +123,8 @@ export default function AuctionMainPage() {
     }
   }, [])
 
+
+  console.log(messageList)
 
   return (
     <div className="flex p-3 flex-col relative justify-start items-start w-10/12 bg-white">
@@ -119,7 +145,7 @@ export default function AuctionMainPage() {
 
           <div className="flex w-full justify-start h-96 items-start gap-3">
             <AuctionBidSection fetchedAuction={fetchedAuction} bidList={fetchedBidList} auctionId={auctionId} ownerId={fetchedAuction.item.owner._id} />
-            <AuctionChatSection auctionId={auctionId} messages={messageList} ownerId={fetchedAuction.item.owner._id} />
+            <AuctionChatSection auctionId={auctionId} messages={messageList} ownerId={fetchedAuction.item.owner._id} socket={socket} />
           </div>
         </>
       }

@@ -1,12 +1,14 @@
 import { BaseSyntheticEvent, useState } from "react"
+import { Socket } from "socket.io-client"
 
 type ComponentProps = {
-  auctionId: string
+  auctionId: string;
+  socket: Socket | undefined
 }
 
-export default function AuctionChatInputField({ auctionId }: ComponentProps) {
+export default function AuctionChatInputField({ auctionId, socket }: ComponentProps) {
 
-  
+
 
 
 
@@ -29,19 +31,13 @@ export default function AuctionChatInputField({ auctionId }: ComponentProps) {
       }
 
       const resData = await response.json()
-
+      socket?.emit("sendMessage")
 
     } catch (err: any) {
       console.log(err.message)
     }
 
   }
-
-
-
-
-
-
 
   return (
     <form method="POST" onSubmit={(e) => sendMessage(e)} className="flex w-full justify-between items-center">

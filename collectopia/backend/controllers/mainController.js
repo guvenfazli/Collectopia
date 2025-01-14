@@ -625,13 +625,14 @@ exports.updateMessages = async (req, res, next) => { // Updates the message room
   const auctionId = req.params.auctionId
 
   try {
-    const fetchedMessages = await MessageRoom.find({ auctionRoom: auctionId })
+    const fetchedMessages = await MessageRoom.find({ auctionRoom: auctionId }).populate({ path: "messages", populate: { path: "sender", select: { name: 1, _id: 1 } } })
 
-    if (!foundMessages) {
+    if (!fetchedMessages) {
       throwError('Could not connect to chat!', 404)
     }
 
     return res.status(200).json({ fetchedMessages: fetchedMessages })
+
   } catch (err) {
     next(err)
   }

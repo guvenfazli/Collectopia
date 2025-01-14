@@ -1,4 +1,5 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
+import { Socket } from "socket.io-client"
 import { IoIosMegaphone } from "react-icons/io"
 import AuctionChatInputField from "./auctionChatInputField"
 import Link from "next/link";
@@ -20,13 +21,19 @@ type MessageList = FetchedMessages[]
 type ComponentProps = {
   auctionId: string
   messages: MessageList;
-  ownerId: string
+  ownerId: string;
+  socket: Socket | undefined
 }
 
 
-export default function AuctionChatSection({ auctionId, messages, ownerId }: ComponentProps) {
+export default function AuctionChatSection({ auctionId, messages, ownerId, socket }: ComponentProps) {
 
   const [messageList, setMessageList] = useState<MessageList>(messages ? messages : [])
+
+  useEffect(() => {
+    setMessageList(messages)
+  }, [messages])
+
 
   return (
     <div className="flex flex-col justify-between h-full w-1/2">
@@ -41,7 +48,7 @@ export default function AuctionChatSection({ auctionId, messages, ownerId }: Com
         })}
       </div>
 
-      <AuctionChatInputField auctionId={auctionId} />
+      <AuctionChatInputField auctionId={auctionId} socket={socket} />
     </div>
   )
 }
