@@ -58,8 +58,6 @@ export default function HeaderProfileNavigator({ loggedName, loggedId, socket }:
     }
   }
 
-  console.log(messageCount)
-
   return (
     <nav className="flex flex-row justify-around items-center gap-5 text-lg">
       <p>Welcome back <span className="font-logo font-medium text-xl ml-1">{loggedName && loggedName}</span></p>
