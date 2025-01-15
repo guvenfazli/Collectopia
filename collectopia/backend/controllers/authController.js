@@ -47,7 +47,9 @@ exports.login = async (req, res, next) => {
   const errors = validationResult(req)
 
   try {
-    const foundUser = await User.findOne({ email: email })
+    const foundUser = await User.findOne({ email: email }).populate({ path: "inbox" })
+    const nonReadMessageCount = foundUser.inbox.filter((message) => message.isRead === false)
+
 
     if (!errors.isEmpty()) {
       const errorObject = errors.array()[0].msg
@@ -65,7 +67,7 @@ exports.login = async (req, res, next) => {
       throwError('Username or Password is invalid!', 404)
     }
 
-    req.session.userInfo = { id: foundUser._id, name: foundUser.name, interests: foundUser.interests, messageCount: foundUser.inbox.length }
+    req.session.userInfo = { id: foundUser._id, name: foundUser.name, interests: foundUser.interests, messageCount: nonReadMessageCount.length }
 
     return res.status(200).json({ message: 'Successfully logged in!', userInfo: req.session.userInfo })
 
