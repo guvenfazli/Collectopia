@@ -5,6 +5,7 @@ import MainAuctionInformation from "./mainAuctionInformation";
 import dayjs from "dayjs"
 import { HiOutlineScale, HiOutlineLightBulb } from "react-icons/hi";
 import Link from "next/link"
+import { useToast } from "@/hooks/use-toast";
 
 type FetchedAuction = {
   auctionTag: string;
@@ -24,7 +25,9 @@ type ComponentProps = {
 }
 
 export default function MainAuctionCard({ auction }: ComponentProps) {
+
   const loggedInUser = useSelector((state: any) => state.auth.userInfo.userInfo)
+  const { toast } = useToast()
   const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(auction.followers.some((followerId: string) => followerId === loggedInUser.id))
   const dateDataConverted = dayjs.unix(auction.deadline) // Formats the date
 
@@ -42,12 +45,20 @@ export default function MainAuctionCard({ auction }: ComponentProps) {
       }
 
       const resData = await response.json()
-      // Will Add Toast
+
+      toast({
+        title: 'Success!',
+        description: resData.message,
+        className: "bg-green-500 border-none text-white text-xl"
+      })
 
 
     } catch (err: any) {
-      console.log(err.message)
-      // Will Add Toast
+      toast({
+        title: 'Error!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
     }
   }
 

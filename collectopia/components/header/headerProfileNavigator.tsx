@@ -14,7 +14,6 @@ import { useDispatch } from "react-redux"
 import { authActions } from "@/store/reduxStore"
 import { BsFillPersonFill, BsEnvelopeFill } from "react-icons/bs";
 import { IoLogOut } from "react-icons/io5";
-import { useEffect } from "react"
 
 type ComponentType = {
   loggedName: string;
@@ -27,17 +26,6 @@ export default function HeaderProfileNavigator({ loggedName, loggedId, socket }:
 
   const router = useRouter()
   const dispatch = useDispatch()
-
-  useEffect(() => {
-
-    socket?.on("getMessage", ({ message }) => {
-      console.log('Worked')
-    })
-
-
-  }, [])
-
-
 
   async function logOut() {
     try {

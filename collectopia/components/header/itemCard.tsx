@@ -63,7 +63,6 @@ export default function ItemCard({ item, socket }: ComponentsProp) {
       }
 
       const resData = await response.json()
-      console.log(resData)
       socket?.emit('auctionCreated', ({auctionId: resData.auctionId, userId: resData.userId}))
 
       toast({
@@ -72,10 +71,9 @@ export default function ItemCard({ item, socket }: ComponentsProp) {
         className: "bg-green-500 border-none text-white text-xl"
       })
 
-
     } catch (err: any) {
       toast({
-        title: 'Success!',
+        title: 'Error!',
         description: err.message,
         className: "bg-red-500 border-none text-white text-xl"
       })

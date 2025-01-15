@@ -29,7 +29,6 @@ export default function LastAuctions() {
   const [fetchedLastAuctions, setFetchedAuctions] = useState<FetchedAuctions>([])
   const [isSliding, setIsSliding] = useState<boolean>(true)
 
-
   useEffect(() => {
     async function fetchLastAuctions() {
 
@@ -44,21 +43,19 @@ export default function LastAuctions() {
           throw error
         }
         const resData = await response.json()
-        console.log(resData)
+
+
 
         setFetchedAuctions(resData.fetchedLastAuctions)
 
 
       } catch (err: any) {
-        console.log(err.message)
+        return;
       }
     }
 
     fetchLastAuctions()
   }, [])
-
-  console.log(fetchedLastAuctions)
-
 
   return (
     <div className="flex flex-col">
