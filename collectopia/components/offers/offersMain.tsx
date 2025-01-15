@@ -35,7 +35,6 @@ export default function OffersMain() {
         })
         setIsLoading(false)
       } catch (err: any) {
-        console.log(err.message)
         setIsLoading(false)
       }
     }

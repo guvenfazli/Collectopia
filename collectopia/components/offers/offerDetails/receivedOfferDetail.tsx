@@ -1,5 +1,6 @@
 import OfferDetailItemCard from "./offerDetailItemCard"
 import Link from "next/link";
+import { useToast } from "@/hooks/use-toast";
 import dayjs from "dayjs"
 
 type ComponentProps = {
@@ -24,6 +25,8 @@ type ComponentProps = {
 
 export default function ReceivedOfferDetail({ chosenOffer }: ComponentProps) {
 
+  const { toast } = useToast()
+
   async function selectOption(offerId: string, option: string) {
     try {
       const response = await fetch(`http://localhost:8080/selectOption/${offerId}?selectedOption=${option}`, {
@@ -38,9 +41,19 @@ export default function ReceivedOfferDetail({ chosenOffer }: ComponentProps) {
       }
 
       const resData = await response.json()
-      console.log(resData)
+
+      toast({
+        title: 'Success!',
+        description: resData.message,
+        className: "bg-green-500 border-none text-white text-xl"
+      })
+
     } catch (err: any) {
-      console.log(err.message)
+      toast({
+        title: 'Error!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
     }
   }
 
