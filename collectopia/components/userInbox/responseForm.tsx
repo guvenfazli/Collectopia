@@ -1,10 +1,14 @@
 import { BaseSyntheticEvent } from "react"
+import { useToast } from "@/hooks/use-toast"
+
 
 type ComponentProps = {
   senderId: string
 }
 
 export default function ResponseForm({ senderId }: ComponentProps) {
+
+  const { toast } = useToast()
 
   async function sendMessage(e: BaseSyntheticEvent, senderId: string) {
     e.preventDefault()
@@ -24,9 +28,19 @@ export default function ResponseForm({ senderId }: ComponentProps) {
       }
 
       const resData = await response.json()
-      console.log(resData.message)
+
+      toast({
+        title: 'Success!',
+        description: resData.message,
+        className: "bg-green-500 border-none text-white text-xl"
+      })
+
     } catch (err: any) {
-      console.log(err)
+      toast({
+        title: 'Error!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
     }
   }
 

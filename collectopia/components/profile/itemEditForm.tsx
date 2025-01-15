@@ -1,5 +1,6 @@
 import { useState, useRef, BaseSyntheticEvent } from "react";
 import EditFormLabel from "./editFormLabel";
+import { useToast } from "@/hooks/use-toast";
 
 type FetchedItem = {
   _id: string,
@@ -22,7 +23,7 @@ type ComponentProps = {
 export default function ItemEditForm({ fetchedItem }: ComponentProps) {
 
   const tagRef = useRef<HTMLInputElement | null>(null)
-
+  const { toast } = useToast()
   const [editedTagList, setEditedTagList] = useState<string[]>(fetchedItem.tagList)
 
   function removeTags(chosenTag: string) {
@@ -65,10 +66,19 @@ export default function ItemEditForm({ fetchedItem }: ComponentProps) {
       }
 
       const resData = await response.json()
-      // WILL DO TOAST
+      toast({
+        title: 'Success!',
+        description: resData.message,
+        className: "bg-green-500 border-none text-white text-xl"
+      })
 
     } catch (err: any) {
-      console.log(err.message)
+      toast({
+        title: 'Error!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
+
     }
 
 

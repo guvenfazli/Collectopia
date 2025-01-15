@@ -1,7 +1,6 @@
 "use client"
 
 import { useSelector } from "react-redux";
-import { useState } from "react";
 import { Socket } from "socket.io-client"
 import FollowMessageIcons from "./followMessageIcons";
 import dayjs from "dayjs";
@@ -30,8 +29,6 @@ export default function MainInformation({ userInformation, userItems, socket, al
   const loggedInUser = useSelector((state: any) => state.auth.userInfo.userInfo)
   const dateData = new Date(userInformation.createdAt)
   const dateDataConverted = dayjs(dateData) // Formats the date
-/*   const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(userInformation.followers.some((followerId) => followerId === loggedInUser?.id))
- */
 
   return (
     <div className="flex flex-row w-full justify-between items-end">

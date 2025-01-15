@@ -15,10 +15,10 @@ import {
 
 import { MdDelete, MdModeEditOutline } from "react-icons/md";
 import { useSelector } from "react-redux";
+import { useToast } from "@/hooks/use-toast";
 import IntenvoryItemCardImageSlider from "./inventoryItemCardImageSlider";
 import CardInformation from "./cardInformation"
 import ItemEditForm from "./itemEditForm";
-import Image from "next/image"
 import dayjs from "dayjs"
 
 type FetchedItem = {
@@ -45,7 +45,7 @@ type ComponentsProp = {
 export default function InventoryItemCard({ fetchedItem, isInventory, index }: ComponentsProp) {
 
   const loggedUser = useSelector((state: { auth: { userInfo: { userInfo: any } } }) => state.auth.userInfo.userInfo)
-
+  const { toast } = useToast()
   const createdDate = new Date(fetchedItem.createdAt)
   const dateDataConverted = dayjs(createdDate) // Formats the date
 
@@ -63,10 +63,19 @@ export default function InventoryItemCard({ fetchedItem, isInventory, index }: C
       }
 
       const resData = await response.json()
-      // Will add toast notification
+
+      toast({
+        title: 'Success!',
+        description: resData.message,
+        className: "bg-green-500 border-none text-white text-xl"
+      })
 
     } catch (err: any) {
-      console.log(err.message)
+      toast({
+        title: 'Error!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
     }
   }
 

@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react"
 import { useSelector } from "react-redux"
 import { useParams } from "next/navigation"
+import { useToast } from "@/hooks/use-toast"
 import InventoryItemCard from "./inventoryItemCard"
 import InventoryFiltering from "./inventoryFiltering"
 import InventoryNavigator from "./inventoryNavigator"
@@ -31,6 +32,7 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
 
   const loggedUser = useSelector((state: { auth: { userInfo: { userInfo: any } } }) => state.auth.userInfo.userInfo)
   const { userId } = useParams()
+  const { toast } = useToast()
 
   const [isInventory, setIsInventory] = useState<boolean>(false)
   const [inventoryNavigator, setInventoryNavigator] = useState(0)
@@ -64,11 +66,13 @@ export default function UsersInventory({ userInventory }: ComponentsProp) {
 
 
     } catch (err: any) {
-      console.log(err.message)
+      toast({
+        title: 'Error!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
     }
-
   }
-
 
   return (
     <div onMouseLeave={() => setIsInventory(false)} className="flex flex-col w-full items-start justify-start rounded-md gap-5">
