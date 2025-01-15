@@ -1,5 +1,6 @@
 import { BaseSyntheticEvent } from "react"
 import { Socket } from "socket.io-client"
+import { useToast } from "@/hooks/use-toast"
 import { useSelector } from "react-redux"
 type ComponentProps = {
   auctionId: string;
@@ -14,6 +15,8 @@ type ComponentProps = {
 export default function AuctionBidInputField({ auctionId, isBuyout, buyoutValue, ownerId, socket }: ComponentProps) {
 
   const authUserId = useSelector((state: any) => state.auth.userInfo.userInfo.id)
+  const { toast } = useToast()
+
 
   async function bidForAuction(e: BaseSyntheticEvent) {
     e.preventDefault()
@@ -37,7 +40,11 @@ export default function AuctionBidInputField({ auctionId, isBuyout, buyoutValue,
       socket?.emit("sendBid", ({ ownerId: ownerId, auctionId: auctionId }))
 
     } catch (err: any) {
-      console.log(err.message)
+      toast({
+        title: 'Error!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
     }
   }
 
@@ -61,7 +68,11 @@ export default function AuctionBidInputField({ auctionId, isBuyout, buyoutValue,
       const resData = await response.json()
 
     } catch (err: any) {
-      console.log(err.message)
+      toast({
+        title: 'Error!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
     }
   }
 

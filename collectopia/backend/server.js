@@ -162,7 +162,6 @@ profilePage.on('connection', (connectedUser) => {
 
   connectedUser.on("sendNotificationTrigger", ({ message, userId }) => {
     notificationRoom.to(userId).emit("getMessage", { message: message })
-    console.log(userId)
   })
 
 

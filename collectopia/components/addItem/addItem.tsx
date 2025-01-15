@@ -11,10 +11,6 @@ export default function AddItem() {
   useEffect(() => {
     const socketConnection = io('http://localhost:8080/addItem')
     setSocket(socketConnection)
-    socketConnection.on('itemAddedNotification', () => {
-      console.log('Item added successfully!')
-    })
-
 
     return () => {
       socketConnection.disconnect()

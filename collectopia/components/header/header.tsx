@@ -39,7 +39,7 @@ export default function Header() {
 
     socketConnection.on("getMessage", ({ message, triggerId, triggerType }) => {
       toast({
-        title: 'Message!',
+        title: 'New Notification!',
         description: <Link href={`/${triggerType}/${triggerId}`}>{message}</Link>,
         className: "bg-blue-500 border-none text-white text-xl"
       })
@@ -65,16 +65,15 @@ export default function Header() {
         setSocket(socketConnection)
 
         socketConnection.emit("createNotificationRoom", userInfo?.userInfo?.id)
-        socketConnection.on("getMessage", ({ message }) => {
+        socketConnection.on("getMessage", ({ message, triggerId, triggerType }) => {
           toast({
-            title: 'Message!',
-            description: message,
+            title: 'New Notification!',
+            description: <Link href={`/${triggerType}/${triggerId}`}>{message}</Link>,
             className: "bg-blue-500 border-none text-white text-xl"
           })
         })
 
       } catch (err: any) {
-        console.log(err.message)
         redirect('/userAuth?mode=login')
       }
     }

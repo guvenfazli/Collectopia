@@ -1,5 +1,6 @@
 import { BaseSyntheticEvent, useState } from "react"
 import { Socket } from "socket.io-client"
+import { useToast } from "@/hooks/use-toast"
 
 type ComponentProps = {
   auctionId: string;
@@ -8,9 +9,7 @@ type ComponentProps = {
 
 export default function AuctionChatInputField({ auctionId, socket }: ComponentProps) {
 
-
-
-
+  const { toast } = useToast()
 
   async function sendMessage(e: BaseSyntheticEvent) {
     e.preventDefault()
@@ -34,7 +33,11 @@ export default function AuctionChatInputField({ auctionId, socket }: ComponentPr
       socket?.emit("sendMessage")
 
     } catch (err: any) {
-      console.log(err.message)
+      toast({
+        title: 'Error!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
     }
 
   }
