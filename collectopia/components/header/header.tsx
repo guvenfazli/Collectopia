@@ -61,8 +61,8 @@ export default function Header() {
         console.log(resData)
 
         dispatch(authActions.logInUser({ isLogged: true, userInfo: resData.userInfo }))
-/*         dispatch(inboxActions.getCount({ messageCount: resData.userInfo.messageCount }))
- */
+        dispatch(inboxActions.getCount({ messageCount: resData.userInfo.messageCount }))
+
         const socketConnection = io('http://localhost:8080/myNotifications')
         setSocket(socketConnection)
 
