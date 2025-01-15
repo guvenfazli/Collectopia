@@ -310,9 +310,7 @@ exports.createAuction = async (req, res, next) => {
     foundOriginalItem.isListed = true
     await foundOriginalItem.save()
 
-
-
-    return res.status(201).json({ message: "Auction created successfully!" })
+    return res.status(201).json({ message: "Auction created successfully!", auctionId: createdAuction._id, userId: userId })
 
   } catch (err) {
     next(err)

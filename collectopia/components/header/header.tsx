@@ -98,7 +98,7 @@ export default function Header() {
           <p className="font-logo text-5xl tracking-wider">Collectopia</p>
         </div>
 
-        <HeaderNavigator />
+        <HeaderNavigator socket={socket} />
 
         <HeaderProfileNavigator loggedName={userInfo.userInfo.name} loggedId={userInfo.userInfo.id} socket={socket} />
       </header>

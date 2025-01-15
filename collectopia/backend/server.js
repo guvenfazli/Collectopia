@@ -116,17 +116,35 @@ notificationRoom.on('connection', (connectedUser) => {
     notificationRoomId = userId
   })
 
-})
+  connectedUser.on('auctionCreated', async ({ auctionId, userId }) => {
 
-addItemPage.on('connection', (connectedUser) => {
-  connectedUser.on('itemAdded', async (userId) => {
     const usersFollowers = await User.findById(userId).populate({ path: "followers", select: { _id: 1 } })
 
     usersFollowers.followers.forEach((follower) => {
-      notificationRoom.to(JSON.stringify(follower._id).replaceAll('"', "")).emit("getMessage", { message: "A user you are following just added new item to theirs inventory!", triggerId: userId, triggerType: "profile" })
+
+      notificationRoom.to(JSON.stringify(follower._id).replaceAll('"', "")).emit("getMessage", { message: "A user you are following just created a new Auction!", triggerId: auctionId, triggerType: "auctions" })
     })
 
+
   })
+
+})
+
+addItemPage.on('connection', (connectedUser) => {
+
+  connectedUser.on('itemAdded', async (userId) => {
+
+    const usersFollowers = await User.findById(userId).populate({ path: "followers", select: { _id: 1 } })
+
+    usersFollowers.followers.forEach((follower) => {
+
+      notificationRoom.to(JSON.stringify(follower._id).replaceAll('"', "")).emit("getMessage", { message: "A user you are following just added new item to theirs inventory!", triggerId: userId, triggerType: "profile" })
+
+    })
+  })
+
+
+
 })
 
 profilePage.on('connection', (connectedUser) => {

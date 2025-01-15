@@ -16,6 +16,7 @@ import {
 
 
 import { FaHome } from "react-icons/fa";
+import { Socket } from "socket.io-client"
 import { IoMdAddCircle, IoMdMegaphone } from "react-icons/io";
 import { GiReceiveMoney, GiPayMoney } from "react-icons/gi";
 import { RiSwapFill } from "react-icons/ri";
@@ -23,7 +24,13 @@ import { RiSwapFill } from "react-icons/ri";
 import Link from "next/link";
 import ItemsForAuctionCreation from "./itemsForAuctionCreation";
 
-export default function HeaderNavigator() {
+
+type ComponentProps = {
+  socket: Socket | undefined
+}
+
+
+export default function HeaderNavigator({ socket }: ComponentProps) {
   return (
     <nav className="flex flex-row justify-around items-center gap-5 text-lg">
 
@@ -59,7 +66,7 @@ export default function HeaderNavigator() {
           <DialogHeader>
             <DialogTitle className="font-logo tracking-widest text-xl">Create a listing <span className="text-sm font-general tracking-wide">(Click the name of the item that you want to list.)</span></DialogTitle>
           </DialogHeader>
-          <ItemsForAuctionCreation />
+          <ItemsForAuctionCreation socket={socket} />
         </DialogContent>
 
       </Dialog>

@@ -1,5 +1,7 @@
 import dayjs from "dayjs"
 import { BaseSyntheticEvent, ChangeEvent, useState } from "react"
+import { useToast } from "@/hooks/use-toast"
+import { Socket } from "socket.io-client"
 type FetchedItem = {
   _id: string,
   title: string,
@@ -14,12 +16,14 @@ type FetchedItem = {
 
 type ComponentsProp = {
   item: FetchedItem
+  socket: Socket | undefined
 }
 
-export default function ItemCard({ item }: ComponentsProp) {
+export default function ItemCard({ item, socket }: ComponentsProp) {
 
   const [chosenDate, setChosenDate] = useState<number>(0)
   const [isError, setIsError] = useState<boolean | string>(false)
+  const { toast } = useToast()
 
   function chooseDate(e: ChangeEvent<HTMLInputElement>) {
     const chosenDate = new Date(e.target.value)
@@ -59,12 +63,23 @@ export default function ItemCard({ item }: ComponentsProp) {
       }
 
       const resData = await response.json()
+      console.log(resData)
+      socket?.emit('auctionCreated', ({auctionId: resData.auctionId, userId: resData.userId}))
 
-      // Will add toast notification here.
+      toast({
+        title: 'Success!',
+        description: resData.message,
+        className: "bg-green-500 border-none text-white text-xl"
+      })
 
 
     } catch (err: any) {
-      setIsError(err.message)
+      toast({
+        title: 'Success!',
+        description: err.message,
+        className: "bg-red-500 border-none text-white text-xl"
+      })
+
     }
   }
 

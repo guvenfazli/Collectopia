@@ -17,6 +17,7 @@ import {
 } from "@/components/ui/table"
 
 import TableNavigator from "./tableNavigator"
+import { Socket } from "socket.io-client"
 import ItemCard from "./itemCard"
 import ItemImageCarousel from "./itemImageCarousel"
 
@@ -36,7 +37,11 @@ type FetchedItem = {
 
 type FetchedItems = FetchedItem[]
 
-export default function ItemsForAuctionCreation() {
+type ComponentProps = {
+  socket: Socket | undefined
+}
+
+export default function ItemsForAuctionCreation({ socket }: ComponentProps) {
 
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [myItems, setMyItems] = useState<FetchedItems>([])
@@ -99,7 +104,7 @@ export default function ItemsForAuctionCreation() {
                     <TableCell className="font-medium">
                       <Popover>
                         <PopoverTrigger className="hover:underline font-medium">{item.title}</PopoverTrigger>
-                        <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemCard item={item} /></PopoverContent>
+                        <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemCard item={item} socket={socket} /></PopoverContent>
                       </Popover>
                     </TableCell>
                     <TableCell>
