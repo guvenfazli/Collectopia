@@ -4,6 +4,21 @@ import { Socket } from "socket.io-client"
 import TitlePrice from "./titlePrice"
 import CategoryDate from "./categoryDate"
 import ChooseFileAndSubmit from "./chooseFileAndSubmit"
+import { useSelector } from "react-redux"
+
+type userInfo = {
+  isLogged: true,
+  userInfo: {
+    id: string,
+    name: string,
+    interests: string[]
+  }
+}
+
+type authType = {
+  userInfo: userInfo,
+  isLogged: boolean
+}
 
 type ComponentPropType = {
   setImageShowcase: React.Dispatch<React.SetStateAction<string[]>>;
@@ -14,6 +29,8 @@ export default function ItemCreationForm({ setImageShowcase, socket }: Component
 
   const [imagePicker, setImagePicker] = useState<FileList[]>([])
   const [tagList, setTagList] = useState<string[]>([])
+  const userInfo = useSelector((state: { auth: authType }) => state.auth.userInfo)
+
 
   const { toast } = useToast()
 
@@ -46,7 +63,7 @@ export default function ItemCreationForm({ setImageShowcase, socket }: Component
       }
 
       const resData = await response.json()
-      socket?.emit('itemAdded')
+      socket?.emit('itemAdded', (userInfo.userInfo.id))
       toast({
         title: 'Success!',
         description: resData.message,

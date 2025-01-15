@@ -4,6 +4,7 @@ import { useSelector, useDispatch } from "react-redux"
 import { useToast } from "@/hooks/use-toast"
 import { Socket, io } from "socket.io-client"
 import { authActions } from "@/store/reduxStore"
+import Link from "next/link"
 import HeaderNavigator from "./headerNavigator"
 import HeaderProfileNavigator from "./headerProfileNavigator"
 import { redirect } from "next/navigation"
@@ -36,10 +37,10 @@ export default function Header() {
 
     socketConnection.emit("createNotificationRoom", userInfo?.userInfo?.id)
 
-    socketConnection.on("getMessage", ({ message }) => {
+    socketConnection.on("getMessage", ({ message, triggerId, triggerType }) => {
       toast({
         title: 'Message!',
-        description: message,
+        description: <Link href={`/${triggerType}/${triggerId}`}>{message}</Link>,
         className: "bg-blue-500 border-none text-white text-xl"
       })
     })

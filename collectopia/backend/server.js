@@ -107,9 +107,25 @@ const profilePage = io.of('/profilePage')
 const auctionRoom = io.of('/auctionRoom')
 const notificationRoom = io.of('/myNotifications')
 
+notificationRoom.on('connection', (connectedUser) => {
+
+  let notificationRoomId;
+
+  connectedUser.on('createNotificationRoom', (userId) => {
+    connectedUser.join(userId)
+    notificationRoomId = userId
+  })
+
+})
+
 addItemPage.on('connection', (connectedUser) => {
-  connectedUser.on('itemAdded', (user) => {
-    addItemPage.emit('itemAddedNotification', (user))
+  connectedUser.on('itemAdded', async (userId) => {
+    const usersFollowers = await User.findById(userId).populate({ path: "followers", select: { _id: 1 } })
+
+    usersFollowers.followers.forEach((follower) => {
+      notificationRoom.to(JSON.stringify(follower._id).replaceAll('"', "")).emit("getMessage", { message: "A user you are following just added new item to theirs inventory!", triggerId: userId, triggerType: "profile" })
+    })
+
   })
 })
 
@@ -128,9 +144,10 @@ profilePage.on('connection', (connectedUser) => {
 
   connectedUser.on("sendNotificationTrigger", ({ message, userId }) => {
     notificationRoom.to(userId).emit("getMessage", { message: message })
+    console.log(userId)
   })
 
-  
+
 })
 
 auctionRoom.on('connection', (connectedUser) => {
@@ -157,17 +174,3 @@ auctionRoom.on('connection', (connectedUser) => {
 
 })
 
-notificationRoom.on('connection', (connectedUser) => {
-
-  let notificationRoomId;
-
-  connectedUser.on('createNotificationRoom', (userId) => {
-    connectedUser.join(userId)
-    notificationRoomId = userId
-  })
-
-
-
-
-
-})
