@@ -181,8 +181,9 @@ auctionRoom.on('connection', (connectedUser) => {
     auctionRoom.to(joinedAuctionId).emit("updateMessages")
   })
 
-  connectedUser.on("sendBid", (user) => {
+  connectedUser.on("sendBid", ({ ownerId, auctionId }) => {
     auctionRoom.to(joinedAuctionId).emit("updateBids")
+    notificationRoom.to(ownerId).emit("getMessage", { message: "Someone made an offer for your Auction!", triggerId: auctionId, triggerType: "auctions" })
   })
 
   connectedUser.on('leaveRoom', (auctionInformation) => {

@@ -58,7 +58,7 @@ export default function AuctionMainPage() {
   const [auctionClose, setAuctionClose] = useState<boolean>(false)
   const todaysDate = dayjs(new Date()).startOf("day")
   const todaysDateTimestamp = dayjs(todaysDate).unix()
-
+  console.log(isLoading)
   useEffect(() => {
 
     const socketConnection = io("http://localhost:8080/auctionRoom")
@@ -82,10 +82,10 @@ export default function AuctionMainPage() {
         if (resData.fetchedAuction.deadline < todaysDateTimestamp || resData.fetchedAuction.isSold === true) {
           setAuctionClose(true)
         }
+        setIsLoading(false)
         setFetchedAuction(resData.fetchedAuction)
         setFetchedBidList(resData.fetchedBidlist.bidList ? resData.fetchedBidlist.bidList : [])
-        setMessageList(resData.fetchedMessages.messages.reverse()) // Will take a look into this later.
-        setIsLoading(false)
+        setMessageList(resData.fetchedMessages.messages.length > 0 ? resData.fetchedMessages.messages.length.reverse() : resData.fetchedMessages.messages) // Will take a look into this later.
       } catch (err: any) {
         console.log(err.message)
       }
@@ -105,7 +105,6 @@ export default function AuctionMainPage() {
 
         const resData = await response.json()
         setMessageList(resData.fetchedMessages[0].messages.reverse())
-        setIsLoading(false)
       } catch (err: any) {
         console.log(err.message)
       }
@@ -125,7 +124,6 @@ export default function AuctionMainPage() {
 
         const resData = await response.json()
         setFetchedBidList(resData.fetchedBidlist.bidList)
-        setIsLoading(false)
       } catch (err: any) {
         console.log(err.message)
       }

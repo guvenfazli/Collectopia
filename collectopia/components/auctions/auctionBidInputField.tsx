@@ -34,7 +34,7 @@ export default function AuctionBidInputField({ auctionId, isBuyout, buyoutValue,
       }
 
       const resData = await response.json()
-      socket?.emit("sendBid")
+      socket?.emit("sendBid", ({ ownerId: ownerId, auctionId: auctionId }))
 
     } catch (err: any) {
       console.log(err.message)
@@ -59,7 +59,6 @@ export default function AuctionBidInputField({ auctionId, isBuyout, buyoutValue,
       }
 
       const resData = await response.json()
-      console.log(resData)
 
     } catch (err: any) {
       console.log(err.message)
