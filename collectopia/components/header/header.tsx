@@ -1,6 +1,7 @@
 "use client"
 import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
+import { useToast } from "@/hooks/use-toast"
 import { Socket, io } from "socket.io-client"
 import { authActions } from "@/store/reduxStore"
 import HeaderNavigator from "./headerNavigator"
@@ -26,6 +27,7 @@ export default function Header() {
 
   const userInfo = useSelector((state: { auth: authType }) => state.auth.userInfo)
   const isLogged = useSelector((state: { auth: authType }) => state.auth.isLogged)
+  const { toast } = useToast()
   const [socket, setSocket] = useState<Socket>()
 
   useEffect(() => {
@@ -35,10 +37,14 @@ export default function Header() {
     socketConnection.emit("createNotificationRoom", userInfo?.userInfo?.id)
 
     socketConnection.on("getMessage", ({ message }) => {
-      console.log('Worked')
+      toast({
+        title: 'Message!',
+        description: "You just received a message!",
+        className: "bg-blue-500 border-none text-white text-xl"
+      })
     })
 
-    console.log(userInfo?.userInfo?.id)
+
 
     async function authCheck() { // Checks if the session is active
       try {
