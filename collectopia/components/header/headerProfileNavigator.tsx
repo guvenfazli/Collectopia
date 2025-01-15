@@ -82,7 +82,10 @@ export default function HeaderProfileNavigator({ loggedName, loggedId, socket }:
       <TooltipProvider delayDuration={300}>
         <Tooltip>
           <TooltipTrigger asChild>
-            <Link href={'/inbox?mode=recieved'}><BsEnvelopeFill /></Link>
+            <div className="relative">
+              <p className="absolute w-4 h-4 bg-white rounded-full text-orange-800 text-xs text-center -top-3 -right-3">{messageCount}</p>
+              <Link href={'/inbox?mode=recieved'}><BsEnvelopeFill /></Link>
+            </div>
           </TooltipTrigger>
           <TooltipContent>
             <p>Inbox</p>
