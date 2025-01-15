@@ -39,12 +39,10 @@ export default function Header() {
     socketConnection.on("getMessage", ({ message }) => {
       toast({
         title: 'Message!',
-        description: "You just received a message!",
+        description: message,
         className: "bg-blue-500 border-none text-white text-xl"
       })
     })
-
-
 
     async function authCheck() { // Checks if the session is active
       try {
@@ -62,18 +60,27 @@ export default function Header() {
 
         dispatch(authActions.logInUser({ isLogged: true, userInfo: resData.userInfo }))
 
+        const socketConnection = io('http://localhost:8080/myNotifications')
+        setSocket(socketConnection)
+
+        socketConnection.emit("createNotificationRoom", userInfo?.userInfo?.id)
+        socketConnection.on("getMessage", ({ message }) => {
+          toast({
+            title: 'Message!',
+            description: message,
+            className: "bg-blue-500 border-none text-white text-xl"
+          })
+        })
+
       } catch (err: any) {
         console.log(err.message)
         redirect('/userAuth?mode=login')
       }
     }
 
-
-
     if (!isLogged) {
       authCheck()
     }
-
 
     return () => {
       socketConnection.disconnect()
