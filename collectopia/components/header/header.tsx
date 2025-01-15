@@ -1,6 +1,7 @@
 "use client"
-import { useEffect } from "react"
+import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
+import { Socket, io } from "socket.io-client"
 import { authActions } from "@/store/reduxStore"
 import HeaderNavigator from "./headerNavigator"
 import HeaderProfileNavigator from "./headerProfileNavigator"
@@ -25,8 +26,13 @@ export default function Header() {
 
   const userInfo = useSelector((state: { auth: authType }) => state.auth.userInfo)
   const isLogged = useSelector((state: { auth: authType }) => state.auth.isLogged)
+  const [socket, setSocket] = useState<Socket>()
 
   useEffect(() => {
+    const socketConnection = io('http://localhost:8080/myNotifications')
+    setSocket(socketConnection)
+
+
     async function authCheck() { // Checks if the session is active
       try {
         const response = await fetch('http://localhost:8080/auth/authCheck', {
@@ -40,6 +46,7 @@ export default function Header() {
         }
 
         const resData = await response.json()
+        socketConnection.emit("createNotificationRoom", resData.userInfo.id)
         dispatch(authActions.logInUser({ isLogged: true, userInfo: resData.userInfo }))
 
       } catch (err: any) {
@@ -50,6 +57,12 @@ export default function Header() {
 
     if (!isLogged) {
       authCheck()
+    }
+
+
+    return () => {
+      socketConnection.disconnect()
+
     }
   }, [isLogged])
 

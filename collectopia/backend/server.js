@@ -105,6 +105,7 @@ io.use((socket, next) => {
 const addItemPage = io.of('/addItem')
 const profilePage = io.of('/profilePage')
 const auctionRoom = io.of('/auctionRoom')
+const notificationRoom = io.of('/myNotifications')
 
 addItemPage.on('connection', (connectedUser) => {
   connectedUser.on('itemAdded', (user) => {
@@ -148,5 +149,23 @@ auctionRoom.on('connection', (connectedUser) => {
     const { auctionId } = auctionInformation
     connectedUser.leave(auctionId)
   })
+
+})
+
+notificationRoom.on('connection', (connectedUser) => {
+
+  let notificationRoomId;
+
+  connectedUser.on('createNotificationRoom', (userId) => {
+    connectedUser.join(userId)
+    notificationRoomId = userId
+    console.log(userId)
+  })
+
+
+
+
+
+
 
 })
