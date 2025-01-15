@@ -1,13 +1,15 @@
 import { useToast } from "@/hooks/use-toast"
+import { Socket } from "socket.io-client"
 import { BaseSyntheticEvent } from "react"
 
 type ComponentProps = {
   userId: string;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
+  socket: Socket | undefined
 }
 
 
-export default function SendMessageForm({ userId, setOpen }: ComponentProps) {
+export default function SendMessageForm({ userId, setOpen, socket }: ComponentProps) {
 
   const { toast } = useToast()
 
@@ -35,6 +37,7 @@ export default function SendMessageForm({ userId, setOpen }: ComponentProps) {
         description: resData.message,
         className: "bg-green-500 border-none text-white text-xl"
       })
+      socket?.emit("sendNotificationTrigger", { message: "You just received a message!", userId: userId })
     } catch (err: any) {
       toast({
         title: 'Error!',

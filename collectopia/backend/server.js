@@ -126,6 +126,11 @@ profilePage.on('connection', (connectedUser) => {
     profilePage.to(joinedProfileId).emit("profileUpdate", (user))
   })
 
+  connectedUser.on("sendNotificationTrigger", ({ message, userId }) => {
+    notificationRoom.to(userId).emit("getMessage", { message: message })
+  })
+
+  
 })
 
 auctionRoom.on('connection', (connectedUser) => {
@@ -159,10 +164,7 @@ notificationRoom.on('connection', (connectedUser) => {
   connectedUser.on('createNotificationRoom', (userId) => {
     connectedUser.join(userId)
     notificationRoomId = userId
-    console.log(userId)
   })
-
-
 
 
 

@@ -9,21 +9,34 @@ import Link from "next/link"
 import UserHistory from "./userHistory"
 import Notifications from "./notifications"
 import { useRouter } from "next/navigation"
+import { Socket } from "socket.io-client"
 import { useDispatch } from "react-redux"
 import { authActions } from "@/store/reduxStore"
 import { BsFillPersonFill, BsEnvelopeFill } from "react-icons/bs";
 import { IoLogOut } from "react-icons/io5";
+import { useEffect } from "react"
 
 type ComponentType = {
-  loggedName: string,
-  loggedId: string
+  loggedName: string;
+  loggedId: string;
+  socket: Socket | undefined
 }
 
 
-export default function HeaderProfileNavigator({ loggedName, loggedId }: ComponentType) {
+export default function HeaderProfileNavigator({ loggedName, loggedId, socket }: ComponentType) {
 
   const router = useRouter()
   const dispatch = useDispatch()
+
+  useEffect(() => {
+
+    socket?.on("getMessage", ({ message }) => {
+      console.log('Worked')
+    })
+
+
+  }, [])
+
 
 
   async function logOut() {

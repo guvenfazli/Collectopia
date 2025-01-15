@@ -32,6 +32,13 @@ export default function Header() {
     const socketConnection = io('http://localhost:8080/myNotifications')
     setSocket(socketConnection)
 
+    socketConnection.emit("createNotificationRoom", userInfo?.userInfo?.id)
+
+    socketConnection.on("getMessage", ({ message }) => {
+      console.log('Worked')
+    })
+
+    console.log(userInfo?.userInfo?.id)
 
     async function authCheck() { // Checks if the session is active
       try {
@@ -46,7 +53,7 @@ export default function Header() {
         }
 
         const resData = await response.json()
-        socketConnection.emit("createNotificationRoom", resData.userInfo.id)
+
         dispatch(authActions.logInUser({ isLogged: true, userInfo: resData.userInfo }))
 
       } catch (err: any) {
@@ -55,6 +62,8 @@ export default function Header() {
       }
     }
 
+
+
     if (!isLogged) {
       authCheck()
     }
@@ -62,8 +71,8 @@ export default function Header() {
 
     return () => {
       socketConnection.disconnect()
-
     }
+
   }, [isLogged])
 
 
@@ -77,7 +86,7 @@ export default function Header() {
 
         <HeaderNavigator />
 
-        <HeaderProfileNavigator loggedName={userInfo.userInfo.name} loggedId={userInfo.userInfo.id} />
+        <HeaderProfileNavigator loggedName={userInfo.userInfo.name} loggedId={userInfo.userInfo.id} socket={socket} />
       </header>
     )
   }

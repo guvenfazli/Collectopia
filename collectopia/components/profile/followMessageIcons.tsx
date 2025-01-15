@@ -102,7 +102,7 @@ export default function FollowMessageIcons({ alreadyFollowed, userId, loggedInUs
             <DialogHeader>
               <DialogTitle className="font-logo tracking-widest text-xl">Send a Message</DialogTitle>
             </DialogHeader>
-            <SendMessageForm userId={userId} setOpen={setOpen} />
+            <SendMessageForm userId={userId} setOpen={setOpen} socket={socket} />
           </DialogContent>
         </Dialog>
       }
