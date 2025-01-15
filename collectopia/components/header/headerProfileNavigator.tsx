@@ -9,11 +9,20 @@ import Link from "next/link"
 import UserHistory from "./userHistory"
 import Notifications from "./notifications"
 import { useRouter } from "next/navigation"
+import { useSelector } from "react-redux"
 import { Socket } from "socket.io-client"
 import { useDispatch } from "react-redux"
 import { authActions } from "@/store/reduxStore"
 import { BsFillPersonFill, BsEnvelopeFill } from "react-icons/bs";
 import { IoLogOut } from "react-icons/io5";
+
+type reduxType = {
+  inboxCount: {
+    messageCount: {
+      messageCount: number
+    }
+  }
+}
 
 type ComponentType = {
   loggedName: string;
@@ -26,6 +35,7 @@ export default function HeaderProfileNavigator({ loggedName, loggedId, socket }:
 
   const router = useRouter()
   const dispatch = useDispatch()
+  const messageCount = useSelector((state: reduxType) => state.inboxCount.messageCount.messageCount)
 
   async function logOut() {
     try {
@@ -48,8 +58,7 @@ export default function HeaderProfileNavigator({ loggedName, loggedId, socket }:
     }
   }
 
-
-
+  console.log(messageCount)
 
   return (
     <nav className="flex flex-row justify-around items-center gap-5 text-lg">

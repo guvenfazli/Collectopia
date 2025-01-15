@@ -17,9 +17,20 @@ const authSlice = createSlice({
   }
 })
 
+const inboxSlice = createSlice({
+  name: 'inbox',
+  initialState: { messageCount: 0 },
+  reducers: {
+    getCount(state, action) {
+      state.messageCount = action.payload
+    }
+  }
+})
+
 const store = configureStore({
-  reducer: { auth: authSlice.reducer }
+  reducer: { auth: authSlice.reducer, inboxCount: inboxSlice.reducer }
 })
 
 export const authActions = authSlice.actions
+export const inboxActions = inboxSlice.actions
 export default store

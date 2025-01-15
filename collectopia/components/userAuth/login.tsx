@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react"
 import { useRouter } from "next/navigation"
 import { useDispatch } from "react-redux"
-import { authActions } from "@/store/reduxStore"
+import { authActions, inboxActions } from "@/store/reduxStore"
 import Link from "next/link"
 import AuthInput from "../authInput"
 
@@ -40,6 +40,7 @@ export default function UserLogin() {
       setIsSuccess(resData.message)
 
       dispatch(authActions.logInUser({ isLogged: true, userInfo: resData.userInfo }))
+      dispatch(inboxActions.getCount({ messageCount: resData.userInfo.messageCount }))
       router.push('/')
     } catch (err: any) {
       setIsError(err)
