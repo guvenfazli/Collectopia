@@ -900,14 +900,13 @@ exports.fetchMyNotifications = async (req, res, next) => {
       notify.save()
     }
 
-    const nonReadCount = foundNotifications.notifications.filter((notification) => notification.isRead === false)
 
 
     if (foundNotifications.notifications.length === 0) {
       throwError('You have no notifications!', 404)
     }
 
-    return res.status(200).json({ fetchedNotifications: foundNotifications.notifications, nonReadCount: nonReadCount.length })
+    return res.status(200).json({ fetchedNotifications: foundNotifications.notifications })
   } catch (err) {
     next(err)
   }

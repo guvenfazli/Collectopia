@@ -90,15 +90,17 @@ exports.authCheck = async (req, res, next) => {
   try {
     const usersSession = await req.session.userInfo
 
-    const foundUser = await User.findById(req.session.userInfo.id).populate({ path: "inbox" })
+    const foundUser = await User.findById(req.session.userInfo.id).populate({ path: "inbox" }).populate({ path: "notifications" })
     const nonReadMessageCount = foundUser.inbox.filter((message) => message.isRead === false)
+    const nonReadNotifyCount = foundUser.notifications.filter((notification) => notification.isRead === false)
 
     if (!usersSession) {
       const error = new Error('Please log in first!')
       error.statusCode = 404
       throw error
     }
-    return res.status(200).json({ userInfo: req.session.userInfo, inboxCount: nonReadMessageCount.length })
+    
+    return res.status(200).json({ userInfo: req.session.userInfo, inboxCount: nonReadMessageCount.length, notifyCount: nonReadNotifyCount.length })
   } catch (err) {
     next(err)
   }

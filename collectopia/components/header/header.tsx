@@ -3,7 +3,7 @@ import { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useToast } from "@/hooks/use-toast"
 import { Socket, io } from "socket.io-client"
-import { authActions, inboxActions } from "@/store/reduxStore"
+import { authActions, inboxActions, notificationActions } from "@/store/reduxStore"
 import Link from "next/link"
 import HeaderNavigator from "./headerNavigator"
 import HeaderProfileNavigator from "./headerProfileNavigator"
@@ -61,6 +61,7 @@ export default function Header() {
 
         dispatch(authActions.logInUser({ isLogged: true, userInfo: resData.userInfo }))
         dispatch(inboxActions.getCount({ messageCount: resData.inboxCount }))
+        dispatch(notificationActions.getCount(resData.notifyCount))
         const socketConnection = io('http://localhost:8080/myNotifications')
         setSocket(socketConnection)
 
