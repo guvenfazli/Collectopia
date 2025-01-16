@@ -1,4 +1,3 @@
-import Link from "next/link";
 import LastAuctions from "@/components/homepage/lastAuctions/lastAuctions";
 import AuctionList from "@/components/homepage/auctionList/auctionList";
 export default function Home() {
@@ -8,7 +7,6 @@ export default function Home() {
         <LastAuctions />
         <AuctionList />
       </div>
-      <Link href={'/profile/676cd2e40bddea53d1a9ca03'}>Test</Link>
     </div>
   );
 }
