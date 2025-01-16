@@ -28,9 +28,9 @@ type ComponentProps = {
 
 export default function AuctionCard({ auction, setIsSliding }: ComponentProps) {
 
-  const loggedInUser = useSelector((state: any) => state.auth.userInfo.userInfo)
+  const loggedInUser = useSelector((state: any) => state.auth?.userInfo?.userInfo)
   const { toast } = useToast()
-  const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(auction.followers.some((followerId: string) => followerId === loggedInUser.id))
+  const [alreadyFollowed, setAlreadyFollowed] = useState<boolean>(auction.followers.some((followerId: string) => followerId === loggedInUser?.id))
   const dateDataConverted = dayjs.unix(auction.deadline) // Formats the date
 
   async function followAuction(auctionId: string) {
@@ -83,7 +83,7 @@ export default function AuctionCard({ auction, setIsSliding }: ComponentProps) {
           <Link href={`/auctions/${auction._id}`} className="bg-orange-800 text-white rounded-lg p-1 hover:bg-orange-500 duration-150"><HiOutlineScale /></Link>
         </div>
 
-        {loggedInUser.id !== auction.item.owner &&
+        {loggedInUser?.id !== auction.item.owner &&
           <div className="flex flex-row w-full justify-between items-center text-gray-800 tracking-wide text-base">
             <p>{alreadyFollowed ? "Unfollow the Auction:" : "Follow the Auction:"}</p>
             <button onClick={() => followAuction(auction._id)} className="bg-orange-800 text-white rounded-lg p-1 hover:bg-orange-500 duration-150"><HiOutlineLightBulb /></button>
