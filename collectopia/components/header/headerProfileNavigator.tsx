@@ -37,6 +37,7 @@ export default function HeaderProfileNavigator({ loggedName, loggedId, socket }:
   const dispatch = useDispatch()
   const messageCount = useSelector((state: reduxType) => state.inboxCount.messageCount.messageCount)
 
+
   async function logOut() {
     try {
       const response = await fetch('http://localhost:8080/auth/logout', {

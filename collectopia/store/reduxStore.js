@@ -30,10 +30,24 @@ const inboxSlice = createSlice({
   }
 })
 
+const notificationSlice = createSlice({
+  name: 'notifications',
+  initialState: { notificationCount: 0 },
+  reducers: {
+    getCount(state, action) {
+      state.notificationCount = action.payload
+    },
+    controlCount(state) {
+      state.notificationCount.notificationCount = 0
+    }
+  }
+})
+
 const store = configureStore({
-  reducer: { auth: authSlice.reducer, inboxCount: inboxSlice.reducer }
+  reducer: { auth: authSlice.reducer, inboxCount: inboxSlice.reducer, notificationCount: notificationSlice.reducer }
 })
 
 export const authActions = authSlice.actions
 export const inboxActions = inboxSlice.actions
+export const notificationActions = notificationSlice.actions
 export default store

@@ -13,12 +13,16 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog"
 
+import { useSelector } from "react-redux";
 import NotificationList from "./NotificationList";
 import { IoNotifications } from "react-icons/io5";
 
 
 
 export default function Notifications() {
+
+  const notificationCount = useSelector((state: any) => state.notificationCount.notificationCount)
+
 
   return (
     <Dialog>
@@ -27,7 +31,10 @@ export default function Notifications() {
         <TooltipProvider delayDuration={300}>
           <Tooltip>
             <TooltipTrigger asChild>
-              <IoNotifications />
+              <div className="relative">
+                <p className="absolute w-4 h-4 bg-white rounded-full text-orange-800 text-xs text-center -top-3 -right-3">{notificationCount}</p>
+                <IoNotifications />
+              </div>
             </TooltipTrigger>
             <TooltipContent>
               <p>Notifications</p>
