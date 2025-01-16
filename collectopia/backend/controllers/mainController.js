@@ -887,6 +887,27 @@ exports.fetchMyInbox = async (req, res, next) => {
 
 }
 
+exports.fetchMyNotifications = async (req, res, next) => {
+  const userId = req.session.userInfo.id
+  const page = +req.query.page
+  const limit = 10
+
+  try {
+    const foundNotifications = await User.findById(userId).populate({ path: 'notifications', options: { sort: { createdAt: -1 }, skip: page }, perDocumentLimit: limit })
+    const allNotifications = await User.findById(userId).populate({ path: 'inbox' })
+    const nonReadCount = foundNotifications.notifications.filter((notification) => notification.isRead === false)
+
+
+    if (foundNotifications.notifications.length === 0) {
+      throwError('You have no notifications!', 404)
+    }
+
+    return res.status(200).json({ fetchedInbox: foundNotifications.notifications, nonReadCount: nonReadCount.length })
+  } catch (err) {
+    next(err)
+  }
+}
+
 exports.fetchMyHistory = async (req, res, next) => {
   const userId = req.session.userInfo.id
   const page = +req.query.page

@@ -1,4 +1,13 @@
-export default function NotificationList(){
+import { useState, useEffect } from "react"
+
+
+export default function NotificationList() {
+  
+  
+  
+  
+  
+  
   return (
     <div>
       <p>Will be the list.</p>

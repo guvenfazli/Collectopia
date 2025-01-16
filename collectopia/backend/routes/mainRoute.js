@@ -16,9 +16,11 @@ router.get('/myTrackingList', authCheck, mainController.trackingAuctions)
 router.get('/myActiveAuctionListing', authCheck, mainController.myActiveAuctions)
 router.get('/fetchAuction/:auctionId', authCheck, mainController.fetchSingleAuction)
 router.get('/inbox', authCheck, mainController.fetchMyInbox)
+router.get('/notifications', authCheck, mainController.fetchMyNotifications)
 router.get('/fetchUserHistory', authCheck, mainController.fetchMyHistory)
 router.get('/fetchMyItemsForOffer', authCheck, mainController.fetchMyItemsForOffer)
 router.get('/fetchOfferList', authCheck, mainController.fetchOffers)
+
 
 
 
