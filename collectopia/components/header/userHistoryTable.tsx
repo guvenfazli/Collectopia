@@ -39,7 +39,7 @@ export default function UserHistoryTable() {
         }
 
         const resData = await response.json()
-        console.log(resData)
+        
         setEventList(resData.fetchedEventHistory)
         setIsLoading(false)
       } catch (err: any) {
