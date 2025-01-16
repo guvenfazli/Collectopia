@@ -14,6 +14,8 @@ import {
 } from "@/components/ui/dialog"
 
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux"
+import { notificationActions } from "@/store/reduxStore"
 import NotificationList from "./NotificationList";
 import { IoNotifications } from "react-icons/io5";
 
@@ -22,11 +24,15 @@ import { IoNotifications } from "react-icons/io5";
 export default function Notifications() {
 
   const notificationCount = useSelector((state: any) => state.notificationCount.notificationCount)
+  const dispatch = useDispatch()
 
+  function markAsRead() {
+    dispatch(notificationActions.controlCount())
+  }
 
   return (
     <Dialog>
-      <DialogTrigger>
+      <DialogTrigger onClick={markAsRead}>
 
         <TooltipProvider delayDuration={300}>
           <Tooltip>
@@ -51,6 +57,6 @@ export default function Notifications() {
         <NotificationList />
       </DialogContent>
 
-    </Dialog>
+    </Dialog >
   )
 }

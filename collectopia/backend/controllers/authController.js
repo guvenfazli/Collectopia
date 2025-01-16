@@ -47,8 +47,10 @@ exports.login = async (req, res, next) => {
   const errors = validationResult(req)
 
   try {
-    const foundUser = await User.findOne({ email: email }).populate({ path: "inbox" })
+    const foundUser = await User.findOne({ email: email }).populate({ path: "inbox" }).populate({ path: "notifications" })
     const nonReadMessageCount = foundUser.inbox.filter((message) => message.isRead === false)
+    const nonReadNotificationCount = foundUser.notifications.filter((notification) => notification.isRead === false)
+
 
 
     if (!errors.isEmpty()) {
@@ -69,7 +71,7 @@ exports.login = async (req, res, next) => {
 
     req.session.userInfo = { id: foundUser._id, name: foundUser.name, interests: foundUser.interests }
 
-    return res.status(200).json({ message: 'Successfully logged in!', userInfo: req.session.userInfo, inboxCount: nonReadMessageCount.length })
+    return res.status(200).json({ message: 'Successfully logged in!', userInfo: req.session.userInfo, inboxCount: nonReadMessageCount.length, notifyCount: nonReadNotificationCount.length })
 
   } catch (err) {
     next(err)
@@ -96,7 +98,7 @@ exports.authCheck = async (req, res, next) => {
       error.statusCode = 404
       throw error
     }
-    return res.status(200).json({ userInfo: req.session.userInfo, inboxCount: nonReadMessageCount.length  })
+    return res.status(200).json({ userInfo: req.session.userInfo, inboxCount: nonReadMessageCount.length })
   } catch (err) {
     next(err)
   }

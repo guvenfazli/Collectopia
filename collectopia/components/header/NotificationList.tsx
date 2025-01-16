@@ -9,8 +9,6 @@ import {
 } from "@/components/ui/table"
 
 import { useState, useEffect } from "react"
-import { useDispatch } from "react-redux"
-import { notificationActions } from "@/store/reduxStore"
 import Link from "next/link"
 import dayjs from "dayjs"
 import TableNavigator from "./tableNavigator"
@@ -19,11 +17,9 @@ import TableNavigator from "./tableNavigator"
 
 export default function NotificationList() {
 
-  const dispatch = useDispatch()
   const [notificationList, setNotificationList] = useState([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentPage, setCurrentPage] = useState<number>(0)
-
 
   useEffect(() => {
     async function fetchNotifications() {
@@ -40,9 +36,7 @@ export default function NotificationList() {
         }
 
         const resData = await response.json()
-        console.log(resData)
         setNotificationList(resData.fetchedNotifications)
-        dispatch(notificationActions.getCount(resData.nonReadCount))
         setIsLoading(false)
       } catch (err: any) {
         return;

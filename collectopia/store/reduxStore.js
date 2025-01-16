@@ -38,7 +38,7 @@ const notificationSlice = createSlice({
       state.notificationCount = action.payload
     },
     controlCount(state) {
-      state.notificationCount.notificationCount = 0
+      state.notificationCount = 0
     }
   }
 })
