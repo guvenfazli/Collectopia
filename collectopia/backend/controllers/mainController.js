@@ -15,6 +15,7 @@ const MessageRoom = require('../models/messageRoomModel')
 const PrivateMessage = require('../models/privateMessageModel')
 const Offer = require('../models/offerModel')
 const Event = require('../models/eventModel')
+const Notification = require('../models/notificationModel')
 
 // ITEM CREATION
 exports.createItem = async (req, res, next) => {
@@ -299,10 +300,26 @@ exports.createAuction = async (req, res, next) => {
     await createdEvent.save()
 
 
-    const foundUser = await User.findById(userId)
+    const foundUser = await User.findById(userId).populate({ path: "followers", select: { _id: 1, notifications: 1 } })
     foundUser.auctions.push(createdAuction)
     foundUser.eventHistory.push(createdEvent)
     await foundUser.save()
+
+    const createNotification = new Notification({
+      message: "A user you are following just created a new Auction!",
+      followedUserId: foundUser._id,
+      followedAuctionId: createdAuction._id,
+      notificationType: '/auctions'
+    })
+
+    await createNotification.save()
+
+    const followerList = foundUser.followers
+  
+    for (const follower of followerList) {
+      follower.notifications.push(createNotification)
+      await follower.save()
+    }
 
     const foundOriginalItem = await Item.findById(itemId)
     foundOriginalItem.minValue = convertedMinValue

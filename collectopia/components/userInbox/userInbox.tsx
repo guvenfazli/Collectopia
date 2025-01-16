@@ -61,7 +61,7 @@ export default function UserInbox() {
         }
 
         const resData = await response.json()
-        console.log(resData)
+        
         dispatch(inboxActions.getCount({ messageCount: resData.nonReadCount }))
         setInbox(resData.fetchedInbox)
         setIsError(false)

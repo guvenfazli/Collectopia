@@ -8,6 +8,7 @@ const notificationSchema = new Schema({
   },
   followedUserId: [{ type: Schema.Types.ObjectId, ref: 'User', }],
   followedAuctionId: [{ type: Schema.Types.ObjectId, ref: 'Auction', }],
+  notificationType: { type: String },
   isRead: {
     type: Boolean,
     default: false
