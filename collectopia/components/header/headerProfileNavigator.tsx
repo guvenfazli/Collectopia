@@ -55,7 +55,7 @@ export default function HeaderProfileNavigator({ loggedName, loggedId, socket }:
         dispatch(authActions.logOutUser({ isLogged: false, userInfo: undefined }))
       }, 100)
     } catch (err: any) {
-      console.log(err.message)
+      return;
     }
   }
 
