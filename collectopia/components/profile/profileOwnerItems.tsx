@@ -3,7 +3,7 @@ import OfferCard from "./offerCard"
 
 type ComponentProps = {
   userItems: any;
-  setChosenItems: React.Dispatch<React.SetStateAction<{ userItems: string[], myItems: string[] }>>
+  setChosenItems: React.Dispatch<React.SetStateAction<{ [userItems: string]: string[] }>>
   items: string;
   profileOwner: boolean
 }
