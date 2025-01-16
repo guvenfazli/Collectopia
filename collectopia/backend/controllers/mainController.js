@@ -279,7 +279,6 @@ exports.createAuction = async (req, res, next) => {
   const errors = validationResult(req)
   const todaysDate = dayjs(new Date()).startOf("day").unix()
 
-
   try {
     if (!errors.isEmpty()) {
       throwError(errors.array()[0].msg, 410)
@@ -548,6 +547,19 @@ exports.bidAuction = async (req, res, next) => {
     foundUser.eventHistory.push(createdEvent)
     await foundUser.save()
     await BidList.save()
+
+    const createNotification = new Notification({
+      message: "Someone bidded to your auction!",
+      followedUserId: userId,
+      followedAuctionId: auctionId,
+      notificationType: '/auctions'
+    })
+
+    await createNotification.save()
+
+    foundAuction.seller.notifications.push(createNotification)
+
+    await foundAuction.seller.save()
 
     return res.status(200).json({ message: 'Your bid settled successfully.' })
 

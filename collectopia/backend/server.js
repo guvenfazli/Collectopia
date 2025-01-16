@@ -142,9 +142,6 @@ addItemPage.on('connection', (connectedUser) => {
 
     })
   })
-
-
-
 })
 
 profilePage.on('connection', (connectedUser) => {
