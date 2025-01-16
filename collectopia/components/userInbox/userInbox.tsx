@@ -17,13 +17,32 @@ import TableNavigator from "../header/tableNavigator"
 import RecievedMessage from "./recievedMessage"
 import ResponseMessage from "./responseMessage"
 
+type Message = {
+  createdAt: string;
+  isRead: boolean;
+  message: string;
+  receiver: string;
+  sender: {
+    _id: string;
+    name: string;
+    surname: string;
+  }
+  title: string;
+  _id: string;
+  updatedAt: string;
+}
+
+type fetchedInbox = Message[];
+
+
+
 export default function UserInbox() {
 
   const dispatch = useDispatch()
   const searchParams = useSearchParams()
   const mode = searchParams.get('mode')
   const [currentPage, setCurrentPage] = useState<number>(0)
-  const [inbox, setInbox] = useState([])
+  const [inbox, setInbox] = useState<fetchedInbox>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean | string>(false)
 
@@ -42,6 +61,7 @@ export default function UserInbox() {
         }
 
         const resData = await response.json()
+        console.log(resData)
         dispatch(inboxActions.getCount({ messageCount: resData.nonReadCount }))
         setInbox(resData.fetchedInbox)
         setIsError(false)
