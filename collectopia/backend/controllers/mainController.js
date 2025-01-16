@@ -61,9 +61,25 @@ exports.createItem = async (req, res, next) => {
 
     await newItem.save()
 
-    const owner = await User.findById(ownerId)
+    const owner = await User.findById(ownerId).populate({ path: "followers", select: { _id: 1, notifications: 1 } })
     owner.items.push(newItem)
     await owner.save()
+
+    const createNotification = new Notification({
+      message: "A user you are following just added a new Item!",
+      followedUserId: owner._id,
+      followedAuctionId: newItem._id,
+      notificationType: '/profile'
+    })
+
+    await createNotification.save()
+
+    const followerList = owner.followers
+
+    for (const follower of followerList) {
+      follower.notifications.push(createNotification)
+      await follower.save()
+    }
 
     return res.status(201).json({ message: 'Item added to inventory successfully!' })
 
@@ -315,7 +331,7 @@ exports.createAuction = async (req, res, next) => {
     await createNotification.save()
 
     const followerList = foundUser.followers
-  
+
     for (const follower of followerList) {
       follower.notifications.push(createNotification)
       await follower.save()
