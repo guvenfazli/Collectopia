@@ -894,7 +894,12 @@ exports.fetchMyNotifications = async (req, res, next) => {
 
   try {
     const foundNotifications = await User.findById(userId).populate({ path: 'notifications', options: { sort: { createdAt: -1 }, skip: page }, perDocumentLimit: limit })
-    const allNotifications = await User.findById(userId).populate({ path: 'inbox' })
+
+    for (const notify of foundNotifications.notifications) {
+      notify.isRead = true
+      notify.save()
+    }
+
     const nonReadCount = foundNotifications.notifications.filter((notification) => notification.isRead === false)
 
 

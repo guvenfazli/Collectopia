@@ -13,8 +13,6 @@ import Link from "next/link"
 import dayjs from "dayjs"
 import TableNavigator from "./tableNavigator"
 
-
-
 export default function NotificationList() {
 
   const [notificationList, setNotificationList] = useState([])
