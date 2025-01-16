@@ -5,6 +5,7 @@ import TitlePrice from "./titlePrice"
 import CategoryDate from "./categoryDate"
 import ChooseFileAndSubmit from "./chooseFileAndSubmit"
 import { useSelector } from "react-redux"
+import { useRouter } from "next/navigation"
 
 type userInfo = {
   isLogged: true,
@@ -29,6 +30,7 @@ export default function ItemCreationForm({ setImageShowcase, socket }: Component
 
   const [imagePicker, setImagePicker] = useState<FileList[]>([])
   const [tagList, setTagList] = useState<string[]>([])
+  const router = useRouter()
   const userInfo = useSelector((state: { auth: authType }) => state.auth.userInfo)
 
 
@@ -69,6 +71,7 @@ export default function ItemCreationForm({ setImageShowcase, socket }: Component
         description: resData.message,
         className: "bg-green-500 border-none text-white text-xl"
       })
+      return router.push(`/profile/${userInfo.userInfo.id}`)
     } catch (err: any) {
       toast({
         title: 'Error!',

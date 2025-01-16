@@ -85,13 +85,6 @@ export default function FilterAuctionList({ setFetchedAuctions, filteredAuctions
     setChosenSubCategory(e.target.value)
   }
 
-  function chooseDate(e: ChangeEvent<HTMLInputElement>) {
-    const chosenDate = new Date(e.target.value)
-    const convertToDayJS = dayjs(chosenDate).startOf("day")
-    const timestamp = convertToDayJS.unix()
-    setChosenDate(timestamp)
-  }
-
   async function filterAuctionList(e: BaseSyntheticEvent) {
     e.preventDefault()
     setIsLoading(true)
