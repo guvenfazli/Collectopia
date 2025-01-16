@@ -40,7 +40,7 @@ export default function UserLogin() {
       setIsSuccess(resData.message)
 
       dispatch(authActions.logInUser({ isLogged: true, userInfo: resData.userInfo }))
-      dispatch(inboxActions.getCount({ messageCount: resData.userInfo.messageCount }))
+      dispatch(inboxActions.getCount({ messageCount: resData.inboxCount }))
       router.push('/')
     } catch (err: any) {
       setIsError(err)

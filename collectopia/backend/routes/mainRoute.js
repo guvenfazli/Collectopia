@@ -113,6 +113,7 @@ router.patch('/editItem/:itemId', [
 ], authCheck, mainController.editItem)
 
 router.patch('/selectOption/:offerId', authCheck, mainController.selectOption)
+router.patch('/readMessage/:msgId', authCheck, mainController.readMessage)
 
 // DELETES
 

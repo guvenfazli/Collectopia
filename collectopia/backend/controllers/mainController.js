@@ -661,6 +661,27 @@ exports.updateMessages = async (req, res, next) => { // Updates the message room
   }
 }
 
+exports.readMessage = async (req, res, next) => {
+  const msgId = req.params.msgId
+
+  try {
+    const foundMessage = await PrivateMessage.findById(msgId)
+
+    if (!foundMessage) {
+      throwError("Message could not found!", 404)
+    }
+
+    foundMessage.isRead = true
+    await foundMessage.save()
+
+    return res.status(200).json({ message: "Message read." })
+
+  } catch (err) {
+    next(err)
+  }
+
+}
+
 // USER FOLLOWS AND TRACKINGS
 
 exports.trackAuction = async (req, res, next) => {
@@ -806,12 +827,15 @@ exports.fetchMyInbox = async (req, res, next) => {
 
   try {
     const foundInbox = await User.findById(userId).populate({ path: 'inbox', options: { sort: { createdAt: -1 }, skip: page }, perDocumentLimit: limit, populate: { path: "sender", select: { name: 1, surname: 1, _id: 1 } } })
+    const allInbox = await User.findById(userId).populate({ path: 'inbox' })
+    const nonReadCount = allInbox.inbox.filter((message) => message.isRead === false)
+
 
     if (foundInbox.inbox.length === 0) {
       throwError('You have no messages!', 404)
     }
 
-    return res.status(200).json({ fetchedInbox: foundInbox.inbox })
+    return res.status(200).json({ fetchedInbox: foundInbox.inbox, nonReadCount: nonReadCount.length })
   } catch (err) {
     next(err)
   }

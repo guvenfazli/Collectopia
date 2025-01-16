@@ -67,9 +67,9 @@ exports.login = async (req, res, next) => {
       throwError('Username or Password is invalid!', 404)
     }
 
-    req.session.userInfo = { id: foundUser._id, name: foundUser.name, interests: foundUser.interests, messageCount: nonReadMessageCount.length }
+    req.session.userInfo = { id: foundUser._id, name: foundUser.name, interests: foundUser.interests }
 
-    return res.status(200).json({ message: 'Successfully logged in!', userInfo: req.session.userInfo })
+    return res.status(200).json({ message: 'Successfully logged in!', userInfo: req.session.userInfo, inboxCount: nonReadMessageCount.length })
 
   } catch (err) {
     next(err)
@@ -87,12 +87,16 @@ exports.logout = async (req, res, next) => {
 exports.authCheck = async (req, res, next) => {
   try {
     const usersSession = await req.session.userInfo
+
+    const foundUser = await User.findById(req.session.userInfo.id).populate({ path: "inbox" })
+    const nonReadMessageCount = foundUser.inbox.filter((message) => message.isRead === false)
+
     if (!usersSession) {
       const error = new Error('Please log in first!')
       error.statusCode = 404
       throw error
     }
-    return res.status(200).json({ userInfo: req.session.userInfo })
+    return res.status(200).json({ userInfo: req.session.userInfo, inboxCount: nonReadMessageCount.length  })
   } catch (err) {
     next(err)
   }

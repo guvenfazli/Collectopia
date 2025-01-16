@@ -23,6 +23,9 @@ const inboxSlice = createSlice({
   reducers: {
     getCount(state, action) {
       state.messageCount = action.payload
+    },
+    controlCount(state) {
+      state.messageCount.messageCount -= 1
     }
   }
 })

@@ -11,12 +11,15 @@ import {
 
 import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
+import { useDispatch } from "react-redux"
+import { inboxActions } from "@/store/reduxStore"
 import TableNavigator from "../header/tableNavigator"
 import RecievedMessage from "./recievedMessage"
 import ResponseMessage from "./responseMessage"
 
 export default function UserInbox() {
 
+  const dispatch = useDispatch()
   const searchParams = useSearchParams()
   const mode = searchParams.get('mode')
   const [currentPage, setCurrentPage] = useState<number>(0)
@@ -39,6 +42,7 @@ export default function UserInbox() {
         }
 
         const resData = await response.json()
+        dispatch(inboxActions.getCount({ messageCount: resData.nonReadCount }))
         setInbox(resData.fetchedInbox)
         setIsError(false)
         setIsLoading(false)
@@ -51,16 +55,25 @@ export default function UserInbox() {
     fetchInbox()
   }, [currentPage])
 
+  function readMsg(msgIndex: number) {
+    dispatch(inboxActions.controlCount())
+    setInbox((prev) => {
+      const updatedInbox = [...prev]
+      updatedInbox[msgIndex].isRead = true
+      return updatedInbox
+    })
+  }
+
   if (mode === "recieved") {
     return (
       <div className="flex p-3 flex-col relative justify-start gap-3 items-start w-10/12 bg-white">
         {isLoading && <span id="headerLoader" className="self-center"></span>}
         {isError ? <p className="self-center text-lg text-orange-800 tracking-wider">{isError}</p> :
 
-          inbox.map((msg: any) =>
+          inbox.map((msg: any, i: number) =>
             <Dialog key={msg._id}>
 
-              <DialogTrigger className="w-full">
+              <DialogTrigger onClick={() => readMsg(i)} className="w-full">
                 <RecievedMessage message={msg} />
               </DialogTrigger>
 
@@ -70,7 +83,7 @@ export default function UserInbox() {
                 </DialogHeader>
                 <div className="flex flex-col gap-3 w-full justify-start items-start">
                   <p>{msg.message}</p>
-                  <ResponseMessage senderId={msg.sender._id} />
+                  <ResponseMessage senderId={msg.sender._id} msgId={msg._id} />
                 </div>
               </DialogContent>
 
@@ -80,7 +93,6 @@ export default function UserInbox() {
         <div className="flex w-full justify-between">
           <TableNavigator currentPage={currentPage} setCurrentPage={setCurrentPage} addPage={10} isError={isError} fetchedList={inbox} />
         </div>
-
       </div>
     )
   }

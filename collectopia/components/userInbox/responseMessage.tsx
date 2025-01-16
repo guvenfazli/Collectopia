@@ -9,11 +9,43 @@ import {
 
 import ResponseForm from "./responseForm"
 
+import { useEffect } from "react";
+
 type ComponentProps = {
-  senderId: string
+  senderId: string;
+  msgId: string
 }
 
-export default function ResponseMessage({ senderId }: ComponentProps) {
+export default function ResponseMessage({ senderId, msgId }: ComponentProps) {
+
+
+  useEffect(() => {
+
+    async function readMessage() {
+      try {
+        const response = await fetch(`http://localhost:8080/readMessage/${msgId}`, {
+          method: "PATCH",
+          credentials: "include"
+        })
+
+        if (response.ok) {
+          const resData = await response.json()
+          const error = resData.message
+          throw error
+        }
+
+        const resData = await response.json()
+
+      } catch (err: any) {
+        return;
+      }
+    }
+
+    readMessage()
+
+  }, [])
+
+
   return (
     <Dialog >
 
