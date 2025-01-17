@@ -62,8 +62,6 @@ export default function AuctionList() {
 
   }, [page, setPage])
 
-
-
   return (
     <div className="flex flex-col gap-5">
       <div className="flex flex-row w-full justify-start items-center">

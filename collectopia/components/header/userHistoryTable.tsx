@@ -39,7 +39,7 @@ export default function UserHistoryTable() {
         }
 
         const resData = await response.json()
-        
+
         setEventList(resData.fetchedEventHistory)
         setIsLoading(false)
       } catch (err: any) {
@@ -49,8 +49,6 @@ export default function UserHistoryTable() {
 
     fetchMyEventHistory()
   }, [currentPage])
-
-  
 
   return (
     <>
@@ -74,20 +72,31 @@ export default function UserHistoryTable() {
                 </TableCell>
               </TableRow>
             }
-            {eventList.map((event: any) =>
-              <TableRow key={event._id}>
-                <TableCell className="font-medium">
-                  <Link href={`/auctions/${event.interactionId._id}`}>{event.event}</Link>
-                </TableCell>
-                <TableCell>
-                  {dayjs(event.createdAt).format("DD/MM/YY")}
-                </TableCell>
-                <TableCell className="text-right">
-                  {event.interactionId._id}
-                </TableCell>
-              </TableRow>)}
+            {eventList.map((event: any, i: number) =>
+              event.interactionId ?
+                <TableRow key={event._id} >
+                  <TableCell className="font-medium">
+                    <Link href={`/auctions/${event.interactionId._id}`}>{event.event}</Link>
+                  </TableCell>
+                  <TableCell>
+                    {dayjs(event.createdAt).format("DD/MM/YY")}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {event.interactionId._id}
+                  </TableCell>
+                </TableRow>
+
+                :
+
+                <TableRow key={i}>
+                  <TableCell className="font-medium">
+                    <p>Event deleted</p>
+                  </TableCell>
+                </TableRow>
+            )}
+
           </TableBody>
-        </Table>
+        </Table >
       }
     </>
   )
