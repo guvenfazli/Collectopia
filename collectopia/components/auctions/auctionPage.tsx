@@ -88,7 +88,7 @@ export default function AuctionMainPage() {
         setIsLoading(false)
         setFetchedAuction(resData.fetchedAuction)
         setFetchedBidList(resData.fetchedBidlist.bidList ? resData.fetchedBidlist.bidList : [])
-        setMessageList(resData.fetchedMessages.messages.length > 0 ? resData.fetchedMessages.messages.reverse() : resData.fetchedMessages.messages) // Will take a look into this later.
+        setMessageList(resData.fetchedMessages.messages.length > 0 ? resData.fetchedMessages.messages.reverse() : []) // Will take a look into this later.
       } catch (err: any) {
         toast({
           title: 'Error!',
