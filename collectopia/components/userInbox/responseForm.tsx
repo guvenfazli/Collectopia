@@ -45,10 +45,6 @@ export default function ResponseForm({ senderId, setIsResponse }: ComponentProps
     }
   }
 
-
-
-
-
   return (
     <form onSubmit={(e) => sendMessage(e, senderId)} className="flex flex-col gap-5">
       <div className="flex flex-col gap-1">

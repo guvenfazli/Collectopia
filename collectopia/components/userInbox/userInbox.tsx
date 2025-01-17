@@ -13,6 +13,7 @@ import { useState, useEffect } from "react"
 import { useSearchParams } from "next/navigation"
 import { useDispatch } from "react-redux"
 import { inboxActions } from "@/store/reduxStore"
+import { useSelector } from "react-redux"
 import TableNavigator from "../header/tableNavigator"
 import RecievedMessage from "./recievedMessage"
 import ResponseMessage from "./responseMessage"
@@ -32,6 +33,14 @@ type Message = {
   updatedAt: string;
 }
 
+type reduxType = {
+  inboxCount: {
+    messageCount: {
+      messageCount: number
+    }
+  }
+}
+
 type fetchedInbox = Message[];
 
 
@@ -39,13 +48,13 @@ type fetchedInbox = Message[];
 export default function UserInbox() {
 
   const dispatch = useDispatch()
+  const count = useSelector((state: reduxType) => state.inboxCount.messageCount.messageCount)
   const searchParams = useSearchParams()
   const mode = searchParams.get('mode')
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [inbox, setInbox] = useState<fetchedInbox>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean | string>(false)
-
 
   useEffect(() => {
     async function fetchInbox() {
@@ -77,7 +86,10 @@ export default function UserInbox() {
   }, [currentPage])
 
   function readMsg(msgIndex: number) {
-    dispatch(inboxActions.controlCount())
+    if (count !== 0) {
+      dispatch(inboxActions.controlCount())
+    }
+    
     setInbox((prev) => {
       const updatedInbox = [...prev]
       updatedInbox[msgIndex].isRead = true
