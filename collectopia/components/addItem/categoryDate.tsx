@@ -17,6 +17,7 @@ type ComponentProps = {
 export default function CategoryDate({ setTagList }: ComponentProps) {
 
   const tagRef = useRef<HTMLInputElement | null>(null)
+  const [tagValue, setTagValue] = useState<string>("")
 
   const [category, setCategory] = useState([
     { category: "anime", display: "Anime" },
@@ -58,17 +59,24 @@ export default function CategoryDate({ setTagList }: ComponentProps) {
     setChosenCategory(e.target.value)
   }
 
+  function getRefValue() {
+    if (tagRef.current && tagRef.current.value.length > 0) {
+      setTagValue(tagRef.current.value)
+    }
+  }
+
   function addTag(e: React.KeyboardEvent<HTMLInputElement>) {
     if (e.key === "," && tagRef.current && tagRef.current.value.length > 0) {
       setTagList((prev) => {
         const updated = [...prev]
-        updated.push(tagRef.current!.value.toLowerCase().replace(/\s/g, ""))
+        updated.push(tagValue.toLowerCase().replace(/\s/g, "").replace(",",""))
         return updated
       })
+      tagRef.current.value = ""
+
+
     }
   }
-
-
 
   return (
     <div className="flex flex-col gap-4 items-end justify-start w-1/2">
@@ -81,7 +89,7 @@ export default function CategoryDate({ setTagList }: ComponentProps) {
           </HoverCardContent>
         </HoverCard>
       </div>
-      <input name="tags" ref={tagRef} onKeyDown={(e) => addTag(e)} placeholder="Additional Tags" className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
+      <input name="tags" ref={tagRef} onKeyUp={(e) => addTag(e)} onChange={getRefValue}  placeholder="Additional Tags" className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none placeholder:text-blue-300 placeholder:font-medium" />
 
       <FormLabel customFor="category" label="Category" />
       <select name="category" onChange={(e) => chooseCategory(e)} required className="shadow-sm shadow-slate-500 p-2 border border-blue-800 rounded-md w-3/4 outline-none">
