@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useState } from "react"
+import { BaseSyntheticEvent, useRef, useState } from "react"
 import { Socket } from "socket.io-client"
 import { useToast } from "@/hooks/use-toast"
 import { useSelector } from "react-redux"
@@ -16,16 +16,26 @@ export default function AuctionBidInputField({ auctionId, isBuyout, buyoutValue,
 
   const [isBidding, setIsBidding] = useState<boolean>(false)
   const authUserId = useSelector((state: any) => state.auth.userInfo.userInfo.id)
+  const bidRef = useRef<HTMLInputElement | null>(null)
+  const [bid, setBid] = useState<string>("")
   const { toast } = useToast()
 
 
+  function getBid() {
+    if (bidRef.current) {
+      setBid(bidRef.current.value)
+    }
+  }
+
   async function bidForAuction(e: BaseSyntheticEvent) {
     e.preventDefault()
-
     const formData = new FormData(e.target as HTMLFormElement)
+    if (bidRef.current) {
+      bidRef.current.value = ""
+    }
+    setIsBidding(true)
 
     try {
-      setIsBidding(true)
       const response = await fetch(`http://localhost:8080/bidAuction/${auctionId}`, {
         method: "POST",
         credentials: "include",
@@ -89,7 +99,7 @@ export default function AuctionBidInputField({ auctionId, isBuyout, buyoutValue,
   return (
     <div className="flex w-full items-center justify-between gap-4">
       <form onSubmit={(e) => bidForAuction(e)} className="flex w-full items-center justify-between gap-4">
-        <input disabled={ownerId === authUserId || isBidding} required name="bid" placeholder="Place your Bid" className="placeholder:text-orange-300 p-3 bg-orange-100 border border-orange-800 w-full text-orange-800 font-semibold outline-none disabled:opacity-35" />
+        <input ref={bidRef} onChange={getBid} disabled={ownerId === authUserId || isBidding} required name="bid" placeholder="Place your Bid" className="placeholder:text-orange-300 p-3 bg-orange-100 border border-orange-800 w-full text-orange-800 font-semibold outline-none disabled:opacity-35" />
 
         <button disabled={ownerId === authUserId || isBidding} className="px-5 py-3 bg-orange-800 font-logo h-full text-white duration-100 rounded-sm hover:bg-orange-300 hover:text-orange-800 disabled:bg-orange-200 disabled:pointer-events-none">
           Bid

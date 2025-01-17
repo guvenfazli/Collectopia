@@ -36,8 +36,6 @@ export default function AuctionChatInputField({ auctionId, socket }: ComponentPr
         body: formData
       })
 
-
-
       if (!response.ok) {
         const resData = await response.json()
         const error = new Error(resData.message)
