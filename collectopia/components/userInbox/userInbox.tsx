@@ -46,6 +46,7 @@ export default function UserInbox() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [isError, setIsError] = useState<boolean | string>(false)
 
+
   useEffect(() => {
     async function fetchInbox() {
       setIsLoading(true)
@@ -61,7 +62,7 @@ export default function UserInbox() {
         }
 
         const resData = await response.json()
-        
+
         dispatch(inboxActions.getCount({ messageCount: resData.nonReadCount }))
         setInbox(resData.fetchedInbox)
         setIsError(false)
@@ -83,6 +84,8 @@ export default function UserInbox() {
       return updatedInbox
     })
   }
+
+
 
   if (mode === "recieved") {
     return (

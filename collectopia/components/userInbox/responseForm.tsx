@@ -3,10 +3,11 @@ import { useToast } from "@/hooks/use-toast"
 
 
 type ComponentProps = {
-  senderId: string
+  senderId: string;
+  setIsResponse: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function ResponseForm({ senderId }: ComponentProps) {
+export default function ResponseForm({ senderId, setIsResponse }: ComponentProps) {
 
   const { toast } = useToast()
 
@@ -61,7 +62,7 @@ export default function ResponseForm({ senderId }: ComponentProps) {
         <textarea required name="message" placeholder="Your Message..." className="p-2 outline-none bg-orange-200 placeholder:text-orange-400" />
       </div>
 
-      <button className="bg-orange-800 duration-100 py-1 font-logo text-white hover:bg-orange-600">Send</button>
+      <button onClick={() => setIsResponse(prev => !prev)} className="bg-orange-800 duration-100 py-1 font-logo text-white hover:bg-orange-600">Send</button>
     </form>
   )
 }

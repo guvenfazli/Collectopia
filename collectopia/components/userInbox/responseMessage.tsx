@@ -9,7 +9,7 @@ import {
 
 import ResponseForm from "./responseForm"
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 type ComponentProps = {
   senderId: string;
@@ -18,6 +18,8 @@ type ComponentProps = {
 
 export default function ResponseMessage({ senderId, msgId }: ComponentProps) {
 
+
+  const [isResponse, setIsResponse] = useState<boolean>(false)
 
   useEffect(() => {
 
@@ -46,8 +48,10 @@ export default function ResponseMessage({ senderId, msgId }: ComponentProps) {
   }, [])
 
 
+
+
   return (
-    <Dialog >
+    <Dialog open={isResponse} onOpenChange={() => setIsResponse(prev => !prev)} >
 
       <DialogTrigger className="w-full" asChild>
         <button className="p-1 bg-orange-800 duration-100 font-logo text-white px-3 rounded-sm hover:bg-orange-700">Response</button>
@@ -57,7 +61,7 @@ export default function ResponseMessage({ senderId, msgId }: ComponentProps) {
         <DialogHeader>
           <DialogTitle className="font-logo tracking-widest text-xl">Response</DialogTitle>
         </DialogHeader>
-        <ResponseForm senderId={senderId} />
+        <ResponseForm senderId={senderId} setIsResponse={setIsResponse} />
       </DialogContent>
 
     </Dialog>
