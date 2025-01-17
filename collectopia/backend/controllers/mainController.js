@@ -600,6 +600,7 @@ exports.buyoutAuction = async (req, res, next) => {
   try {
     const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" }).populate({ path: "seller" })
     const foundUser = await User.findById(userId)
+    const auctionOwner = await User.findById(foundAuction.seller._id)
 
     if (foundAuction.isSold) {
       throwError('Auction is already closed!', 410)
@@ -622,11 +623,23 @@ exports.buyoutAuction = async (req, res, next) => {
 
     await createdEvent.save()
 
+    const createNotification = new Notification({
+      message: "Someone bought out your auction !",
+      followedUserId: userId,
+      followedAuctionId: auctionId,
+      notificationType: '/profile'
+    })
+
+    await createNotification.save()
 
     foundAuction.isSold = true
+    auctionOwner.notifications.push(createNotification)
     foundUser.eventHistory.push(createdEvent)
+
     await foundUser.save()
     await foundAuction.save()
+    await auctionOwner.save()
+
     return res.status(200).json({ message: 'Your buyout ended successfully.' })
 
   } catch (err) {
