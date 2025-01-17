@@ -13,7 +13,11 @@ import Link from "next/link"
 import dayjs from "dayjs"
 import TableNavigator from "./tableNavigator"
 
-export default function NotificationList() {
+type ComponentProps = {
+  setIsNotificationDialog: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function NotificationList({ setIsNotificationDialog }: ComponentProps) {
 
   const [notificationList, setNotificationList] = useState([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -71,7 +75,7 @@ export default function NotificationList() {
               <TableRow key={notification._id}>
                 <TableCell className="font-medium">
                   <Link
-                    href={`${notification.notificationType}/${notification.notificationType === "/auctions" ? notification.followedAuctionId[0] : notification.followedUserId[0]}`}>
+                    href={`${notification.notificationType}/${notification.notificationType === "/auctions" ? notification.followedAuctionId[0] : notification.followedUserId[0]}`} onClick={() => setIsNotificationDialog(prev => !prev)}>
                     {notification.message}
                   </Link>
                 </TableCell>

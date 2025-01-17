@@ -18,6 +18,7 @@ import { useDispatch } from "react-redux"
 import { notificationActions } from "@/store/reduxStore"
 import NotificationList from "./NotificationList";
 import { IoNotifications } from "react-icons/io5";
+import { useState } from "react";
 
 
 
@@ -25,13 +26,15 @@ export default function Notifications() {
 
   const notificationCount = useSelector((state: any) => state.notificationCount.notificationCount)
   const dispatch = useDispatch()
+  const [isNotificationDialog, setIsNotificationDialog] = useState<boolean>(false)
+
 
   function markAsRead() {
     dispatch(notificationActions.controlCount())
   }
 
   return (
-    <Dialog>
+    <Dialog open={isNotificationDialog} onOpenChange={setIsNotificationDialog}>
       <DialogTrigger onClick={markAsRead}>
 
         <TooltipProvider delayDuration={300}>
@@ -54,7 +57,7 @@ export default function Notifications() {
         <DialogHeader>
           <DialogTitle className="font-logo tracking-widest text-xl">Notifications</DialogTitle>
         </DialogHeader>
-        <NotificationList />
+        <NotificationList setIsNotificationDialog={setIsNotificationDialog} />
       </DialogContent>
 
     </Dialog >
