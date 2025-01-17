@@ -1,4 +1,4 @@
-import { BaseSyntheticEvent, useState } from "react"
+import { BaseSyntheticEvent, useRef, useState } from "react"
 import { Socket } from "socket.io-client"
 import { useToast } from "@/hooks/use-toast"
 
@@ -11,18 +11,32 @@ export default function AuctionChatInputField({ auctionId, socket }: ComponentPr
 
   const { toast } = useToast()
   const [chatDelay, setChatDelay] = useState<boolean>(false)
+  const messageRef = useRef<HTMLInputElement | null>(null)
+  const [message, setMessage] = useState<string>("")
+
+  function trackMessage() {
+    if (messageRef.current) {
+      setMessage(messageRef.current.value)
+    }
+  }
+
 
   async function sendMessage(e: BaseSyntheticEvent) {
     e.preventDefault()
     const formData = new FormData(e.target as HTMLFormElement)
+    if (messageRef.current) {
+      messageRef.current.value = ""
+    }
+    setChatDelay(true)
 
     try {
-      setChatDelay(true)
       const response = await fetch(`http://localhost:8080/sendMessage/${auctionId}`, {
         method: "POST",
         credentials: "include",
         body: formData
       })
+
+
 
       if (!response.ok) {
         const resData = await response.json()
@@ -45,7 +59,7 @@ export default function AuctionChatInputField({ auctionId, socket }: ComponentPr
 
   return (
     <form method="POST" onSubmit={(e) => sendMessage(e)} className="flex w-full justify-between items-center">
-      <input required name="message" placeholder="Type Your Message" className="placeholder:text-orange-300 p-3 bg-orange-100 border border-orange-800 w-4/5 text-orange-800 font-semibold outline-none" />
+      <input ref={messageRef} onChange={trackMessage} required name="message" placeholder="Type Your Message" className="placeholder:text-orange-300 p-3 bg-orange-100 border border-orange-800 w-4/5 text-orange-800 font-semibold outline-none" />
       <button disabled={chatDelay}
         className="h-full px-3 bg-orange-800 text-white font-logo duration-100 rounded-sm hover:bg-orange-300 hover:text-orange-800 disabled:bg-orange-100 disabled:pointer-events-none">
         Send Message
