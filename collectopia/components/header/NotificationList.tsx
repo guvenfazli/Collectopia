@@ -23,7 +23,7 @@ export default function NotificationList() {
     async function fetchNotifications() {
       setIsLoading(true)
       try {
-        const response = await fetch("http://localhost:8080/notifications", {
+        const response = await fetch(`http://localhost:8080/notifications?page=${currentPage}`, {
           credentials: "include"
         })
 
@@ -42,7 +42,7 @@ export default function NotificationList() {
     }
 
     fetchNotifications()
-  }, [])
+  }, [currentPage])
 
 
 

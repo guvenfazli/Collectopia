@@ -889,7 +889,7 @@ exports.fetchMyInbox = async (req, res, next) => {
 exports.fetchMyNotifications = async (req, res, next) => {
   const userId = req.session.userInfo.id
   const page = +req.query.page
-  const limit = 10
+  const limit = 5
 
   try {
     const foundNotifications = await User.findById(userId).populate({ path: 'notifications', options: { sort: { createdAt: -1 }, skip: page }, perDocumentLimit: limit })
