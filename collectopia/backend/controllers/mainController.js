@@ -599,14 +599,7 @@ exports.buyoutAuction = async (req, res, next) => {
 
   try {
     const foundAuction = await Auction.findById(auctionId).populate({ path: "bidList" }).populate({ path: "seller" })
-    const foundUser = await User.findById({ userId })
-    /*     const foundUser = await User.findById(userId)
-    
-        const createdBid = new Bid({
-          bidValue: convertedBuyout,
-          bidder: foundUser._id,
-          biddedTo: foundAuction._id
-        }) */
+    const foundUser = await User.findById(userId)
 
     if (foundAuction.isSold) {
       throwError('Auction is already closed!', 410)

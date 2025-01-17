@@ -75,6 +75,8 @@ export default function AuctionBidInputField({ auctionId, isBuyout, buyoutValue,
       }
 
       const resData = await response.json()
+      console.log(resData)
+      socket?.emit("buyout")
 
     } catch (err: any) {
       toast({

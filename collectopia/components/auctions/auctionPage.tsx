@@ -84,7 +84,7 @@ export default function AuctionMainPage() {
         if (resData.fetchedAuction.deadline < todaysDateTimestamp || resData.fetchedAuction.isSold === true) {
           setAuctionClose(true)
         }
-        console.log(resData)
+
         setIsLoading(false)
         setFetchedAuction(resData.fetchedAuction)
         setFetchedBidList(resData.fetchedBidlist.bidList ? resData.fetchedBidlist.bidList : [])
@@ -96,6 +96,10 @@ export default function AuctionMainPage() {
           className: "bg-red-500 border-none text-white text-xl"
         })
       }
+
+      socketConnection.on("auctionSold", (user) => {
+        fetchAuction()
+      })
     }
 
     async function updateMessages() {

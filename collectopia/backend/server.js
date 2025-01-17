@@ -182,6 +182,10 @@ auctionRoom.on('connection', (connectedUser) => {
     notificationRoom.to(ownerId).emit("getMessage", { message: "Someone made an offer for your Auction!", triggerId: auctionId, triggerType: "auctions" })
   })
 
+  connectedUser.on("buyout", (user) => {
+    auctionRoom.to(joinedAuctionId).emit("auctionSold")
+  })
+
   connectedUser.on('leaveRoom', (auctionInformation) => {
     const { auctionId } = auctionInformation
     connectedUser.leave(auctionId)
