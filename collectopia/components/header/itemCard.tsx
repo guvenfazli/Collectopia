@@ -17,9 +17,11 @@ type FetchedItem = {
 type ComponentsProp = {
   item: FetchedItem
   socket: Socket | undefined
+  setIsCreateAuction: React.Dispatch<React.SetStateAction<boolean>>
+
 }
 
-export default function ItemCard({ item, socket }: ComponentsProp) {
+export default function ItemCard({ item, socket, setIsCreateAuction }: ComponentsProp) {
 
   const [chosenDate, setChosenDate] = useState<number>(0)
   const [isError, setIsError] = useState<boolean | string>(false)
@@ -63,7 +65,7 @@ export default function ItemCard({ item, socket }: ComponentsProp) {
       }
 
       const resData = await response.json()
-      socket?.emit('auctionCreated', ({auctionId: resData.auctionId, userId: resData.userId}))
+      socket?.emit('auctionCreated', ({ auctionId: resData.auctionId, userId: resData.userId }))
 
       toast({
         title: 'Success!',
@@ -99,7 +101,7 @@ export default function ItemCard({ item, socket }: ComponentsProp) {
 
       {isError && <p className="text-sm">{isError}</p>}
       <div className="flex flex-row justify-center items-center text-center w-full">
-        <button disabled={isError !== false && true} className="bg-orange-800 text-orange-50 px-3 py-1 rounded-md hover:bg-orange-500 duration-150 disabled:pointer-events-none disabled:bg-orange-300">Create Listing</button>
+        <button onClick={() => setIsCreateAuction(prev => !prev)} disabled={isError !== false && true} className="bg-orange-800 text-orange-50 px-3 py-1 rounded-md hover:bg-orange-500 duration-150 disabled:pointer-events-none disabled:bg-orange-300">Create Listing</button>
       </div>
     </form>
   )

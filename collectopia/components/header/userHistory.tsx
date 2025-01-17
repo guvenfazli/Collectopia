@@ -15,10 +15,15 @@ import {
 
 import { MdHistory } from "react-icons/md";
 import UserHistoryTable from "./userHistoryTable";
+import { useState } from "react";
 
 export default function UserHistory() {
+
+  const [isHistory, setIsHistory] = useState<boolean>(false)
+
+
   return (
-    <Dialog>
+    <Dialog open={isHistory} onOpenChange={setIsHistory}>
       <DialogTrigger>
 
         <TooltipProvider delayDuration={300}>
@@ -38,7 +43,7 @@ export default function UserHistory() {
         <DialogHeader>
           <DialogTitle className="font-logo tracking-widest text-xl">History</DialogTitle>
         </DialogHeader>
-        <UserHistoryTable />
+        <UserHistoryTable setIsHistory={setIsHistory} />
       </DialogContent>
 
     </Dialog>

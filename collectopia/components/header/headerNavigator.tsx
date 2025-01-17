@@ -23,6 +23,7 @@ import { RiSwapFill } from "react-icons/ri";
 
 import Link from "next/link";
 import ItemsForAuctionCreation from "./itemsForAuctionCreation";
+import { useState } from "react";
 
 
 type ComponentProps = {
@@ -31,6 +32,10 @@ type ComponentProps = {
 
 
 export default function HeaderNavigator({ socket }: ComponentProps) {
+
+  const [isCreateAuction, setIsCreateAuction] = useState<boolean>(false)
+
+
   return (
     <nav className="flex flex-row justify-around items-center gap-5 text-lg">
 
@@ -46,7 +51,7 @@ export default function HeaderNavigator({ socket }: ComponentProps) {
       </TooltipProvider>
 
 
-      <Dialog>
+      <Dialog open={isCreateAuction} onOpenChange={() => setIsCreateAuction(prev => !prev)}>
         <DialogTrigger className="shadow-sm shadow-orange-800 hover:shadow-md hover:shadow-orange-900 transition-all duration-200 border border-red-900 p-2 py-2 bg-white rounded-full hover:bg-orange-300">
 
           <TooltipProvider delayDuration={300}>
@@ -66,13 +71,10 @@ export default function HeaderNavigator({ socket }: ComponentProps) {
           <DialogHeader>
             <DialogTitle className="font-logo tracking-widest text-xl">Create a listing <span className="text-sm font-general tracking-wide">(Click the name of the item that you want to list.)</span></DialogTitle>
           </DialogHeader>
-          <ItemsForAuctionCreation socket={socket} />
+          <ItemsForAuctionCreation socket={socket} setIsCreateAuction={setIsCreateAuction} />
         </DialogContent>
 
       </Dialog>
-
-
-
 
       <TooltipProvider delayDuration={300}>
         <Tooltip>

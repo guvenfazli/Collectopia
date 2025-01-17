@@ -39,9 +39,10 @@ type FetchedItems = FetchedItem[]
 
 type ComponentProps = {
   socket: Socket | undefined
+  setIsCreateAuction: React.Dispatch<React.SetStateAction<boolean>>
 }
 
-export default function ItemsForAuctionCreation({ socket }: ComponentProps) {
+export default function ItemsForAuctionCreation({ socket, setIsCreateAuction }: ComponentProps) {
 
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [myItems, setMyItems] = useState<FetchedItems>([])
@@ -104,7 +105,9 @@ export default function ItemsForAuctionCreation({ socket }: ComponentProps) {
                     <TableCell className="font-medium">
                       <Popover>
                         <PopoverTrigger className="hover:underline font-medium">{item.title}</PopoverTrigger>
-                        <PopoverContent className="bg-orange-100 text-orange-800 text-lg"><ItemCard item={item} socket={socket} /></PopoverContent>
+                        <PopoverContent className="bg-orange-100 text-orange-800 text-lg">
+                          <ItemCard item={item} socket={socket} setIsCreateAuction={setIsCreateAuction} />
+                        </PopoverContent>
                       </Popover>
                     </TableCell>
                     <TableCell>

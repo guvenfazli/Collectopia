@@ -18,7 +18,11 @@ type EventList = {
   interactionId: any
 }
 
-export default function UserHistoryTable() {
+type ComponentProps = {
+  setIsHistory: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+export default function UserHistoryTable({ setIsHistory }: ComponentProps) {
 
   const [eventList, setEventList] = useState<EventList[]>([])
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -76,7 +80,7 @@ export default function UserHistoryTable() {
               event.interactionId ?
                 <TableRow key={event._id} >
                   <TableCell className="font-medium">
-                    <Link href={`/auctions/${event.interactionId._id}`}>{event.event}</Link>
+                    <Link onClick={() => setIsHistory(prev => !prev)} href={`/auctions/${event.interactionId._id}`}>{event.event}</Link>
                   </TableCell>
                   <TableCell>
                     {dayjs(event.createdAt).format("DD/MM/YY")}
