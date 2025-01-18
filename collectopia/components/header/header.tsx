@@ -92,7 +92,7 @@ export default function Header() {
 
   if (isLogged) {
     return (
-      <header className="flex flex-row justify-between items-center p-4 w-full bg-orange-100 text-orange-800 shadow-sm">
+      <header className="flex flex-row justify-between items-center p-4 w-full bg-orange-100 text-orange-800 shadow-sm border-orange-800 border-b">
 
         <div>
           <p className="font-logo text-5xl tracking-wider">Collectopia</p>
