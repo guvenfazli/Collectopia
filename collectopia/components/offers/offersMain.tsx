@@ -6,16 +6,37 @@ import NoOffer from "./noOffer"
 import TableNavigator from "../header/tableNavigator"
 
 
+type OfferType = {
+  createdAt: string;
+  offer: {
+    offeredItems: [{ _id: string; title: string; imageList: string[]; }]
+    wantedItems: [{ _id: string; title: string; imageList: string[]; }]
+  };
+  offerAccepted: boolean;
+  offerActive: boolean;
+  offerer: { _id: string; name: string; surname: string; }
+  receiver: string;
+  updatedAt: string;
+  _id: string;
+}
+
+
+type OfferList = {
+  [renderOffers: string]: OfferType[]
+}
+
 export default function OffersMain() {
 
   const [renderOffers, setRenderOffers] = useState<string>("receivedOffers")
-  const [offersList, setOffersList] = useState({
+  const [offersList, setOffersList] = useState<OfferList>({
     receivedOffers: [],
     sentOffers: [],
   })
   const [chosenOffer, setChosenOffer] = useState<undefined | any>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentPage, setCurrentPage] = useState<number>(0)
+
+  console.log(offersList)
 
   useEffect(() => {
     async function fetchOfferList() {
