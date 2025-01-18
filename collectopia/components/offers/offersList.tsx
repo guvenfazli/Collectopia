@@ -23,13 +23,15 @@ type ComponentProps = {
   renderOffers: string;
   setRenderOffers: React.Dispatch<React.SetStateAction<string>>;
   setChosenOffer: React.Dispatch<React.SetStateAction<any>>;
+  setCurrentPage: React.Dispatch<React.SetStateAction<number>>
 }
 
-export default function OffersList({ offersList, renderOffers, setRenderOffers, setChosenOffer }: ComponentProps) {
+export default function OffersList({ offersList, renderOffers, setRenderOffers, setChosenOffer, setCurrentPage }: ComponentProps) {
 
   function changeTheListing(offerType: string) {
     setChosenOffer(undefined)
     setRenderOffers(offerType)
+    setCurrentPage(0)
   }
 
   return (

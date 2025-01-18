@@ -58,7 +58,7 @@ export default function OffersMain() {
           </div>
           :
           <>
-            <OffersList renderOffers={renderOffers} offersList={offersList} setRenderOffers={setRenderOffers} setChosenOffer={setChosenOffer} />
+            <OffersList renderOffers={renderOffers} offersList={offersList} setRenderOffers={setRenderOffers} setChosenOffer={setChosenOffer} setCurrentPage={setCurrentPage} />
             <OfferDetails chosenOffer={chosenOffer} renderOffers={renderOffers} />
           </>
         }
