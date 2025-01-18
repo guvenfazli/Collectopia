@@ -13,6 +13,7 @@ export default function OffersMain() {
   })
   const [chosenOffer, setChosenOffer] = useState<undefined | any>()
   const [isLoading, setIsLoading] = useState<boolean>(false)
+  const [currentPage, setCurrentPage] = useState<number>(0)
 
   useEffect(() => {
     async function fetchOfferList() {
