@@ -36,8 +36,6 @@ export default function OffersMain() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [currentPage, setCurrentPage] = useState<number>(0)
 
-  console.log(offersList)
-
   useEffect(() => {
     async function fetchOfferList() {
       try {
