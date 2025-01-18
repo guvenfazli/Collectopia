@@ -1028,33 +1028,36 @@ exports.makeOffer = async (req, res, next) => {
 
 exports.fetchOffers = async (req, res, next) => {
   const userId = req.session.userInfo.id
+  const page = +req.query.page
+  const limit = 3
+
 
   try {
     const foundUser = await User.findById(userId).select({ receivedOffers: 1, sentOffers: 1 })
       .populate({
-        path: "receivedOffers", options: { sort: { createdAt: -1 } }, populate: {
+        path: "receivedOffers", perDocumentLimit: limit, options: { sort: { createdAt: -1 }, skip: page }, populate: {
           path: "offer", populate: { path: "offeredItems", select: { title: 1, imageList: 1, offerActive: 1, offerAccepted: 1 } },
         }
       }).populate({
-        path: "receivedOffers", options: { sort: { createdAt: -1 } }, populate: {
+        path: "receivedOffers", perDocumentLimit: limit, options: { sort: { createdAt: -1 }, skip: page }, populate: {
           path: "offer", populate: { path: "wantedItems", select: { title: 1, imageList: 1, offerActive: 1, offerAccepted: 1 } },
         }
       })
       .populate({
-        path: "receivedOffers", options: { sort: { createdAt: -1 } }, populate: {
+        path: "receivedOffers", perDocumentLimit: limit, options: { sort: { createdAt: -1 }, skip: page }, populate: {
           path: "offerer", select: { name: 1, surname: 1 }
         }
       })
       .populate({
-        path: "sentOffers", options: { sort: { createdAt: -1 } }, options: { sort: { createdAt: -1 } }, populate: {
+        path: "sentOffers", perDocumentLimit: limit, options: { sort: { createdAt: -1 }, skip: page }, options: { sort: { createdAt: -1 } }, populate: {
           path: "offer", populate: { path: "offeredItems", select: { title: 1, imageList: 1, offerActive: 1, offerAccepted: 1 } }
         }
       }).populate({
-        path: "sentOffers", options: { sort: { createdAt: -1 } }, populate: {
+        path: "sentOffers", perDocumentLimit: limit, options: { sort: { createdAt: -1 }, skip: page }, populate: {
           path: "offer", populate: { path: "wantedItems", select: { title: 1, imageList: 1, offerActive: 1, offerAccepted: 1 } }
         }
       }).populate({
-        path: "sentOffers", options: { sort: { createdAt: -1 } }, populate: {
+        path: "sentOffers", perDocumentLimit: limit, options: { sort: { createdAt: -1 }, skip: page }, populate: {
           path: "receiver", select: { name: 1, surname: 1 }
         }
       })

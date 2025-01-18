@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react"
 import OffersList from "./offersList"
 import OfferDetails from "./offerDetails/offerDetails"
+import TableNavigator from "../header/tableNavigator"
 
 
 export default function OffersMain() {
@@ -19,7 +20,7 @@ export default function OffersMain() {
     async function fetchOfferList() {
       try {
         setIsLoading(true)
-        const response = await fetch('http://localhost:8080/fetchOfferList', {
+        const response = await fetch(`http://localhost:8080/fetchOfferList?page=${currentPage}`, {
           credentials: "include"
         })
 
@@ -41,21 +42,27 @@ export default function OffersMain() {
     }
 
     fetchOfferList()
-  }, [])
+  }, [currentPage])
 
   return (
-    <div className="flex p-3 flex-row justify-start w-10/12 bg-white relative">
-      {isLoading ?
-        <div className="flex w-full justify-center items-center">
-          <span id="headerLoader" className="self-center"></span>
-        </div>
-        :
-        <>
-          <OffersList renderOffers={renderOffers} offersList={offersList} setRenderOffers={setRenderOffers} setChosenOffer={setChosenOffer} />
-          <OfferDetails chosenOffer={chosenOffer} renderOffers={renderOffers} />
-        </>
-      }
+    <div className="flex p-3 flex-col justify-start items-start w-10/12 bg-white relative">
 
+      <div className="flex w-full">
+        <TableNavigator currentPage={currentPage} setCurrentPage={setCurrentPage} addPage={3} fetchedList={offersList[renderOffers]} />
+      </div>
+
+      <div className="flex w-full">
+        {isLoading ?
+          <div className="flex w-full justify-center items-center">
+            <span id="headerLoader" className="self-center"></span>
+          </div>
+          :
+          <>
+            <OffersList renderOffers={renderOffers} offersList={offersList} setRenderOffers={setRenderOffers} setChosenOffer={setChosenOffer} />
+            <OfferDetails chosenOffer={chosenOffer} renderOffers={renderOffers} />
+          </>
+        }
+      </div>
     </div>
   )
 }
