@@ -60,6 +60,12 @@ Built with a modern tech stack—React, Next.js, Node.js, and MongoDB—Collecto
 
 ## App Preview
 
+### Login Page
+<img src="collectopia/assets/loginPage.png">
+
+### Register Page
+<img src="collectopia/assets/signInPage.png">
+
 ### Homepage  
 - Explore auctions created in the last 24 hours and browse the complete auction list.
 
@@ -80,6 +86,27 @@ Listing Creation Settings
 Auction Page
 <img src="collectopia/assets/auctionPage.png">
 
+### Add Item Page  
+- Upload up to 3 images per item with preview functionality.  
+- Add tags and organize items using category and subcategory systems.
+
+Adding Item to Inventory
+<img src="collectopia/assets/itemCreation.png">
+
+### Inbox  
+- View messages with distinct styling for read and unread messages.  
+- Open messages to read and respond directly.
+
+Inbox
+<img src="collectopia/assets/inbox with unread message.png">
+Message Dialog
+<img src="collectopia/assets/messageDialog.png">
+Response Dialog
+<img src="collectopia/assets/responseDialog.png">
+Message Sent Notification
+<img src="collectopia/assets/messageSentNotification.png">
+
+
 ### User Profiles  
 - View a user's inventory and active listings with filter options.  
 - Send messages, follow users, and send trade offers directly from their profile.
@@ -90,6 +117,11 @@ Inventory Cards Expanded
 <img src="collectopia/assets/inventoryCards.PNG">
 Inventory Filtered
 <img src="collectopia/assets/inventoryFiltering.png">
+Active Listings
+<img src="collectopia/assets/activeListings.png">
+Senging Message
+<img src="collectopia/assets/sendMessage.png">
+
 
 ### Trade Offers
 - Create, view, and manage trade offers.
@@ -102,8 +134,20 @@ Received Offers
 Sent Offers
 <img src="collectopia/assets/senfOffers.png">
 
+### Notifications
+- Stay updated with actions from followed users or active auctions.
+<img src="collectopia/assets/notifications.png">
 
+### Event List  
+- Review your actions, such as bids, messages, and followed auctions.  
+- Navigate directly to related auctions or profiles with a single click.  
 
+Event List
+<img src="collectopia/assets/usersEventList.png">
+
+### Receiving Live Notifications with Sockets
+
+<img src="collectopia/assets/recievingLiveNotification.png">
 
 
 
