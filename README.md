@@ -148,6 +148,7 @@ Event List
 ### Receiving Live Notifications with Sockets
 
 <img src="collectopia/assets/recievingLiveNotification.png">
+<img src="collectopia/assets/userCreatedAuction.png">
 
 
 ---
