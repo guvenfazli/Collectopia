@@ -40,6 +40,7 @@ Built with a modern tech stack—React, Next.js, Node.js, and MongoDB—Collecto
 ### Frontend
 - **React.js**: Core framework for building a responsive user interface.
 - **Next.js**: Optimized rendering for improved performance and SEO.
+- **TypeScript**: Ensures type safety and better development experience.
 - **Tailwind CSS**: Modern and flexible styling.
 - **Day.js**: Simplifies date and time management.
 - **ShadCN Components**: Provides beautiful, reusable UI components.
