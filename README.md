@@ -80,6 +80,14 @@ Listing Creation Settings
 Auction Page
 <img src="collectopia/assets/auctionPage.png">
 
+### Add Item Page  
+- Upload up to 3 images per item with preview functionality.  
+- Add tags and organize items using category and subcategory systems.
+
+Adding Item to Inventory
+<img src="collectopia/assets/itemCreation.png">
+
+
 ### User Profiles  
 - View a user's inventory and active listings with filter options.  
 - Send messages, follow users, and send trade offers directly from their profile.
@@ -90,6 +98,11 @@ Inventory Cards Expanded
 <img src="collectopia/assets/inventoryCards.PNG">
 Inventory Filtered
 <img src="collectopia/assets/inventoryFiltering.png">
+Active Listings
+<img src="collectopia/assets/activeListings.png">
+Senging Message
+<img src="collectopia/assets/sendMessage.png">
+
 
 ### Trade Offers
 - Create, view, and manage trade offers.
@@ -102,6 +115,9 @@ Received Offers
 Sent Offers
 <img src="collectopia/assets/senfOffers.png">
 
+### Notifications
+- Stay updated with actions from followed users or active auctions.
+<img src="collectopia/assets/notifications.png">
 
 
 
