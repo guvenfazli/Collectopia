@@ -150,11 +150,6 @@ Event List
 <img src="collectopia/assets/recievingLiveNotification.png">
 
 
-
-
-
-
-
 ---
 
 With a focus on real-time interaction, secure trading, and social engagement, **Collectopia** is the ultimate platform for collectors to showcase, auction, and trade their prized possessions.
