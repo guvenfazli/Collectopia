@@ -27,6 +27,9 @@
     "socket.io": "^4.8.1"
   },
   "devDependencies": {
-    "nodemon": "^3.1.9"
+    "chai": "^5.2.1",
+    "mocha": "^11.7.1",
+    "nodemon": "^3.1.9",
+    "sinon": "^21.0.0"
   }
 }
